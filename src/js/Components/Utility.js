@@ -9,8 +9,16 @@ const Utility = window.Utility = {
     ],
     settings: [],
     loaderOldContent: [],
+
     miniPersos: {
         'mini-60e02de3799cc-1.png': 'Muten Roshi',
+    },
+    safeZoneByPlanet: {
+        'terre': 'https://www.jeuheros.fr/carte/move/59',
+        'konoh': 'https://www.jeuheros.fr/carte/move/148',
+        'bleas': 'https://www.jeuheros.fr/carte/move/717',
+        'minipo': 'https://www.jeuheros.fr/carte/move/391',
+        'konohaearth': 'https://www.jeuheros.fr/carte/move/328',
     },
 
     slugify: function (str) {
@@ -88,23 +96,6 @@ const Utility = window.Utility = {
 
     refreshInfoUser: function (html) {
         $('.zone1sub').html(html);
-    },
-
-    splitMenuIntoColumns: function (menu, numLines) {
-        const numCols = Math.ceil(menu.length / numLines);
-        const result = [];
-        for (let i = 0; i < numCols; i++) {
-            const col = [];
-            for (let j = 0; j < numLines; j++) {
-                const index = i * numLines + j;
-                if (index < menu.length) {
-                    col.push(menu[index]);
-                }
-            }
-            result.push(col);
-        }
-        return result;
-
     },
 
     showLoader: function (selector) {

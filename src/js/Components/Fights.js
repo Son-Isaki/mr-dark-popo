@@ -13,15 +13,11 @@ const Fights = window.FightsComponent = {
 
         if ($this.debug) $this.log('Debug mode is active');
 
-        // $this.bind();
-
         $this.addAutoFightFormToView().then(() => {
             $this.log('Form initialized');
         });
-    },
 
-    bind: function () {
-        const $this = this;
+        $this.ajaxFight();
     },
 
     addAutoFightFormToView: async function () {
@@ -88,7 +84,12 @@ const Fights = window.FightsComponent = {
                     Cookies.set(`${Addon.characterInfos.slug}-level`, $this.selectedLevel)
                 }).appendTo($group);
 
-            // BUTTON
+            // BOUTON SAFEZONE
+
+            let $labelSafeZone = $('<label for="goToSafeZone">Aller en safe zone après</label>');
+            let $checkboxSafeZone = $('<input type="checkbox" name="goToSafeZone" id="goToSafeZone" class="ml-1" />');
+
+            // BUTTON LANCER LES COMBATS
 
             let $startBtn = $('<div class="input-group-append"><button type="button" class="btn btn-primary">Lancer les combats</button></div>')
                 .appendTo($group)
@@ -103,7 +104,7 @@ const Fights = window.FightsComponent = {
                     }, 1000);
                 });
 
-            let $stopBtn = $('<div class="input-group-append"><button type="button" class="btn btn-danger">Stop</button></div>')
+            let $stopBtn = $('<div class="input-group-append"><button type="button" class="btn btn-dark">Stop</button></div>')
                 .appendTo($group)
                 .on('click', function () {
                     if (!Addon.acceptAllFightRunning) {
@@ -143,7 +144,7 @@ const Fights = window.FightsComponent = {
 
                 // send fight
                 $fighter.find('.newfight')
-                    .removeClass('btn-danger')
+                    .removeClass('btn-dark')
                     .addClass('btn-secondary')
                     .trigger('click');
 
@@ -156,12 +157,83 @@ const Fights = window.FightsComponent = {
                 // mark fight as dangerous
                 $fighter.find('.newfight')
                     .removeClass('btn-secondary')
-                    .addClass('btn-danger')
+                    .addClass('btn-dark')
 
             }
 
             $this.fightIndex++;
         }
+    },
+
+    ajaxFight: function () {
+        if (!Addon.checkUrl('https://www.jeuheros.fr/listeCombats')) {
+            return false;
+        }
+
+        let $list = $('.zone2 table tr.couleurAlt');
+
+        $list.each(function (key, val) {
+            Addon.listFighters[key] = val;
+            let $tdCombat = $(val).find('td')[3];
+
+            let $idCombat = $($tdCombat).find('a').attr('href').replace('/combattre/', '');
+            let urlCombat = 'https://www.jeuheros.fr/combattre/' + $idCombat;
+
+            let $newHtml = $('<span class="newfight canFight btn btn-secondary" data-id="' + $idCombat + '">Combattre</span>');
+            $($tdCombat).html($newHtml);
+            $newHtml.on('click', function (e) {
+                let selectorCombat = ".newfight[data-id='" + $idCombat + "']";
+                if ($(e.target).hasClass('canFight')) {
+                    Utility.showLoader(selectorCombat);
+                    $.ajax({
+                        url: urlCombat,
+                        type: 'GET',
+                    }).done(function (response) {
+                        let regex = /^var tableauDeCombat = (\[(.*)]);$/;
+                        let myRegex = new RegExp(regex, "gm")
+                        let matches = myRegex.exec(response);
+
+                        if (matches !== null) {
+                            let historicFight = JSON.parse(matches[1]);
+                            Utility.refreshInfoUser($(response).find('.zone1sub').html());
+
+                            let maxRound = historicFight.length - 1;
+
+                            let resultFight = historicFight[maxRound]['J1']['Resultat'];
+                            if (historicFight[maxRound]['J2']['Resultat'] === 'Mort') {
+                                resultFight = resultFight + ' : Tu as tué cette merde'
+                            }
+
+                            let resultFightClass;
+                            switch (resultFight) {
+                                default:
+                                    resultFightClass = 'btn-primary'
+                                    break;
+
+                                case "Victoire":
+                                    resultFightClass = 'btn-success'
+                                    break;
+
+                                case "Defaite":
+                                    resultFightClass = 'btn-warning'
+                                    break;
+
+                                case "Mort":
+                                    resultFightClass = 'btn-danger'
+                                    break;
+                            }
+                            $(selectorCombat).removeClass('btn-secondary btn-dark').addClass(resultFightClass);
+
+                            Utility.hideLoader(selectorCombat, resultFight);
+                            Addon.reloadInfoPlayer();
+                        }
+                    })
+
+                    $(e.target).removeClass('canFight');
+                }
+            });
+
+        });
     },
 
     log: function (...args) {

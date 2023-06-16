@@ -13,15 +13,15 @@ const Addon = window.Addon = {
     acceptAllFightRunning: false,
     listFighters: {},
 
+    listCharactersHtml: [],
+
     init: function () {
         const $this = this;
 
         $this.currentUrl = document.URL;
 
         $this.updateCharacterInfos();
-
         $this.addAllPointsOnStatsBtn();
-        $this.ajaxFight();
         $this.addDisplayAllCharactersBtn();
         $this.changeAlertPosition();
         $this.addValidLinkHistoryMode();
@@ -121,58 +121,6 @@ const Addon = window.Addon = {
 
                 $($val).after($btnAddAll).after($btnRemoveAll);
             }
-        });
-    },
-
-    ajaxFight: function () {
-        let availableUrl = 'https://www.jeuheros.fr/listeCombats';
-
-        if (Addon.currentUrl !== availableUrl) {
-            return false;
-        }
-
-        let $list = $('.zone2 table tr.couleurAlt');
-
-        $list.each(function (key, val) {
-            Addon.listFighters[key] = val;
-            let $tdCombat = $(val).find('td')[3];
-
-            let $idCombat = $($tdCombat).find('a').attr('href').replace('/combattre/', '');
-            let urlCombat = 'https://www.jeuheros.fr/combattre/' + $idCombat;
-
-            let $newHtml = $('<span class="newfight canFight btn btn-secondary" data-id="' + $idCombat + '">Combattre</span>');
-            $($tdCombat).html($newHtml);
-            $newHtml.on('click', function (e) {
-                let selectorCombat = ".newfight[data-id='" + $idCombat + "']";
-                if ($(e.target).hasClass('canFight')) {
-                    Utility.showLoader(selectorCombat);
-                    $.ajax({
-                        url: urlCombat,
-                        type: 'GET',
-                    }).done(function (response) {
-                        let regex = /^var tableauDeCombat = (\[(.*)]);$/;
-                        let myRegex = new RegExp(regex, "gm")
-                        let matches = myRegex.exec(response);
-
-                        if (matches !== null) {
-                            let historicFight = JSON.parse(matches[1]);
-                            Utility.refreshInfoUser($(response).find('.zone1sub').html());
-
-                            let maxRound = historicFight.length - 1;
-
-                            let resultFight = historicFight[maxRound]['J1']['Resultat'];
-                            if (historicFight[maxRound]['J2']['Resultat'] === 'Mort') {
-                                resultFight = resultFight + ' : Tu as tué cette merde'
-                            }
-                            Utility.hideLoader(selectorCombat, resultFight);
-                            Addon.reloadInfoPlayer();
-                        }
-                    })
-
-                    $(e.target).removeClass('canFight');
-                }
-            });
-
         });
     },
 
@@ -444,7 +392,7 @@ const Addon = window.Addon = {
         this.addBtnFightToTower();
         this.addBtnInstantHeal70();
         this.addBtnGoToShopEarth();
-        this.addBtnGoToSafeZoneEarth();
+        this.addBtnGoToSafeZone();
     },
 
     addBtnFightToTower: function () {
@@ -458,7 +406,7 @@ const Addon = window.Addon = {
         $('.zone1 .couleurBlack').after(button);
     },
 
-    addBtnGoToSafeZoneEarth: function () {
+    addBtnGoToSafeZone: function () {
         const button = document.createElement('button');
         button.textContent = 'Safe Zone Terre';
         button.className = 'btn btn-success mb-1';
@@ -487,7 +435,18 @@ const Addon = window.Addon = {
 
     updateNavbarTop: function () {
         Addon.splitFastChangeMenu();
-        let $tabMenu = $('nav.navbar li.dropdown')[0];
+        let $tabMenu = $('nav.navbar li.dropdown').eq(0);
+        let $dropdownChar = $($tabMenu).find('.dropdown-menu').eq(0);
+
+        $($tabMenu).find('a[href="/perso/infoPersonnage"]').remove();
+
+        // safezone
+        $('<a class="dropdown-item putAllCharInFightZone text-danger" href="#">Sortir tous les personnages</a>')
+            .prependTo($dropdownChar)
+            .on('click', Addon.putAllCharInFightZone);
+        $('<a class="dropdown-item putAllCharInSafeZone text-success" href="#">Rentrer tous les personnages</a>')
+            .prependTo($dropdownChar)
+            .on('click', Addon.putAllCharInSafeZone);
 
         $($tabMenu).find('a[href="/perso/infoPersonnage"]').remove();
         $($tabMenu).find('a[href="/perso/listePersonnage/"]').remove();
@@ -551,7 +510,6 @@ const Addon = window.Addon = {
     die: function () {
         return;
     },
-
 
     blackList: function () {
         blackList.init(Addon.currentUrl);

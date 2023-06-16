@@ -1,8 +1,8 @@
 {
 	"manifest_version": 3,
 	"version": "1.0.0",
-	"name": "Jeu Héros Plus",
-	"description": "Extension pour jeuheros.fr afin d'améliorer l'expérience de jeu",
+	"name": "Mr. Dark Popo",
+	"description": "Extension pour jeuheros.fr qui améliore grandement l'expérience de jeu",
 	"options_page": "options.html",
 	"permissions": [
 		"storage",
@@ -45,16 +45,14 @@
 	"content_security_policy": {
 		"script-src" : [
 			"https://code.jquery.com", 
-			"https://cdn.jsdelivr.net",
-			"unsafe-inline"
+			"https://cdn.jsdelivr.net"
 		],
 		"object-src": "self"
 	},
 	"web_accessible_resources": [
 		{
 			"resources": [
-				"dist/**/*",
-				"dist/img/loader.svg"
+				"dist/**/*"
 			],
 			"matches": [
 				"https://www.jeuheros.fr/*"
