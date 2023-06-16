@@ -1,0 +1,64 @@
+{
+	"manifest_version": 3,
+	"version": "1.0.0",
+	"name": "Jeu Héros Plus",
+	"description": "Extension pour jeuheros.fr afin d'améliorer l'expérience de jeu",
+	"options_page": "options.html",
+	"permissions": [
+		"storage",
+		"activeTab",
+		"tabs"
+	],
+	"host_permissions": [
+		"https://jeuheros.fr/*",
+		"https://www.jeuheros.fr/*"
+	],
+	"background": {
+		"service_worker": "worker.js"
+	},
+	"content_scripts": [
+		{
+			"exclude_globs": [
+				"https://www.jeuheros.fr/uploads/*", 
+				"https://www.jeuheros.fr/img/*", 
+				"https://www.jeuheros.fr/js/*", 
+				"https://www.jeuheros.fr/css/*"
+			],
+			"include_globs": [
+				"https://www.jeuheros.fr/*"
+			],
+			"js": [
+				"dist/libs/jquery.min.js",
+				"dist/libs/bootstrap-notify.min.js",
+				"dist/libs/js-cookie.min.js",
+
+				"dist/js/app.min.js"
+			],
+			"matches": [
+				"https://www.jeuheros.fr/*"
+			]
+		}
+	],
+	"default_locale": "fr",
+	"icons": {
+	},
+	"content_security_policy": {
+		"script-src" : [
+			"https://code.jquery.com", 
+			"https://cdn.jsdelivr.net",
+			"unsafe-inline"
+		],
+		"object-src": "self"
+	},
+	"web_accessible_resources": [
+		{
+			"resources": [
+				"dist/**/*",
+				"dist/img/loader.svg"
+			],
+			"matches": [
+				"https://www.jeuheros.fr/*"
+			]
+		}
+	]
+}
