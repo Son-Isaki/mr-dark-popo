@@ -91,6 +91,7 @@ const Utility = window.Utility = {
             type: 'GET',
             success: success,
             error: error,
+            crossDomain: true,
         })
     },
 

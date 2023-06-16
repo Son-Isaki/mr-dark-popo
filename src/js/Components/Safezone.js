@@ -27,6 +27,7 @@ const Safezone = window.FightsComponent = {
             $.ajax({
                 type: 'GET',
                 url: $link,
+                crossDomain: true,
             }).done(function (response) {
                 console.log(response);
             });

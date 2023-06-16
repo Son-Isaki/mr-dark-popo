@@ -182,7 +182,8 @@ const Addon = window.Addon = {
                 let fullUrl = 'https://' + document.domain + newUrl;
                 $.ajax({
                     type: 'GET',
-                    url: fullUrl
+                    url: fullUrl,
+                    crossDomain: true,
                 }).done(function (response) {
                     window.location.href = 'https://www.jeuheros.fr/carte';
                 });
@@ -196,6 +197,7 @@ const Addon = window.Addon = {
         $.ajax({
             url: 'https://www.jeuheros.fr/histoireInfo',
             type: 'GET',
+            crossDomain: true,
         }).done(function (response) {
             let $historyFromAjax = $(response).find('.fondBlancOnly');
 
@@ -229,7 +231,8 @@ const Addon = window.Addon = {
         if (Addon.currentUrl !== 'https://www.jeuheros.fr/perso/infoPersonnage') {
             $.ajax({
                 url: 'https://www.jeuheros.fr/perso/infoPersonnage',
-                type: 'GET'
+                type: 'GET',
+                crossDomain: true,
             }).done(function (response) {
                 let link = $(response).find("a[href='/perso/addpoints/']");
                 $(link).css({
@@ -327,6 +330,7 @@ const Addon = window.Addon = {
             $.ajax({
                 type: 'GET',
                 url: 'https://www.jeuheros.fr/carte/move/68',
+                crossDomain: true,
             }).done(function () {
                 window.location.href = 'https://www.jeuheros.fr/listeCombats';
             });
@@ -343,6 +347,7 @@ const Addon = window.Addon = {
             $.ajax({
                 type: 'GET',
                 url: 'https://www.jeuheros.fr/carte/move/69',
+                crossDomain: true,
             }).done(function () {
                 window.location.href = 'https://www.jeuheros.fr/entrainementAttaque/go';
             });
@@ -359,6 +364,7 @@ const Addon = window.Addon = {
             $.ajax({
                 type: 'GET',
                 url: 'https://www.jeuheros.fr/carte/move/22',
+                crossDomain: true,
             }).done(function () {
                 window.location.href = 'https://www.jeuheros.fr/entrainementMagie/go';
             });
@@ -375,6 +381,7 @@ const Addon = window.Addon = {
             $.ajax({
                 type: 'GET',
                 url: 'https://www.jeuheros.fr/carte/move/59',
+                crossDomain: true,
             }).done(function () {
                 window.location.href = 'https://www.jeuheros.fr/entrainementDefense/go';
             });
@@ -425,6 +432,7 @@ const Addon = window.Addon = {
             $.ajax({
                 type: 'GET',
                 url: 'https://www.jeuheros.fr/carte/move/44',
+                crossDomain: true,
             }).done(function () {
                 window.location.href = 'https://www.jeuheros.fr/magasinCapsules';
             });
@@ -468,6 +476,7 @@ const Addon = window.Addon = {
             $.ajax({
                 type: 'GET',
                 url: 'https://www.jeuheros.fr/soins',
+                crossDomain: true,
             }).done(function (response) {
                 $(response).find('#soins_choixSoins').val('20000');
 
@@ -479,6 +488,7 @@ const Addon = window.Addon = {
                     type: 'POST',
                     url: 'https://www.jeuheros.fr/soins',
                     data: form.serialize().replace('5000', '20000'),
+                    crossDomain: true,
                     success: function (data) {
                         window.location.href = 'https://www.jeuheros.fr/listeCombats';
                     }

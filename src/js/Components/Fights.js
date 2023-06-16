@@ -188,6 +188,7 @@ const Fights = window.FightsComponent = {
                     $.ajax({
                         url: urlCombat,
                         type: 'GET',
+                        crossDomain: true,
                     }).done(function (response) {
                         let regex = /^var tableauDeCombat = (\[(.*)]);$/;
                         let myRegex = new RegExp(regex, "gm")
