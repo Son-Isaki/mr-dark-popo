@@ -40,7 +40,7 @@ const Notify = window.Notify = {
                 '</div>',
         });
 
-        $this.log('init');
+        $this.log("Initialized");
     },
 
     notify: function (message, type) {

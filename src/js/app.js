@@ -1,7 +1,8 @@
 $('document').ready(function () {
 
-    Notify.init();
     Addon.init();
+    Notify.init();
     Fights.init();
+    Safezone.init();
 
 })

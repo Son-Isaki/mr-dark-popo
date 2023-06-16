@@ -18,6 +18,8 @@ const Addon = window.Addon = {
     init: function () {
         const $this = this;
 
+        if ($this.debug) $this.log('Debug mode is active');
+
         $this.currentUrl = document.URL;
 
         $this.updateCharacterInfos();
@@ -31,6 +33,8 @@ const Addon = window.Addon = {
         $this.displayTimerRefreshLife();
         $this.reloadInfoPlayer();
         $this.updateNavbarTop();
+
+        $this.log("Initialized");
     },
 
     updateCharacterInfos: async function (callback) {

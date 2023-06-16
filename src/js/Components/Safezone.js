@@ -11,16 +11,13 @@ const Safezone = window.FightsComponent = {
     init: function () {
         const $this = this;
 
-        if ($this.debug) $this.log('Debug mode is active');
-
-        // $this.bind();
-
+        $this.log("Initialized");
     },
 
     putAllCharInSafeZone: function () {
-        console.log(addOn.listCharactersHtml);
+        console.log(Addon.listCharactersHtml);
 
-        $.each(addOn.listCharactersHtml, function (key, item) {
+        $.each(Addon.listCharactersHtml, function (key, item) {
             let $link = $(item).attr('href');
             $link = 'https://' + document.domain + $link;
 
@@ -41,7 +38,7 @@ const Safezone = window.FightsComponent = {
     },
 
     log: function (...args) {
-        Logger.log(Logger.LOG.fg.red, 'Fights', ...args);
+        Logger.log(Logger.LOG.fg.green, 'Safezone', ...args);
     },
 
 }
