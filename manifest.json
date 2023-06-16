@@ -30,7 +30,7 @@
 			"js": [
 				"dist/libs/jquery.min.js",
 				"dist/libs/bootstrap-notify.min.js",
-				"dist/libs/js-cookie.min.js",
+				"dist/libs/js.cookie.min.js",
 
 				"dist/js/app.min.js"
 			],
