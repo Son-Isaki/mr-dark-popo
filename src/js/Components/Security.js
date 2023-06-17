@@ -25,6 +25,8 @@ const Security = window.Security = {
         590, // Sg4_tv
         57, // Rominov
         435, // Shoriu
+        68, // Natsuro
+        52, //BdX_D
     ],
 
     init: function() {
@@ -50,7 +52,7 @@ const Security = window.Security = {
     },
 
     getIdUser: function() {
-        return $('a[href="/profilJoueur/22"]')
+        return $('ul.navbar-nav').not('.mr-auto').find('li.nav-item').eq(0).find('a')
             .attr('href')
             .replace('/profilJoueur/', '');
     },
