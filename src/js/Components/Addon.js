@@ -5,6 +5,7 @@ const Addon = window.Addon = {
 
     currentUrl: undefined,
     gamerId: undefined,
+    cookiesDuration: 365,
 
     characterInfos: {},
 
