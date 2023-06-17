@@ -136,7 +136,7 @@ span, label, th, td, h1, h2, h3, p {
     margin-top: unset;
     margin-left: unset;
 
-    section, .fondBlancOnly, #zoneObjets, #zoneBoss2, .zoneCapsulesEquipe, .fondCapsulesEquip, .zoneCapsulesEquipe2, .fondCapsulesList, .fondCompetences, .infoPerso {
+    section, .fondBlancOnly, #zoneObjets, #zoneBoss2, .zoneCapsulesEquipe, .fondCapsulesEquip, .zoneCapsulesEquipe2, .fondCapsulesList, .fondCompetences, .infoPerso, #zoneCapsulesEnVente {
         background-color: $black !important;
         border-radius: $border-radius !important;
         box-shadow: 0 3px 8px transparentize(black, .7);
@@ -147,6 +147,16 @@ span, label, th, td, h1, h2, h3, p {
 
         &:not(#zoneInvocation, .persoWorldBossFond) {
             max-width: unset !important;
+        }
+    }
+
+    #zoneCapsulesEnVente {
+        padding: 0;
+
+        & > article {
+            background-color: transparent;
+            box-shadow: unset;
+            padding: 20px;
         }
     }
 }
@@ -200,8 +210,8 @@ table {
     box-shadow: 0 3px 8px transparentize(black, .7);
     border: 2px solid $black-border;
     margin: 20px;
-    min-width: 500px;
-    min-height: 450px;
+    min-width: 504px;
+    min-height: 454px;
 }
 
 .flexChoixMap {

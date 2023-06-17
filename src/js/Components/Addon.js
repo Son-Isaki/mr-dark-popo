@@ -39,6 +39,7 @@ const Addon = window.Addon = {
         $this.updateNavbarTop();
         $this.makeNavbarFixed();
         $this.addLinkToOptions();
+        $this.initCharacterListPage();
 
         Utility.includeStyle('dist/css/app.min.css')
 
@@ -49,6 +50,14 @@ const Addon = window.Addon = {
     addActionsZoneToView: function () {
         $('<div id="actions-zone">')
             .appendTo($('.zone1'));
+    },
+
+    initCharacterListPage: function(){
+        if (!Addon.checkUrl('/perso/listePersonnage/')) {
+            return false;
+        }
+
+        $('button[data-type="all"]').trigger('click');
     },
 
     addLinkToOptions: function () {
