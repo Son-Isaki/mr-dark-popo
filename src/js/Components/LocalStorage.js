@@ -10,9 +10,20 @@ const LocalStorage = window.LocalStorage = {
      * @returns {*|string}
      */
     get: function (key, defaultValue) {
-        let value = localStorage.getItem(key);
+        const $this = this;
 
-        if (typeof value === 'undefined'){
+        let value = undefined;
+
+        // cookie deprecated
+        if (Cookies.get(key) !== undefined) {
+            value = Cookies.get(key);
+            $this.set(key, value);
+            Cookies.remove(key);
+        }
+
+        // localStorage
+        value = localStorage.getItem(key);
+        if (typeof value === 'undefined') {
             return defaultValue;
         }
 
@@ -26,6 +37,8 @@ const LocalStorage = window.LocalStorage = {
      * @param value
      */
     set: function (key, value) {
+        const $this = this;
+
         localStorage.setItem(key, value);
     },
 
