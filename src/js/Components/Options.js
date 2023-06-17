@@ -7,7 +7,7 @@ const Options = window.Options = {
     init: function() {
         this.displayOptionsPage();
 
-        this.log('Options init');
+        this.log('Initialized');
     },
 
     displayOptionsPage: function() {

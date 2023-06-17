@@ -27,16 +27,20 @@ const Security = window.Security = {
         435, // Shoriu
     ],
 
-    init: function() {
-        this.log('Security init');
+    init: function () {
+        this.log('Initialized');
 
         this.canHaveAccess();
     },
 
-    canHaveAccess: function() {
-        let linkLogout = $('a[href="/logout"]');
+    isUserLoggedIn: function () {
+        return $('a[href="/logout"]').length > 0;
+    },
 
-        if (linkLogout.length === 0) {
+    canHaveAccess: function () {
+        const $this = this;
+
+        if (!$this.isUserLoggedIn()) {
             return false;
         }
 
@@ -49,13 +53,13 @@ const Security = window.Security = {
         this.hasAccess = true;
     },
 
-    getIdUser: function() {
-        return $('a[href="/profilJoueur/22"]')
+    getIdUser: function () {
+        return $('a[href^="/profilJoueur/"]')
             .attr('href')
             .replace('/profilJoueur/', '');
     },
 
-    log: function(...args) {
+    log: function (...args) {
         Logger.log(Logger.LOG.fg.black, 'Security', ...args);
     }
 }
