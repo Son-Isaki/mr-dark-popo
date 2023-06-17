@@ -297,7 +297,7 @@ const Fights = window.FightsComponent = {
     },
 
     log: function (...args) {
-        Logger.log(Logger.LOG.fg.red, 'Fights', ...args);
+        Logger.log(Logger.COLORS.red, 'Fights', ...args);
     },
 
 }

@@ -37,6 +37,6 @@ const Options = window.Options = {
     },
 
     log: function (...args) {
-        Logger.log(Logger.LOG.fg.blue, 'Options', ...args);
+        Logger.log(Logger.COLORS.blue, 'Options', ...args);
     },
 }

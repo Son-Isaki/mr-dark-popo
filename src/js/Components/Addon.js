@@ -555,6 +555,6 @@ const Addon = window.Addon = {
     },
 
     log: function (...args) {
-        Logger.log(Logger.LOG.fg.cyan, 'Addon', ...args);
+        Logger.log(Logger.COLORS.purple, 'Addon', ...args);
     },
 };

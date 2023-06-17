@@ -60,6 +60,6 @@ const Security = window.Security = {
     },
 
     log: function (...args) {
-        Logger.log(Logger.LOG.fg.black, 'Security', ...args);
+        Logger.log(Logger.COLORS.brown, 'Security', ...args);
     }
 }
