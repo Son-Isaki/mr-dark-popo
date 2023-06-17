@@ -30,16 +30,22 @@ const Security = window.Security = {
         89, // Yoohyeon
     ],
 
-    init: function() {
-        this.log('Security init');
+    init: function () {
+        const $this = this;
 
-        this.canHaveAccess();
+        $this.canHaveAccess()
+        
+        $this.log('Initialized');
     },
 
-    canHaveAccess: function() {
-        let linkLogout = $('a[href="/logout"]');
+    isUserLoggedIn: function () {
+        return $('a[href="/logout"]').length > 0;
+    },
 
-        if (linkLogout.length === 0) {
+    canHaveAccess: function () {
+        const $this = this;
+
+        if (!$this.isUserLoggedIn()) {
             return false;
         }
 
@@ -52,13 +58,13 @@ const Security = window.Security = {
         this.hasAccess = true;
     },
 
-    getIdUser: function() {
+    getIdUser: function () {
         return $('ul.navbar-nav').not('.mr-auto').find('li.nav-item').eq(0).find('a')
             .attr('href')
             .replace('/profilJoueur/', '');
     },
 
-    log: function(...args) {
-        Logger.log(Logger.LOG.fg.black, 'Security', ...args);
+    log: function (...args) {
+        Logger.log(Logger.COLORS.brown, 'Security', ...args);
     }
 }

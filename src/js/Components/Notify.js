@@ -71,7 +71,7 @@ const Notify = window.Notify = {
     },
 
     log: function (...args) {
-        Logger.log(Logger.LOG.fg.yellow, 'Notify', ...args);
+        Logger.log(Logger.COLORS.yellow, 'Notify', ...args);
     },
 
 };

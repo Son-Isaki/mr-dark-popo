@@ -38,7 +38,7 @@ const Safezone = window.FightsComponent = {
     },
 
     log: function (...args) {
-        Logger.log(Logger.LOG.fg.green, 'Safezone', ...args);
+        Logger.log(Logger.COLORS.green, 'Safezone', ...args);
     },
 
 }

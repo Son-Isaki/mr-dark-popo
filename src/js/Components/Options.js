@@ -7,7 +7,7 @@ const Options = window.Options = {
     init: function() {
         this.displayOptionsPage();
 
-        this.log('Options init');
+        this.log('Initialized');
     },
 
     displayOptionsPage: function() {
@@ -37,6 +37,6 @@ const Options = window.Options = {
     },
 
     log: function (...args) {
-        Logger.log(Logger.LOG.fg.blue, 'Options', ...args);
+        Logger.log(Logger.COLORS.blue, 'Options', ...args);
     },
 }
