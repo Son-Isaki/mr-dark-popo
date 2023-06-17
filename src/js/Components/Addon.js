@@ -39,16 +39,16 @@ const Addon = window.Addon = {
         $this.makeNavbarFixed();
         $this.addLinkToOptions();
 
+        Utility.includeStyle('dist/css/app.min.css')
+
         $this.log("Initialized");
 
     },
 
-    addLinkToOptions: function() {
+    addLinkToOptions: function () {
         let $menu = $('#navbarColor02 ul').not('.mr-auto');
 
-        let $link = $('<li class="nav-item">\n' +
-            '                            <a href="/?addOn" class="nav-link">AddOn</a>\n' +
-            '                        </li>');
+        let $link = $('<li class="nav-item"><a href="/?addOn" class="nav-link">Addon</a></li>');
 
         $menu.prepend($link);
     },
@@ -74,12 +74,8 @@ const Addon = window.Addon = {
         });
     },
 
-    injectStyle: function (style) {
-        $("<style>").attr('type', 'text/css').text(style).appendTo('head')
-    },
-
     addAllPointsOnStatsBtn: function () {
-        let availableUrl = 'https://'+document.domain+'/perso/addpoints/';
+        let availableUrl = 'https://' + document.domain + '/perso/addpoints/';
 
         if (Addon.currentUrl !== availableUrl) {
             return false;
@@ -169,15 +165,13 @@ const Addon = window.Addon = {
     },
 
     changeAlertPosition: function () {
-        Addon.injectStyle('.fenalert { top: 6%!important; }');
-
         setTimeout(function () {
             $('.fenalert').remove();
         }, 2000);
     },
 
     addValidLinkHistoryMode: function () {
-        if(!Addon.checkUrl('/carte')) {
+        if (!Addon.checkUrl('/carte')) {
             return false;
         }
 
@@ -201,19 +195,19 @@ const Addon = window.Addon = {
                     url: fullUrl,
                     crossDomain: true,
                 }).done(function (response) {
-                    window.location.href = 'https://'+document.domain+'/carte';
+                    window.location.href = 'https://' + document.domain + '/carte';
                 });
             });
         }
     },
 
     addHistoryOnMap: function () {
-        if(!Addon.checkUrl('/carte')) {
+        if (!Addon.checkUrl('/carte')) {
             return false;
         }
 
         $.ajax({
-            url: 'https://'+document.domain+'/histoireInfo',
+            url: 'https://' + document.domain + '/histoireInfo',
             type: 'GET',
             crossDomain: true,
         }).done(function (response) {
@@ -237,18 +231,17 @@ const Addon = window.Addon = {
     },
 
     reverseInfoPlayerOnFight: function () {
-        if (!this.checkUrl('https://'+document.domain+'/listeCombats')) {
+        if (!this.checkUrl('https://' + document.domain + '/listeCombats')) {
             return false;
         }
 
-        Addon.injectStyle('.flex { flex-direction: row-reverse!important; }');
-        Addon.injectStyle('#zoneDuPersonnage { margin-left: 30px!important; }');
+        $('body').addClass('reverse-info-player')
     },
 
     addBonusCharacterPointsOnInfoPlayer: function () {
-        if (Addon.currentUrl !== 'https://'+document.domain+'/perso/infoPersonnage') {
+        if (Addon.currentUrl !== 'https://' + document.domain + '/perso/infoPersonnage') {
             $.ajax({
-                url: 'https://'+document.domain+'/perso/infoPersonnage',
+                url: 'https://' + document.domain + '/perso/infoPersonnage',
                 type: 'GET',
                 crossDomain: true,
             }).done(function (response) {
@@ -282,17 +275,11 @@ const Addon = window.Addon = {
     },
 
     stuckInfoPlayer: function () {
-        if (!this.checkUrl('https://'+document.domain+'/listeCombats')) {
+        if (!this.checkUrl('https://' + document.domain + '/listeCombats')) {
             return false;
         }
 
-        Addon.injectStyle('#zoneDuPersonnage { float: right; }');
-        Addon.injectStyle('.zone2 { float: left; }');
-        Addon.injectStyle('.flex.sticky #zoneDuPersonnage { position: fixed; }');
-        Addon.injectStyle('.flex.sticky .zone2 { position: absolute; min-width: 1100px; left: 20px; width: 66%;  }');
-        Addon.injectStyle('.footerPage.sticky { position: fixed; left: auto; }');
-        Addon.injectStyle('@media-query(min-width: 1600px) { .flex.sticky.zone2 { left: 12%; } }')
-
+        $('body').addClass('stuck-infos-player');
 
         $(document).ready(function () {
             $(window).scroll(function () {
@@ -347,10 +334,10 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://'+document.domain+'/carte/move/68',
+                url: 'https://' + document.domain + '/carte/move/68',
                 crossDomain: true,
             }).done(function () {
-                window.location.href = 'https://'+document.domain+'/listeCombats';
+                window.location.href = 'https://' + document.domain + '/listeCombats';
             });
         });
 
@@ -364,10 +351,10 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://'+document.domain+'/carte/move/69',
+                url: 'https://' + document.domain + '/carte/move/69',
                 crossDomain: true,
             }).done(function () {
-                window.location.href = 'https://'+document.domain+'/entrainementAttaque/go';
+                window.location.href = 'https://' + document.domain + '/entrainementAttaque/go';
             });
         });
 
@@ -381,10 +368,10 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://'+document.domain+'/carte/move/22',
+                url: 'https://' + document.domain + '/carte/move/22',
                 crossDomain: true,
             }).done(function () {
-                window.location.href = 'https://'+document.domain+'/entrainementMagie/go';
+                window.location.href = 'https://' + document.domain + '/entrainementMagie/go';
             });
         });
 
@@ -398,10 +385,10 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://'+document.domain+'/carte/move/59',
+                url: 'https://' + document.domain + '/carte/move/59',
                 crossDomain: true,
             }).done(function () {
-                window.location.href = 'https://'+document.domain+'/entrainementDefense/go';
+                window.location.href = 'https://' + document.domain + '/entrainementDefense/go';
             });
         });
 
@@ -425,7 +412,7 @@ const Addon = window.Addon = {
         button.textContent = 'Fight Tour';
         button.className = 'btn btn-danger mb-1';
         button.addEventListener('click', () => {
-            window.location.href = 'https://'+document.domain+'/tour/combat';
+            window.location.href = 'https://' + document.domain + '/tour/combat';
         });
 
         $('.zone1 .couleurBlack').after(button);
@@ -436,7 +423,7 @@ const Addon = window.Addon = {
         button.textContent = 'Safe Zone Terre';
         button.className = 'btn btn-success mb-1 safeZone';
         button.addEventListener('click', () => {
-            window.location.href = 'https://'+document.domain+'/carte/move/59';
+            window.location.href = 'https://' + document.domain + '/carte/move/59';
         });
 
         $('.zone1 .couleurBlack').after(button);
@@ -449,10 +436,10 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://'+document.domain+'/carte/move/44',
+                url: 'https://' + document.domain + '/carte/move/44',
                 crossDomain: true,
             }).done(function () {
-                window.location.href = 'https://'+document.domain+'/magasinCapsules';
+                window.location.href = 'https://' + document.domain + '/magasinCapsules';
             });
         });
 
@@ -460,7 +447,6 @@ const Addon = window.Addon = {
     },
 
     updateNavbarTop: function () {
-        Addon.splitFastChangeMenu();
         let $tabMenu = $('nav.navbar li.dropdown').eq(0);
         let $dropdownChar = $($tabMenu).find('.dropdown-menu').eq(0);
 
@@ -478,12 +464,8 @@ const Addon = window.Addon = {
         $($tabMenu).find('a[href="/perso/listePersonnage/"]').remove();
 
         $($tabMenu).on('click', function () {
-            window.location.href = 'https://'+document.domain+'/perso/listePersonnage/';
+            window.location.href = 'https://' + document.domain + '/perso/listePersonnage/';
         })
-    },
-
-    splitFastChangeMenu: function () {
-        Addon.injectStyle('nav li.dropdown .dropdown-menu .dropdown-menu { columns: 4; }');
     },
 
     addBtnInstantHeal70: function () {
@@ -493,7 +475,7 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://'+document.domain+'/soins',
+                url: 'https://' + document.domain + '/soins',
                 crossDomain: true,
             }).done(function (response) {
                 $(response).find('#soins_choixSoins').val('20000');
@@ -504,11 +486,11 @@ const Addon = window.Addon = {
 
                 $.ajax({
                     type: 'POST',
-                    url: 'https://'+document.domain+'/soins',
+                    url: 'https://' + document.domain + '/soins',
                     data: form.serialize().replace('5000', '20000'),
                     crossDomain: true,
                     success: function (data) {
-                        window.location.href = 'https://'+document.domain+'/listeCombats';
+                        window.location.href = 'https://' + document.domain + '/listeCombats';
                     }
                 })
             });
@@ -518,10 +500,7 @@ const Addon = window.Addon = {
     },
 
     makeNavbarFixed: function () {
-        const $this = this;
-
         $('nav.navbar').addClass('fixed-top');
-        $this.injectStyle('#wrapper { margin-top: 80px; }');
     },
 
     checkUrl: function (match) {

@@ -41,6 +41,7 @@ gulp.task('scss', function () {
             })
         }))
         .pipe(sourcemaps.init())
+        .pipe(rename({suffix: '.min'}))
         .pipe(sass())
         .pipe(autoprefixer({overrideBrowserslist: ['last 3 versions'], cascade: false}))
         .pipe(sourcemaps.write())

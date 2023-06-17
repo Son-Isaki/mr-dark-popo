@@ -1,0 +1,58 @@
+// Menu personnages
+nav li.dropdown .dropdown-menu .dropdown-menu {
+    columns: 4;
+}
+
+// Navbar fixe
+#wrapper {
+    margin-top: 80px;
+}
+
+// Inversion du contenu main/aside
+body.reverse-info-player {
+    .flex {
+        flex-direction: row-reverse !important;
+    }
+
+    #zoneDuPersonnage {
+        margin-left: 30px !important;
+    }
+}
+
+// stuck infos player
+body.stuck-infos-player {
+    #zoneDuPersonnage {
+        float: right;
+    }
+
+    .zone2 {
+        float: left;
+    }
+
+    .flex.sticky #zoneDuPersonnage {
+        position: fixed;
+    }
+
+    .flex.sticky .zone2 {
+        position: absolute;
+        min-width: 1100px;
+        left: 20px;
+        width: 66%;
+    }
+
+    .footerPage.sticky {
+        position: fixed;
+        left: auto;
+    }
+
+    @media screen and (min-width: 1600px) {
+        .flex.sticky.zone2 {
+            left: 12%;
+        }
+    }
+}
+
+// change alert position
+.fenalert {
+    top: 6% !important;
+}

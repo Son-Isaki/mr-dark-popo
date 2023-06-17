@@ -14,11 +14,11 @@ const Utility = window.Utility = {
         'mini-60e02de3799cc-1.png': 'Muten Roshi',
     },
     safeZoneByPlanet: {
-        'terre': 'https://'+document.domain+'/carte/move/59',
-        'konoh': 'https://'+document.domain+'/carte/move/148',
-        'bleas': 'https://'+document.domain+'/carte/move/717',
-        'minipo': 'https://'+document.domain+'/carte/move/391',
-        'konohaearth': 'https://'+document.domain+'/carte/move/328',
+        'terre': 'https://' + document.domain + '/carte/move/59',
+        'konoh': 'https://' + document.domain + '/carte/move/148',
+        'bleas': 'https://' + document.domain + '/carte/move/717',
+        'minipo': 'https://' + document.domain + '/carte/move/391',
+        'konohaearth': 'https://' + document.domain + '/carte/move/328',
     },
 
     slugify: function (str) {
@@ -100,11 +100,79 @@ const Utility = window.Utility = {
     },
 
     showLoader: function (selector) {
-        let loader = chrome.runtime.getURL('../../dist/img/loader.svg');
+        const $this = this;
+        let loader = $this.getExtensionFilePath('dist/img/loader.svg');
 
         let html = $('<img src="' + loader + '" style="width:24px;"/>');
 
         $(selector).html(html);
+    },
+
+    /**
+     * Returns the full extension file path of a relative file path
+     *
+     * @param filepath
+     */
+    getExtensionFilePath: function (filepath) {
+        const $this = this;
+
+        let fullpath = filepath.trim('/');
+
+        try {
+            return chrome.runtime.getURL(fullpath);
+        } catch (e) {
+            $this.log(`Le fichier '${fullpath}' n'existe pas`);
+            return undefined;
+        }
+    },
+
+    /**
+     * Include CSS file into DOM
+     *
+     * @param filepath
+     */
+    includeStyle: function (filepath) {
+        const $this = this;
+
+        let path = $this.getExtensionFilePath(filepath);
+        if (typeof path !== 'undefined') {
+            $("<link>")
+                .attr('type', 'text/css')
+                .attr('rel', 'stylesheet')
+                .attr('href', path)
+                .appendTo('head')
+            $this.log(`File included: ${path}`)
+        }
+    },
+
+    /**
+     * Include Javascript file into DOM
+     *
+     * @param filepath
+     */
+    includeScript: function (filepath) {
+        const $this = this;
+
+        let path = $this.getExtensionFilePath(filepath);
+        if (typeof path !== 'undefined') {
+            $("<script>")
+                .attr('type', 'text/javascript')
+                .attr('src', path)
+                .appendTo('head')
+            $this.log(`File included: ${path}`)
+        }
+    },
+
+    /**
+     * Include CSS string into DOM
+     *
+     * @param style
+     */
+    injectStyle: function (style) {
+        $("<style>")
+            .attr('type', 'text/css')
+            .text(style)
+            .appendTo('head')
     },
 
     hideLoader: function (selector, newContent) {
@@ -113,6 +181,10 @@ const Utility = window.Utility = {
 
     trim: function (str) {
         return str.replace(/\s{2,}/g, " ").trim();
+    },
+
+    log: function (...args) {
+        Logger.log(Logger.COLORS.indigo, 'Utility', ...args);
     },
 
 };

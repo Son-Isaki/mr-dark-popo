@@ -1,67 +1,67 @@
 {
-	"manifest_version": 3,
-	"version": "1.0.0",
-	"name": "Mr. Dark Popo",
-	"description": "Extension pour jeuheros.fr qui améliore grandement l'expérience de jeu",
-	"options_page": "options.html",
-	"permissions": [
-		"storage",
-		"activeTab",
-		"tabs"
-	],
-	"host_permissions": [
-		"https://jeuheros.fr/*",
-		"https://www.jeuheros.fr/*"
-	],
-	"background": {
-		"service_worker": "worker.js"
-	},
-	"content_scripts": [
-		{
-			"exclude_globs": [
-				"https://www.jeuheros.fr/uploads/*", 
-				"https://www.jeuheros.fr/img/*", 
-				"https://www.jeuheros.fr/js/*", 
-				"https://www.jeuheros.fr/css/*"
-			],
-			"include_globs": [
-				"https://jeuheros.fr/*",
-				"https://www.jeuheros.fr/*"
-			],
-			"js": [
-				"dist/libs/jquery.min.js",
-				"dist/libs/bootstrap-notify.min.js",
-				"dist/libs/js.cookie.min.js",
-
-				"dist/js/app.min.js"
-			],
-			"matches": [
-				"https://jeuheros.fr/*",
-				"https://www.jeuheros.fr/*"
-			]
-		}
-	],
-	"default_locale": "fr",
-	"icons": {
-		"16": "dist/img/icon16.png",
-		"32": "dist/img/icon32.png",
-		"48": "dist/img/icon48.png"
-	},
-	"content_security_policy": {
-		"script-src" : [
-			"https://code.jquery.com", 
-			"https://cdn.jsdelivr.net"
-		],
-		"object-src": "self"
-	},
-	"web_accessible_resources": [
-		{
-			"resources": [
-				"dist/**/*"
-			],
-			"matches": [
-				"https://www.jeuheros.fr/*"
-			]
-		}
-	]
+    "manifest_version": 3,
+    "version": "1.0.0",
+    "name": "Mr. Dark Popo",
+    "description": "Extension pour jeuheros.fr qui améliore grandement l'expérience de jeu",
+    "options_page": "options.html",
+    "permissions": [
+        "storage",
+        "activeTab",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://jeuheros.fr/*",
+        "https://www.jeuheros.fr/*"
+    ],
+    "background": {
+        "service_worker": "worker.js"
+    },
+    "content_scripts": [
+        {
+            "exclude_globs": [
+                "https://www.jeuheros.fr/uploads/*",
+                "https://www.jeuheros.fr/img/*",
+                "https://www.jeuheros.fr/js/*",
+                "https://www.jeuheros.fr/css/*"
+            ],
+            "include_globs": [
+                "https://jeuheros.fr/*",
+                "https://www.jeuheros.fr/*"
+            ],
+            "js": [
+                "dist/libs/jquery.min.js",
+                "dist/libs/bootstrap-notify.min.js",
+                "dist/libs/js.cookie.min.js",
+                "dist/js/app.min.js"
+            ],
+            "matches": [
+                "https://jeuheros.fr/*",
+                "https://www.jeuheros.fr/*"
+            ]
+        }
+    ],
+    "default_locale": "fr",
+    "icons": {
+        "16": "dist/img/icon16.png",
+        "32": "dist/img/icon32.png",
+        "48": "dist/img/icon48.png"
+    },
+    "content_security_policy": {
+        "script-src": [
+            "https://code.jquery.com",
+            "https://cdn.jsdelivr.net"
+        ],
+        "object-src": "self"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "dist/**/*"
+            ],
+            "matches": [
+                "https://jeuheros.fr/*",
+                "https://www.jeuheros.fr/*"
+            ]
+        }
+    ]
 }
