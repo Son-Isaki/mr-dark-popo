@@ -322,10 +322,10 @@ const Addon = window.Addon = {
         this.addBonusCharacterPointsOnInfoPlayer();
 
         this.addBtnGoToSafeZone();
-        this.addBtnGoToShopEarth();
         this.addBtnInstantHeal70();
-        this.addBtnFightToTower();
+        this.addBtnGoToShopEarth();
         this.addBtnGoToFightZone();
+        this.addBtnFightToTower();
         this.addBtnGoToTrainAtqEarth();
         this.addBtnGoToTrainDefEarth();
         this.addBtnGoToTrainMagEarth();
