@@ -1,8 +1,9 @@
 const Options = window.Options = {
 
-    options: [
-        'addon_display_timer_refresh_life',
-    ],
+    // variables
+    OPTIONS: {
+        displayTimerRefreshLife: 'addon_display_timer_refresh_life',
+    },
 
     init: function() {
         this.displayOptionsPage();
@@ -31,7 +32,7 @@ const Options = window.Options = {
     },
 
     showOptions: function() {
-        $(this.options).each(function(id, option) {
+        $(this.OPTIONS).each(function(id, option) {
 
         });
     },
