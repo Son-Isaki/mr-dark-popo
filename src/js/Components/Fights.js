@@ -124,6 +124,11 @@ const Fights = window.FightsComponent = {
                 LocalStorage.set(`${Addon.characterInfos.slug}-safezone`, $this.moveToSafezoneAfter)
             });
 
+        // Special Konoshi le flemmard
+        // if (!$('#goToSafeZone').prop('checked')) {
+        //     $('#goToSafeZone').trigger('click');
+        // }
+
         // BUTTON LANCER LES COMBATS
 
         $('<td><button type="button" class="btn btn-primary">Lancer les combats</button></td>')
