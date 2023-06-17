@@ -156,7 +156,6 @@ const Fights = window.FightsComponent = {
 
         let stopLoop = false;
 
-
         while (!stopLoop && $this.fightIndex < Object.keys(Addon.listFighters).length) {
             let $fighter = $(Addon.listFighters[$this.fightIndex]);
             delete Addon.listFightersTmp[$this.fightIndex];

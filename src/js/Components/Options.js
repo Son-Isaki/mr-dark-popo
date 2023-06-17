@@ -35,7 +35,7 @@ const Options = window.Options = {
         let $title = $('<h2>Gestion des options de l\'Addon</h2>');
         $container.append($title);
 
-        this.log(Utility.safeZoneByPlanet);
+        this.log(Utility.urlSafeZoneByPlanet);
         this.showOptions();
     },
 

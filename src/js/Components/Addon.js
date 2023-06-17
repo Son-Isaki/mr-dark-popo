@@ -458,19 +458,24 @@ const Addon = window.Addon = {
         $($tabMenu).find('a[href="/perso/infoPersonnage"]').remove();
 
         // safezone
-        $('<a class="dropdown-item putAllCharInFightZone text-danger" href="#">Sortir tous les personnages</a>')
+        $('<a class="dropdown-item putAllCharInFightZone text-danger" href="#">Sortir tous les personnages favoris</a>')
             .prependTo($dropdownChar)
-            .on('click', Addon.putAllCharInFightZone);
-        $('<a class="dropdown-item putAllCharInSafeZone text-success" href="#">Rentrer tous les personnages</a>')
+            .on('click', () => {
+                Notify.notify('Déplacement des personnages favoris en fight zone en cours');
+                Safezone.characterIndex = 0;
+                Safezone.characterInterval = setInterval(() => {
+                    Safezone.putAllCharInFightZone();
+                }, 1500)
+            });
+        $('<a class="dropdown-item putAllCharInSafeZone text-success" href="#">Rentrer tous les personnages favoris</a>')
             .prependTo($dropdownChar)
-            .on('click', Addon.putAllCharInSafeZone);
-
-        $($tabMenu).find('a[href="/perso/infoPersonnage"]').remove();
-        $($tabMenu).find('a[href="/perso/listePersonnage/"]').remove();
-
-        $($tabMenu).on('click', function () {
-            window.location.href = 'https://' + document.domain + '/perso/listePersonnage/';
-        })
+            .on('click', () => {
+                Notify.notify('Déplacement des personnages favoris en safe zone en cours');
+                Safezone.characterIndex = 0;
+                Safezone.characterInterval = setInterval(() => {
+                    Safezone.putAllCharInSafeZone();
+                }, 1500)
+            });
     },
 
     makeNavbarFixed: function () {

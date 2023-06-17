@@ -13,12 +13,19 @@ const Utility = window.Utility = {
     miniPersos: {
         'mini-60e02de3799cc-1.png': 'Muten Roshi',
     },
-    safeZoneByPlanet: {
+    urlSafeZoneByPlanet: {
         'terre': 'https://' + document.domain + '/carte/move/59',
-        'konoh': 'https://' + document.domain + '/carte/move/148',
+        'konohss': 'https://' + document.domain + '/carte/move/148',
         'bleas': 'https://' + document.domain + '/carte/move/717',
         'minipo': 'https://' + document.domain + '/carte/move/391',
         'konohaearth': 'https://' + document.domain + '/carte/move/328',
+    },
+    urlFightZoneByPlanet: {
+        'terre': 'https://' + document.domain + '/carte/move/68',
+        'konohss': 'https://' + document.domain + '/carte/move/139',
+        'bleas': 'https://' + document.domain + '/carte/move/716',
+        'minipo': 'https://' + document.domain + '/carte/move/374',
+        'konohaearth': 'https://' + document.domain + '/carte/move/329',
     },
 
     slugify: function (str) {
