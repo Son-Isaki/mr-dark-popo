@@ -25,12 +25,17 @@ const Security = window.Security = {
         590, // Sg4_tv
         57, // Rominov
         435, // Shoriu
+        68, // Natsuro
+        52, // BdX_D
+        89, // Yoohyeon
     ],
 
     init: function () {
-        this.log('Initialized');
+        const $this = this;
 
-        this.canHaveAccess();
+        $this.canHaveAccess()
+        
+        $this.log('Initialized');
     },
 
     isUserLoggedIn: function () {
@@ -54,7 +59,7 @@ const Security = window.Security = {
     },
 
     getIdUser: function () {
-        return $('a[href^="/profilJoueur/"]')
+        return $('ul.navbar-nav').not('.mr-auto').find('li.nav-item').eq(0).find('a')
             .attr('href')
             .replace('/profilJoueur/', '');
     },
