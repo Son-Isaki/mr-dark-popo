@@ -59,7 +59,7 @@ const Security = window.Security = {
     },
 
     getIdUser: function () {
-        return $('ul.navbar-nav').not('.mr-auto').find('li.nav-item').eq(0).find('a')
+        return $('a[href^="/profilJoueur/"]')
             .attr('href')
             .replace('/profilJoueur/', '');
     },
