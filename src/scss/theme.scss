@@ -136,7 +136,7 @@ span, label, th, td, h1, h2, h3, p {
     margin-top: unset;
     margin-left: unset;
 
-    section, .fondBlancOnly, #zoneObjets, #zoneBoss2, .zoneCapsulesEquipe, .fondCapsulesEquip, .zoneCapsulesEquipe2, .fondCapsulesList, .fondCompetences, .infoPerso, #zoneCapsulesEnVente {
+    section, .section, .fondBlancOnly, #zoneObjets, #zoneBoss2, .zoneCapsulesEquipe, .fondCapsulesEquip, .zoneCapsulesEquipe2, .fondCapsulesList, .fondCompetences, .infoPerso, #zoneCapsulesEnVente {
         background-color: $black !important;
         border-radius: $border-radius !important;
         box-shadow: 0 3px 8px transparentize(black, .7);
@@ -161,7 +161,13 @@ span, label, th, td, h1, h2, h3, p {
     }
 }
 
+.flexCharacterList, .flexCharacterList article {
+    width: 100%;
+}
+
 table {
+    width: 100%;
+
     .couleurAlt {
         background-color: transparent;
         border: unset;
@@ -170,6 +176,10 @@ table {
             background-color: $black-light;
         }
     }
+}
+
+.logoListePersonnage {
+    margin-bottom: 20px;
 }
 
 .zone1before {

@@ -52,12 +52,17 @@ const Addon = window.Addon = {
             .appendTo($('.zone1'));
     },
 
-    initCharacterListPage: function(){
+    initCharacterListPage: function () {
         if (!Addon.checkUrl('/perso/listePersonnage/')) {
             return false;
         }
 
         $('button[data-type="all"]').trigger('click');
+
+        $('.cadrePersoList2').removeClass('cadrePersoList2');
+
+        $('.zoneCapsulesEquipe5 > p:last-child')
+            .prependTo($('.zoneCapsulesEquipe5'));
     },
 
     addLinkToOptions: function () {
