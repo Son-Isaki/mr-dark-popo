@@ -17,125 +17,131 @@ const Fights = window.FightsComponent = {
     init: function () {
         const $this = this;
 
-        $this.addAutoFightFormToView();
+        $this.bind();
         $this.ajaxFight();
 
         $this.log('Initialized');
     },
 
-    addAutoFightFormToView: async function () {
+    bind: function () {
+        const $this = this;
+
+        $(document).on(Events.CharacterLoaded, function () {
+            $this.addAutoFightFormToView();
+        });
+    },
+
+    addAutoFightFormToView: function () {
         const $this = this;
 
         if (!Addon.checkUrl('/listeCombats')) {
             return false;
         }
 
-        await Addon.updateCharacterInfos((response) => {
-            let $section = $(
-                '<section id="zoneBoss2">' +
-                '<h2>Combats automatiques</h2>' +
-                '</section>'
-            ).prependTo($('.zone2'));
+        let $section = $(
+            '<section id="zoneBoss2">' +
+            '<h2>Combats automatiques</h2>' +
+            '</section>'
+        ).prependTo($('.zone2'));
 
-            let $table = $(
-                '<table class="table">'
-            ).appendTo($section);
+        let $table = $(
+            '<table class="table">'
+        ).appendTo($section);
 
-            let $firstRow = $(
-                '<tr>'
-            ).appendTo($table);
+        let $firstRow = $(
+            '<tr>'
+        ).appendTo($table);
 
-            let $secondRow = $(
-                '<tr>'
-            ).appendTo($table);
+        let $secondRow = $(
+            '<tr>'
+        ).appendTo($table);
 
-            // LIFE
+        // LIFE
 
-            $('<td><label for="limitLifeInput" title="Stop automatiquement les combats lorsque la vie atteint le montant">Vie max</label></td>')
-                .appendTo($firstRow);
+        $('<td><label for="limitLifeInput" title="Stop automatiquement les combats lorsque la vie atteint le montant">Vie max</label></td>')
+            .appendTo($firstRow);
 
-            $this.selectedLife = parseInt(Cookies.get(`${Addon.characterInfos.slug}-life`));
-            if (typeof $this.selectedLife === 'undefined' || isNaN($this.selectedLife))
-                $this.selectedLife = $this.defaultLife;
-            $(`<td><input type="number" min="${this.defaultLife}" step="10000" class="form-control" name="limitLifeInput" id="limitLifeInput" value="${$this.selectedLife}"/></td>`)
-                .appendTo($secondRow)
-                .on('change', function () {
-                    $this.selectedLife = parseInt($(this).find('input').val());
-                    $this.log('Vie max modifiée', $this.selectedLife)
-                    Cookies.set(`${Addon.characterInfos.slug}-life`, $this.selectedLife, { expires: Addon.cookiesDuration })
-                })
+        $this.selectedLife = parseInt(Cookies.get(`${Addon.characterInfos.slug}-life`));
+        if (typeof $this.selectedLife === 'undefined' || isNaN($this.selectedLife))
+            $this.selectedLife = $this.defaultLife;
+        $(`<td><input type="number" min="${this.defaultLife}" step="10000" class="form-control" name="limitLifeInput" id="limitLifeInput" value="${$this.selectedLife}"/></td>`)
+            .appendTo($secondRow)
+            .on('change', function () {
+                $this.selectedLife = parseInt($(this).find('input').val());
+                $this.log('Vie max modifiée', $this.selectedLife)
+                Cookies.set(`${Addon.characterInfos.slug}-life`, $this.selectedLife, {expires: Addon.cookiesDuration})
+            })
 
-            // RATIO
+        // RATIO
 
-            $('<td><label for="ratioInput" title="Evite les combats contre des héros dont le ratio est supérieur au montant">Ratio max</label></td>')
-                .appendTo($firstRow);
+        $('<td><label for="ratioInput" title="Evite les combats contre des héros dont le ratio est supérieur au montant">Ratio max</label></td>')
+            .appendTo($firstRow);
 
-            $this.selectedRatio = parseFloat(Cookies.get(`${Addon.characterInfos.slug}-ratio`));
-            if (typeof $this.selectedRatio === 'undefined' || isNaN($this.selectedRatio))
-                $this.selectedRatio = $this.defaultRatio;
-            $(`<td><input type="number" min="0" step="0.1" class="form-control" name="ratioInput" id="ratioInput" value="${$this.selectedRatio}"/></td>`)
-                .appendTo($secondRow)
-                .on('change', function () {
-                    $this.selectedRatio = parseFloat($(this).find('input').val());
-                    $this.log('Ratio max modifié', $this.selectedRatio)
-                    Cookies.set(`${Addon.characterInfos.slug}-ratio`, $this.selectedRatio, { expires: Addon.cookiesDuration })
-                })
+        $this.selectedRatio = parseFloat(Cookies.get(`${Addon.characterInfos.slug}-ratio`));
+        if (typeof $this.selectedRatio === 'undefined' || isNaN($this.selectedRatio))
+            $this.selectedRatio = $this.defaultRatio;
+        $(`<td><input type="number" min="0" step="0.1" class="form-control" name="ratioInput" id="ratioInput" value="${$this.selectedRatio}"/></td>`)
+            .appendTo($secondRow)
+            .on('change', function () {
+                $this.selectedRatio = parseFloat($(this).find('input').val());
+                $this.log('Ratio max modifié', $this.selectedRatio)
+                Cookies.set(`${Addon.characterInfos.slug}-ratio`, $this.selectedRatio, {expires: Addon.cookiesDuration})
+            })
 
-            // LEVEL
+        // LEVEL
 
-            $('<td><label for="levelInput" title="Evite les combats contre des héros dont la différence de niveau est supérieur au montant">Niveau max <span style="font-size:.7em;">(différence)</span></label></td>')
-                .appendTo($firstRow);
+        $('<td><label for="levelInput" title="Evite les combats contre des héros dont la différence de niveau est supérieur au montant">Niveau max <span style="font-size:.7em;">(différence)</span></label></td>')
+            .appendTo($firstRow);
 
-            $this.selectedLevel = parseFloat(Cookies.get(`${Addon.characterInfos.slug}-level`));
-            if (typeof $this.selectedLevel === 'undefined' || isNaN($this.selectedLevel))
-                $this.selectedLevel = $this.defaultLevel;
-            $(`<td><input type="number" min="0" step="1" class="form-control" name="levelInput" id="levelInput" value="${$this.selectedLevel}"/></td>`)
-                .appendTo($secondRow)
-                .on('change', function () {
-                    $this.selectedLevel = parseFloat($(this).find('input').val());
-                    $this.log('Niveau max modifié', $this.selectedLevel)
-                    Cookies.set(`${Addon.characterInfos.slug}-level`, $this.selectedLevel, { expires: Addon.cookiesDuration })
-                })
+        $this.selectedLevel = parseFloat(Cookies.get(`${Addon.characterInfos.slug}-level`));
+        if (typeof $this.selectedLevel === 'undefined' || isNaN($this.selectedLevel))
+            $this.selectedLevel = $this.defaultLevel;
+        $(`<td><input type="number" min="0" step="1" class="form-control" name="levelInput" id="levelInput" value="${$this.selectedLevel}"/></td>`)
+            .appendTo($secondRow)
+            .on('change', function () {
+                $this.selectedLevel = parseFloat($(this).find('input').val());
+                $this.log('Niveau max modifié', $this.selectedLevel)
+                Cookies.set(`${Addon.characterInfos.slug}-level`, $this.selectedLevel, {expires: Addon.cookiesDuration})
+            })
 
-            // BOUTON SAFEZONE
+        // BOUTON SAFEZONE
 
-            $('<td><label for="goToSafeZone" class="m-0" title="Déplace le héro en safezone après le combat">Safe zone</label></td>')
-                .appendTo($firstRow);
+        $('<td><label for="goToSafeZone" class="m-0" title="Déplace le héro en safezone après le combat">Safe zone</label></td>')
+            .appendTo($firstRow);
 
-            $this.moveToSafezoneAfter = Cookies.get(`${Addon.characterInfos.slug}-safezone`) === 'true';
-            if (typeof $this.moveToSafezoneAfter === 'undefined')
-                $this.moveToSafezoneAfter = false;
+        $this.moveToSafezoneAfter = Cookies.get(`${Addon.characterInfos.slug}-safezone`) === 'true';
+        if (typeof $this.moveToSafezoneAfter === 'undefined')
+            $this.moveToSafezoneAfter = false;
 
-            $(`<td><input type="checkbox" name="goToSafeZone" id="goToSafeZone" class="ml-1" ${$this.moveToSafezoneAfter ? "checked=\"checked\"" : ""} /></td>`)
-                .appendTo($secondRow)
-                .find('input')
-                .on('change', function () {
-                    $this.moveToSafezoneAfter = $('#goToSafeZone').prop('checked');
-                    $this.log('Safezone modifié', $this.moveToSafezoneAfter)
-                    Cookies.set(`${Addon.characterInfos.slug}-safezone`, $this.moveToSafezoneAfter, { expires: Addon.cookiesDuration })
-                });
+        $(`<td><input type="checkbox" name="goToSafeZone" id="goToSafeZone" class="ml-1" ${$this.moveToSafezoneAfter ? "checked=\"checked\"" : ""} /></td>`)
+            .appendTo($secondRow)
+            .find('input')
+            .on('change', function () {
+                $this.moveToSafezoneAfter = $('#goToSafeZone').prop('checked');
+                $this.log('Safezone modifié', $this.moveToSafezoneAfter)
+                Cookies.set(`${Addon.characterInfos.slug}-safezone`, $this.moveToSafezoneAfter, {expires: Addon.cookiesDuration})
+            });
 
-            // BUTTON LANCER LES COMBATS
+        // BUTTON LANCER LES COMBATS
 
-            $('<td><button type="button" class="btn btn-primary">Lancer les combats</button></td>')
-                .appendTo($firstRow)
-                .on('click', function () {
-                    if ($this.fightInterval !== null) {
-                        return false;
-                    }
+        $('<td><button type="button" class="btn btn-primary">Lancer les combats</button></td>')
+            .appendTo($firstRow)
+            .on('click', function () {
+                if ($this.fightInterval !== null) {
+                    return false;
+                }
 
-                    $this.fightIndex = 0;
-                    $this.fightInterval = setInterval(() => {
-                        $this.fightLoop();
-                    }, 1000);
-                });
+                $this.fightIndex = 0;
+                $this.fightInterval = setInterval(() => {
+                    $this.fightLoop();
+                }, 1000);
+            });
 
-            $('<td><button type="button" class="btn btn-dark">Stopper</button></td>')
-                .appendTo($secondRow)
-                .on('click', function () {
-                    $this.terminateFightLoop($this.moveToSafezoneAfter);
-                })
-        });
+        $('<td><button type="button" class="btn btn-dark">Stopper</button></td>')
+            .appendTo($secondRow)
+            .on('click', function () {
+                $this.terminateFightLoop($this.moveToSafezoneAfter);
+            })
     },
 
     fightLoop: function () {

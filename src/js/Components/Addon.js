@@ -23,7 +23,9 @@ const Addon = window.Addon = {
 
         $this.currentUrl = document.URL;
 
-        $this.updateCharacterInfos();
+        $this.updateCharacterInfos().then((response) => {
+            Events.trigger(Events.CharacterLoaded, $this.characterInfos);
+        });
         $this.addAllPointsOnStatsBtn();
         $this.addDisplayAllCharactersBtn();
         $this.changeAlertPosition();
@@ -65,8 +67,6 @@ const Addon = window.Addon = {
             data.level = parseInt($content.find('.zone2 .infoPersoAvatar h3 + p').text().replace("Niveau ", ""));
 
             $this.characterInfos = data;
-
-            $this.log("Character infos", $this.characterInfos);
 
             if (typeof callback === "function") {
                 callback(response);
