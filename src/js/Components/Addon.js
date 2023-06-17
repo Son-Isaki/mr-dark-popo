@@ -302,14 +302,15 @@ const Addon = window.Addon = {
 
             // Calcule les heures, minutes et secondes restantes
             let hours = Math.floor(timeDifference / (1000 * 60 * 60));
-            let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+            let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            let seconds = Math.floor((timeDifference % (1000 * 60)) / 1000).toString().padStart(2, '0');
+
 
             // Affiche le compte à rebours
-            let $html = $("<li id='timerRefreshLife'><span class='nav-link'><span class='hours'>" + hours + "</span>:<span class='minutes'>" + minutes + "</span>:<span class='seconds'>" + seconds + "</span></span></li>");
+            let $html = $("<li id='timerRefreshLife'><span class='nav-link' style='color: #D9D9D9;'><span class='minutes'>" + minutes + "</span>:<span class='seconds'>" + seconds + "</span></span></li>");
 
             if ($('ul.nav.mr-auto #timerRefreshLife').length > 0) {
-                $('#timerRefreshLife .hours').html(hours);
+                // $('#timerRefreshLife .hours').html(hours);
                 $('#timerRefreshLife .minutes').html(minutes);
                 $('#timerRefreshLife .seconds').html(seconds);
             } else {
