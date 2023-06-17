@@ -513,13 +513,16 @@ const Addon = window.Addon = {
             .find('a.dropdown-item');
 
         $.each(Addon.listCharactersHtml, function (key, item) {
-            let imgs = $(item)
-                .find('img');
+            let imgs = $(item).find('img');
 
             if (imgs.length <= 3) {
                 $(item).addClass('text-success');
             } else {
-                let $isOnTrain = imgs.eq(3).attr('src').indexOf('trainn');
+                let $isOnTrain = imgs
+                    .eq(3)
+                    .attr('src')
+                    .indexOf('trainn');
+
                 if ($isOnTrain !== -1) {
                     $(item).addClass('text-danger');
                 }
