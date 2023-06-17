@@ -134,14 +134,17 @@ const Utility = window.Utility = {
     includeStyle: function (filepath) {
         const $this = this;
 
-        let path = $this.getExtensionFilePath(filepath);
-        if (typeof path !== 'undefined') {
+        if (filepath.indexOf('http') === -1) {
+            filepath = $this.getExtensionFilePath(filepath);
+        }
+
+        if (typeof filepath !== 'undefined') {
             $("<link>")
                 .attr('type', 'text/css')
                 .attr('rel', 'stylesheet')
-                .attr('href', path)
+                .attr('href', filepath)
                 .appendTo('head')
-            $this.log(`File included: ${path}`)
+            $this.log(`File included: ${filepath}`)
         }
     },
 

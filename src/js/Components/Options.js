@@ -2,7 +2,15 @@ const Options = window.Options = {
 
     // variables
     OPTIONS: {
-        displayTimerRefreshLife: 'addon_display_timer_refresh_life',
+        displayTimerRefreshLife: 'addon-display-timer-refresh-life',
+        customThemeEnabled: 'custom-theme-enabled',
+
+        showSafezoneInActions: 'show-safezone-actions',
+        showShopInActions: 'show-shop-actions',
+        showHealInActions: 'show-heal-actions',
+        showFightTourInActions: 'show-fight-tour-actions',
+        showFightZoneInActions: 'show-fight-zone-actions',
+        showTrainsInActions: 'show-trains-actions',
     },
 
     init: function() {

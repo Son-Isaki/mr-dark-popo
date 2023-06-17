@@ -26,13 +26,13 @@ const Addon = window.Addon = {
         $this.updateCharacterInfos().then((response) => {
             Events.trigger(Events.CharacterLoaded, $this.characterInfos);
         });
+        $this.addActionsZoneToView();
         $this.addAllPointsOnStatsBtn();
         $this.addDisplayAllCharactersBtn();
         $this.changeAlertPosition();
         $this.addValidLinkHistoryMode();
         $this.addHistoryOnMap();
         $this.reverseInfoPlayerOnFight();
-        $this.stuckInfoPlayer();
         $this.displayTimerRefreshLife();
         $this.reloadInfoPlayer();
         $this.updateNavbarTop();
@@ -43,6 +43,11 @@ const Addon = window.Addon = {
 
         $this.log("Initialized");
 
+    },
+
+    addActionsZoneToView: function () {
+        $('<div id="actions-zone">')
+            .appendTo($('.zone1'));
     },
 
     addLinkToOptions: function () {
@@ -213,6 +218,12 @@ const Addon = window.Addon = {
         }).done(function (response) {
             let $historyFromAjax = $(response).find('.fondBlancOnly');
 
+            let $row = $('<div class="map-row">')
+                .prependTo($('.zone2'));
+
+            $('.carteZone').appendTo($row);
+            $('.flexChoixCarte').appendTo($row);
+
             $($historyFromAjax).css('marginRight', '10px');
 
             let $tutoriel = $($historyFromAjax[0]).find('article:contains(Tu as terminé le tutoriel)');
@@ -226,7 +237,7 @@ const Addon = window.Addon = {
             $articles[3].remove();
             $articles[4].remove();
 
-            $('.flexChoixMap').prepend($historyFromAjax);
+            $('.flexChoixMap').append($historyFromAjax);
         });
     },
 
@@ -274,28 +285,7 @@ const Addon = window.Addon = {
         }
     },
 
-    stuckInfoPlayer: function () {
-        if (!this.checkUrl('https://' + document.domain + '/listeCombats')) {
-            return false;
-        }
-
-        $('body').addClass('stuck-infos-player');
-
-        $(document).ready(function () {
-            $(window).scroll(function () {
-                if ($(this).scrollTop() > 1) {
-                    $('.flex').addClass('sticky')
-                    $('.footerPage').addClass('sticky');
-                } else {
-                    $('.flex').removeClass("sticky");
-                    $('.footerPage').removeClass("sticky");
-                }
-            });
-        });
-    },
-
     displayTimerRefreshLife: function () {
-
         setInterval(function () {
             let currentTime = new Date(); // Récupère l'heure actuelle
             let targetTime = new Date(); // Initialise l'heure cible
@@ -327,123 +317,137 @@ const Addon = window.Addon = {
         }, 1000);
     },
 
-    addBtnGoToFightZone: function () {
-        const button = document.createElement('button');
-        button.textContent = 'Zone de combat Terre';
-        button.className = 'btn btn-danger mb-1';
-        button.addEventListener('click', () => {
-            $.ajax({
-                type: 'GET',
-                url: 'https://' + document.domain + '/carte/move/68',
-                crossDomain: true,
-            }).done(function () {
-                window.location.href = 'https://' + document.domain + '/listeCombats';
-            });
-        });
-
-        $('.zone1 .couleurBlack').after(button);
-    },
-
-    addBtnGoToTrainAtqEarth: function () {
-        const button = document.createElement('button');
-        button.textContent = 'Train attaque Terre';
-        button.className = 'btn btn-primary mb-1';
-        button.addEventListener('click', () => {
-            $.ajax({
-                type: 'GET',
-                url: 'https://' + document.domain + '/carte/move/69',
-                crossDomain: true,
-            }).done(function () {
-                window.location.href = 'https://' + document.domain + '/entrainementAttaque/go';
-            });
-        });
-
-        $('.zone1 .couleurBlack').after(button);
-    },
-
-    addBtnGoToTrainMagEarth: function () {
-        const button = document.createElement('button');
-        button.textContent = 'Train magie Terre';
-        button.className = 'btn btn-primary';
-        button.addEventListener('click', () => {
-            $.ajax({
-                type: 'GET',
-                url: 'https://' + document.domain + '/carte/move/22',
-                crossDomain: true,
-            }).done(function () {
-                window.location.href = 'https://' + document.domain + '/entrainementMagie/go';
-            });
-        });
-
-        $('.zone1 .couleurBlack').after(button);
-    },
-
-    addBtnGoToTrainDefEarth: function () {
-        const button = document.createElement('button');
-        button.textContent = 'Train défense Terre';
-        button.className = 'btn btn-primary mb-1';
-        button.addEventListener('click', () => {
-            $.ajax({
-                type: 'GET',
-                url: 'https://' + document.domain + '/carte/move/59',
-                crossDomain: true,
-            }).done(function () {
-                window.location.href = 'https://' + document.domain + '/entrainementDefense/go';
-            });
-        });
-
-        $('.zone1 .couleurBlack').after(button);
-    },
-
     reloadInfoPlayer: function () {
         this.addBonusCharacterPointsOnInfoPlayer();
-        this.addBtnGoToTrainMagEarth();
-        this.addBtnGoToTrainDefEarth();
-        this.addBtnGoToTrainAtqEarth();
-        this.addBtnGoToFightZone();
-        this.addBtnFightToTower();
-        this.addBtnInstantHeal70();
-        this.addBtnGoToShopEarth();
+
         this.addBtnGoToSafeZone();
-    },
-
-    addBtnFightToTower: function () {
-        const button = document.createElement('button');
-        button.textContent = 'Fight Tour';
-        button.className = 'btn btn-danger mb-1';
-        button.addEventListener('click', () => {
-            window.location.href = 'https://' + document.domain + '/tour/combat';
-        });
-
-        $('.zone1 .couleurBlack').after(button);
+        this.addBtnGoToShopEarth();
+        this.addBtnInstantHeal70();
+        this.addBtnFightToTower();
+        this.addBtnGoToFightZone();
+        this.addBtnGoToTrainAtqEarth();
+        this.addBtnGoToTrainDefEarth();
+        this.addBtnGoToTrainMagEarth();
     },
 
     addBtnGoToSafeZone: function () {
-        const button = document.createElement('button');
-        button.textContent = 'Safe Zone Terre';
-        button.className = 'btn btn-success mb-1 safeZone';
-        button.addEventListener('click', () => {
-            window.location.href = 'https://' + document.domain + '/carte/move/59';
-        });
-
-        $('.zone1 .couleurBlack').after(button);
+        $('<button type="button" class="btn btn-sm btn-success">Safezone Terre</button>')
+            .on('click', function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://' + document.domain + '/carte/move/69',
+                    crossDomain: true,
+                }).done(function () {
+                    window.location.href = 'https://' + document.domain + '/carte/move/59';
+                });
+            })
+            .appendTo($('#actions-zone'));
     },
 
     addBtnGoToShopEarth: function () {
-        const button = document.createElement('button');
-        button.textContent = 'Boutique caps Terre';
-        button.className = 'btn btn-success mb-1';
-        button.addEventListener('click', () => {
-            $.ajax({
-                type: 'GET',
-                url: 'https://' + document.domain + '/carte/move/44',
-                crossDomain: true,
-            }).done(function () {
-                window.location.href = 'https://' + document.domain + '/magasinCapsules';
-            });
-        });
+        $('<button type="button" class="btn btn-sm btn-warning">Boutique de capsules Terre</button>')
+            .on('click', function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://' + document.domain + '/carte/move/44',
+                    crossDomain: true,
+                }).done(function () {
+                    window.location.href = 'https://' + document.domain + '/magasinCapsules';
+                });
+            })
+            .appendTo($('#actions-zone'));
+    },
 
-        $('.zone1 .couleurBlack').after(button);
+    addBtnGoToFightZone: function () {
+        $('<button type="button" class="btn btn-sm btn-danger">Zone de combat Terre</button>')
+            .on('click', function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://' + document.domain + '/carte/move/68',
+                    crossDomain: true,
+                }).done(function () {
+                    window.location.href = 'https://' + document.domain + '/listeCombats';
+                });
+            })
+            .appendTo($('#actions-zone'));
+    },
+
+    addBtnInstantHeal70: function () {
+        $('<button type="button" class="btn btn-sm btn-success">Heal 70%</button>')
+            .on('click', function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://' + document.domain + '/soins',
+                    crossDomain: true,
+                }).done(function (response) {
+                    $(response).find('#soins_choixSoins').val('20000');
+
+                    let form = $(response).find('form[name="soins"]');
+
+                    Addon.log(form, form.serialize().replace('5000', '20000'));
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'https://' + document.domain + '/soins',
+                        data: form.serialize().replace('5000', '20000'),
+                        crossDomain: true,
+                        success: function (data) {
+                            window.location.href = 'https://' + document.domain + '/listeCombats';
+                        }
+                    })
+                });
+            })
+            .appendTo($('#actions-zone'));
+    },
+
+    addBtnFightToTower: function () {
+        $('<button type="button" class="btn btn-sm btn-danger">Tour de combat</button>')
+            .on('click', function () {
+                window.location.href = 'https://' + document.domain + '/tour/combat';
+            })
+            .appendTo($('#actions-zone'));
+    },
+
+    addBtnGoToTrainAtqEarth: function () {
+        $('<button type="button" class="btn btn-sm btn-primary">Train attaque Terre</button>')
+            .on('click', function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://' + document.domain + '/carte/move/69',
+                    crossDomain: true,
+                }).done(function () {
+                    window.location.href = 'https://' + document.domain + '/entrainementAttaque/go';
+                });
+            })
+            .appendTo($('#actions-zone'));
+    },
+
+    addBtnGoToTrainMagEarth: function () {
+        $('<button type="button" class="btn btn-sm btn-primary">Train magie Terre</button>')
+            .on('click', function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://' + document.domain + '/carte/move/22',
+                    crossDomain: true,
+                }).done(function () {
+                    window.location.href = 'https://' + document.domain + '/entrainementMagie/go';
+                });
+            })
+            .appendTo($('#actions-zone'));
+    },
+
+    addBtnGoToTrainDefEarth: function () {
+        $('<button type="button" class="btn btn-sm btn-primary">Train défense Terre</button>')
+            .on('click', function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://' + document.domain + '/carte/move/59',
+                    crossDomain: true,
+                }).done(function () {
+                    window.location.href = 'https://' + document.domain + '/entrainementDefense/go';
+                });
+            })
+            .appendTo($('#actions-zone'));
     },
 
     updateNavbarTop: function () {
@@ -466,37 +470,6 @@ const Addon = window.Addon = {
         $($tabMenu).on('click', function () {
             window.location.href = 'https://' + document.domain + '/perso/listePersonnage/';
         })
-    },
-
-    addBtnInstantHeal70: function () {
-        const button = document.createElement('button');
-        button.textContent = 'Heal 70%';
-        button.className = 'btn btn-success mb-1';
-        button.addEventListener('click', () => {
-            $.ajax({
-                type: 'GET',
-                url: 'https://' + document.domain + '/soins',
-                crossDomain: true,
-            }).done(function (response) {
-                $(response).find('#soins_choixSoins').val('20000');
-
-                let form = $(response).find('form[name="soins"]');
-
-                Addon.log(form, form.serialize().replace('5000', '20000'));
-
-                $.ajax({
-                    type: 'POST',
-                    url: 'https://' + document.domain + '/soins',
-                    data: form.serialize().replace('5000', '20000'),
-                    crossDomain: true,
-                    success: function (data) {
-                        window.location.href = 'https://' + document.domain + '/listeCombats';
-                    }
-                })
-            });
-        });
-
-        $('.zone1 .couleurBlack').after(button);
     },
 
     makeNavbarFixed: function () {

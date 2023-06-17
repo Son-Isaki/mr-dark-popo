@@ -1,0 +1,246 @@
+@import 'includes/_settings.scss';
+
+body {
+    background-image: url('../img/theme/background.png');
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+
+    color: $white;
+    font-size: 16px;
+
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: transparentize($black, .1);
+        z-index: -1;
+        backdrop-filter: blur(2px);
+    }
+}
+
+span, label {
+    color: $white;
+}
+
+#wrapper .navbar {
+    background-color: $black-light !important;
+    height: $topbar-height;
+    border-bottom: 2px solid $orange;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    .container, .container .navbar-collapse, .container .navbar-collapse > ul, .container .navbar-collapse > ul > li {
+        height: 100%;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+
+        & > a {
+            color: $white;
+            font-size: 1rem;
+            transition: $transition-stack;
+
+            i, img {
+                display: none;
+            }
+
+        }
+
+        .dropdown-toggle::after {
+            $size: .35rem;
+
+            display: block;
+            content: "";
+            border-color: $white;
+            border-top: $size solid;
+            border-right: $size solid transparent;
+            border-bottom: 0;
+            border-left: $size solid transparent;
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: $transition-stack;
+        }
+
+        &:hover, &:active {
+            & > a {
+                color: $orange;
+            }
+
+            .dropdown-toggle::after {
+                border-bottom-color: $orange;
+            }
+        }
+
+        & > .dropdown-menu > a {
+            text-align: center !important;
+        }
+
+        &.dropdown {
+            .dropdown-menu {
+                top: calc(#{$topbar-height} - 2px);
+                background-color: $black;
+                border: 2px solid $orange;
+                border-top: 0 solid transparent;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+                left: 50%;
+                transform: translateX(-50%);
+
+                a {
+                    color: $white;
+                    padding: .25rem 1.5rem;
+
+                    &:hover, &:active {
+                        background-color: $black-light;
+                    }
+                }
+
+                .dropdown-toggle::after {
+                    display: none;
+                }
+
+                .dropdown-menu {
+                    position: relative;
+                    top: unset;
+                    left: unset;
+                    right: unset;
+                    transform: unset;
+                    border: unset;
+                    background-color: unset;
+                    border-top: 2px solid $black-border;
+
+                    & {
+                        clear: unset;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.content-wrapper {
+    flex-direction: row-reverse;
+}
+
+.zone2 {
+    background-color: $black-light;
+    margin-top: unset;
+    margin-left: unset;
+
+    section, .fondBlancOnly {
+        background-color: $black !important;
+        border-radius: $border-radius !important;
+        box-shadow: 0 3px 8px transparentize(black, .7);
+        border: 2px solid $black-border;
+        margin: 20px;
+        padding: 20px;
+        width: calc(100% - 40px);
+        max-width: unset;
+    }
+}
+
+table {
+    .couleurAlt {
+        background-color: transparent;
+        border: unset;
+
+        &:nth-child(even) {
+            background-color: $black-light;
+        }
+    }
+}
+
+.zone1before {
+    background-color: $black;
+
+    .zone1 {
+        margin-top: unset;
+        padding: unset;
+        width: unset;
+
+        .zone1sub {
+            background: transparent;
+            border-radius: unset;
+            box-shadow: unset;
+            margin: unset;
+            padding: 20px;
+
+            .labelBarPerso, .imgPersoActuelDiv {
+                color: $white;
+            }
+        }
+    }
+}
+
+.banniereSite {
+    width: 230px;
+}
+
+@media screen and (min-width: 1440px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+        max-width: 1280px;
+    }
+}
+
+.carteZone {
+    background-color: $black !important;
+    border-radius: $border-radius !important;
+    box-shadow: 0 3px 8px transparentize(black, .7);
+    border: 2px solid $black-border;
+    margin: 20px;
+    min-width: 500px;
+    min-height: 450px;
+}
+
+.flexChoixMap {
+    display: block;
+
+    section {
+        display: flex;
+        flex-wrap: wrap;
+
+        article {
+            width: 50%;
+            margin: 20px 0;
+
+            hr {
+                display: none;
+            }
+        }
+    }
+}
+
+.map-row {
+    display: flex;
+}
+
+#actions-zone {
+    margin: 20px;
+
+    button {
+        width: 100%;
+        margin: 3px 0;
+    }
+}
+
+.cadrePersoList {
+    background-color: $black-light !important;
+    border-radius: $border-radius !important;
+    box-shadow: 0 3px 8px transparentize(black, .7);
+    margin: 10px;
+    height: unset;
+    width: calc(33% - 20px);
+
+    * {
+        color: $white;
+    }
+}

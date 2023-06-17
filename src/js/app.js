@@ -1,6 +1,6 @@
 $('document').ready(function () {
-    Security.init();
 
+    Security.init();
     if (!Security.hasAccess) {
         return false;
     }
@@ -10,4 +10,6 @@ $('document').ready(function () {
     Fights.init();
     Safezone.init();
     Options.init();
+    Theme.init();
+
 })

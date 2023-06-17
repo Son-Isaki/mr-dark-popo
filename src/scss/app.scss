@@ -1,6 +1,7 @@
 // Menu personnages
 nav li.dropdown .dropdown-menu .dropdown-menu {
-    columns: 4;
+    columns: 3;
+    column-gap: 0;
 }
 
 // Navbar fixe
@@ -9,15 +10,15 @@ nav li.dropdown .dropdown-menu .dropdown-menu {
 }
 
 // Inversion du contenu main/aside
-body.reverse-info-player {
-    .flex {
-        flex-direction: row-reverse !important;
-    }
-
-    #zoneDuPersonnage {
-        margin-left: 30px !important;
-    }
-}
+//body.reverse-info-player {
+//    .flex {
+//        flex-direction: row-reverse !important;
+//    }
+//
+//    #zoneDuPersonnage {
+//        margin-left: 30px !important;
+//    }
+//}
 
 // stuck infos player
 body.stuck-infos-player {
