@@ -145,6 +145,7 @@ const Fights = window.FightsComponent = {
 
         while (!stopLoop && $this.fightIndex < Object.keys(Addon.listFighters).length) {
             let $fighter = $(Addon.listFighters[$this.fightIndex]);
+            delete Addon.listFighters[$this.fightIndex];
 
             let fightLabel = Utility.trim($fighter.find('td').eq(0).text());
 
@@ -160,6 +161,11 @@ const Fights = window.FightsComponent = {
             // level
             let fightLevel = parseInt($fighter.find('td').eq(1).text());
             let isLevelSafe = Addon.characterInfos.level >= fightLevel + $this.selectedLevel;
+
+            if (fightLevel < Addon.characterInfos.level) {
+                $this.terminateFightLoop($this.moveToSafezoneAfter);
+                return false;
+            }
 
             if (isLifeSafe && isRatioSafe && isLevelSafe) {
 
@@ -273,6 +279,7 @@ const Fights = window.FightsComponent = {
 
                             Utility.hideLoader(selectorCombat, resultFight);
                             Addon.reloadInfoPlayer();
+                            delete Addon.listFighters[key];
                         }
                     })
 

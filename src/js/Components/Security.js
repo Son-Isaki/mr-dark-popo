@@ -24,6 +24,7 @@ const Security = window.Security = {
         216, // kiranoma
         590, // Sg4_tv
         57, // Rominov
+        435, // Shoriu
     ],
 
     init: function() {
