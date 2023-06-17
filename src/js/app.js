@@ -4,5 +4,5 @@ $('document').ready(function () {
     Notify.init();
     Fights.init();
     Safezone.init();
-
+    Options.init();
 })

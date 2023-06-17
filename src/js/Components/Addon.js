@@ -34,8 +34,20 @@ const Addon = window.Addon = {
         $this.reloadInfoPlayer();
         $this.updateNavbarTop();
         $this.makeNavbarFixed();
+        $this.addLinkToOptions();
 
         $this.log("Initialized");
+
+    },
+
+    addLinkToOptions: function() {
+        let $menu = $('#navbarColor02 ul').not('.mr-auto');
+
+        let $link = $('<li class="nav-item">\n' +
+            '                            <a href="/?addOn" class="nav-link">AddOn</a>\n' +
+            '                        </li>');
+
+        $menu.prepend($link);
     },
 
     updateCharacterInfos: async function (callback) {
@@ -130,9 +142,7 @@ const Addon = window.Addon = {
     },
 
     addDisplayAllCharactersBtn: function () {
-        let availableUrl = 'https://www.jeuheros.fr/perso/listePersonnage/';
-
-        if (Addon.currentUrl !== availableUrl) {
+        if (!Addon.checkUrl('https://www.jeuheros.fr/perso/listePersonnage/')) {
             return false;
         }
 
@@ -166,9 +176,9 @@ const Addon = window.Addon = {
     },
 
     addValidLinkHistoryMode: function () {
-        let availableUrl = 'https://www.jeuheros.fr/carte';
-
-        this.checkUrl(availableUrl);
+        if(!Addon.checkUrl('https://www.jeuheros.fr/carte')) {
+            return false;
+        }
 
         let selector = '.liensQuetes';
         if ($(selector).length > 0) {
@@ -197,7 +207,9 @@ const Addon = window.Addon = {
     },
 
     addHistoryOnMap: function () {
-        this.checkUrl('https://www.jeuheros.fr/carte');
+        if(!Addon.checkUrl('https://www.jeuheros.fr/carte')) {
+            return false;
+        }
 
         $.ajax({
             url: 'https://www.jeuheros.fr/histoireInfo',
