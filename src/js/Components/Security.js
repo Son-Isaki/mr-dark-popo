@@ -28,6 +28,7 @@ const Security = window.Security = {
         68, // Natsuro
         52, // BdX_D
         89, // Yoohyeon
+        655, // Ragusen
     ],
 
     init: function () {
