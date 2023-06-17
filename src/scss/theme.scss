@@ -23,7 +23,7 @@ body {
     }
 }
 
-span, label {
+span, label, th, td, h1, h2, h3, p {
     color: $white;
 }
 
@@ -136,7 +136,7 @@ span, label {
     margin-top: unset;
     margin-left: unset;
 
-    section, .fondBlancOnly {
+    section, .fondBlancOnly, #zoneObjets, #zoneBoss2, .zoneCapsulesEquipe, .fondCapsulesEquip, .zoneCapsulesEquipe2, .fondCapsulesList, .fondCompetences, .infoPerso {
         background-color: $black !important;
         border-radius: $border-radius !important;
         box-shadow: 0 3px 8px transparentize(black, .7);
@@ -144,7 +144,10 @@ span, label {
         margin: 20px;
         padding: 20px;
         width: calc(100% - 40px);
-        max-width: unset;
+
+        &:not(#zoneInvocation, .persoWorldBossFond) {
+            max-width: unset !important;
+        }
     }
 }
 
@@ -243,4 +246,8 @@ table {
     * {
         color: $white;
     }
+}
+
+.persoWorldBossFond {
+    justify-content: center;
 }

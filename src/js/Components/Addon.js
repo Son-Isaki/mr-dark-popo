@@ -321,6 +321,7 @@ const Addon = window.Addon = {
     reloadInfoPlayer: function () {
         this.addBonusCharacterPointsOnInfoPlayer();
 
+        $('#actions-zone').empty();
         this.addBtnGoToSafeZone();
         this.addBtnInstantHeal70();
         this.addBtnGoToShopEarth();
