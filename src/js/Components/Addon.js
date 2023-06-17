@@ -477,6 +477,11 @@ const Addon = window.Addon = {
         $('<a class="dropdown-item putAllCharInFightZone text-danger" href="#">Sortir tous les personnages favoris</a>')
             .prependTo($dropdownChar)
             .on('click', () => {
+                Addon.listCharactersHtml = $('nav.navbar li.dropdown')
+                    .eq(0)
+                    .find('div.dropdown-menu div.dropdown-menu')
+                    .find('a.dropdown-item')
+                    .clone(true);
                 Notify.notify('Déplacement des personnages favoris en fight zone en cours');
                 Safezone.characterIndex = 0;
                 Safezone.characterInterval = setInterval(() => {
@@ -486,12 +491,40 @@ const Addon = window.Addon = {
         $('<a class="dropdown-item putAllCharInSafeZone text-success" href="#">Rentrer tous les personnages favoris</a>')
             .prependTo($dropdownChar)
             .on('click', () => {
+                Addon.listCharactersHtml = $('nav.navbar li.dropdown')
+                    .eq(0)
+                    .find('div.dropdown-menu div.dropdown-menu')
+                    .find('a.dropdown-item')
+                    .clone(true);
                 Notify.notify('Déplacement des personnages favoris en safe zone en cours');
                 Safezone.characterIndex = 0;
                 Safezone.characterInterval = setInterval(() => {
                     Safezone.putAllCharInSafeZone();
                 }, 1500)
             });
+
+        Addon.changeColorCharacterOnList();
+    },
+
+    changeColorCharacterOnList: function () {
+        Addon.listCharactersHtml = $('nav.navbar li.dropdown')
+            .eq(0)
+            .find('div.dropdown-menu div.dropdown-menu')
+            .find('a.dropdown-item');
+
+        $.each(Addon.listCharactersHtml, function (key, item) {
+            let imgs = $(item)
+                .find('img');
+
+            if (imgs.length <= 3) {
+                $(item).addClass('text-success');
+            } else {
+                let $isOnTrain = imgs.eq(3).attr('src').indexOf('trainn');
+                if ($isOnTrain !== -1) {
+                    $(item).addClass('text-danger');
+                }
+            }
+        });
     },
 
     makeNavbarFixed: function () {

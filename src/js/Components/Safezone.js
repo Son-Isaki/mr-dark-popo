@@ -113,12 +113,6 @@ const Safezone = window.FightsComponent = {
     },
 
     putAllCharInFightZone: function () {
-        Addon.listCharactersHtml = $('nav.navbar li.dropdown')
-            .eq(0)
-            .find('div.dropdown-menu div.dropdown-menu')
-            .find('a.dropdown-item')
-            .clone(true);
-
         if (Addon.listCharactersHtml.length === 0) {
             Notify.notify('Aucun personnage favoris existant', 'danger');
             return false;
