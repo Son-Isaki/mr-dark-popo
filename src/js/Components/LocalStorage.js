@@ -1,4 +1,4 @@
-const Logger = window.Logger = {
+const LocalStorage = window.LocalStorage = {
 
     // variables
 
