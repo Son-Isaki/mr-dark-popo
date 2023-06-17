@@ -68,7 +68,7 @@ const Fights = window.FightsComponent = {
             .appendTo($secondRow)
             .on('change', function () {
                 $this.selectedLife = parseInt($(this).find('input').val());
-                $this.log('Vie max modifiée', $this.selectedLife)
+                // $this.log('Vie max modifiée', $this.selectedLife)
                 Cookies.set(`${Addon.characterInfos.slug}-life`, $this.selectedLife, {expires: Addon.cookiesDuration})
             })
 
@@ -84,7 +84,7 @@ const Fights = window.FightsComponent = {
             .appendTo($secondRow)
             .on('change', function () {
                 $this.selectedRatio = parseFloat($(this).find('input').val());
-                $this.log('Ratio max modifié', $this.selectedRatio)
+                // $this.log('Ratio max modifié', $this.selectedRatio)
                 Cookies.set(`${Addon.characterInfos.slug}-ratio`, $this.selectedRatio, {expires: Addon.cookiesDuration})
             })
 
@@ -100,7 +100,7 @@ const Fights = window.FightsComponent = {
             .appendTo($secondRow)
             .on('change', function () {
                 $this.selectedLevel = parseFloat($(this).find('input').val());
-                $this.log('Niveau max modifié', $this.selectedLevel)
+                // $this.log('Niveau max modifié', $this.selectedLevel)
                 Cookies.set(`${Addon.characterInfos.slug}-level`, $this.selectedLevel, {expires: Addon.cookiesDuration})
             })
 
@@ -118,7 +118,7 @@ const Fights = window.FightsComponent = {
             .find('input')
             .on('change', function () {
                 $this.moveToSafezoneAfter = $('#goToSafeZone').prop('checked');
-                $this.log('Safezone modifié', $this.moveToSafezoneAfter)
+                // $this.log('Safezone modifié', $this.moveToSafezoneAfter)
                 Cookies.set(`${Addon.characterInfos.slug}-safezone`, $this.moveToSafezoneAfter, {expires: Addon.cookiesDuration})
             });
 
