@@ -13,6 +13,7 @@ const Addon = window.Addon = {
     config: [],
     acceptAllFightRunning: false,
     listFighters: {},
+    listFightersTmp: {},
 
     listCharactersHtml: [],
 
@@ -53,7 +54,7 @@ const Addon = window.Addon = {
         $menu.prepend($link);
     },
 
-    updateCharacterInfos: async function (callback) {
+    updateCharacterInfos: async function (callback, html) {
         const $this = this;
 
         let uri = $('.imgPersoActuelDiv a:first-child').attr('href');

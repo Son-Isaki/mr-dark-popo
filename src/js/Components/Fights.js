@@ -14,6 +14,8 @@ const Fights = window.FightsComponent = {
     fightIndex: 0,
     fightInterval: null,
 
+    counterFightList: 0,
+
     init: function () {
         const $this = this;
 
@@ -149,9 +151,10 @@ const Fights = window.FightsComponent = {
 
         let stopLoop = false;
 
+
         while (!stopLoop && $this.fightIndex < Object.keys(Addon.listFighters).length) {
             let $fighter = $(Addon.listFighters[$this.fightIndex]);
-            delete Addon.listFighters[$this.fightIndex];
+            delete Addon.listFightersTmp[$this.fightIndex];
 
             let fightLabel = Utility.trim($fighter.find('td').eq(0).text());
 
@@ -170,6 +173,7 @@ const Fights = window.FightsComponent = {
 
             if (fightLevel < Addon.characterInfos.level) {
                 $this.terminateFightLoop($this.moveToSafezoneAfter);
+                $this.log('fightlevel under character level');
                 return false;
             }
 
@@ -189,6 +193,7 @@ const Fights = window.FightsComponent = {
 
                 // plus assez de vie, fin des combats
                 $this.terminateFightLoop($this.moveToSafezoneAfter);
+                $this.log('No more life...');
 
             } else {
 
@@ -224,6 +229,8 @@ const Fights = window.FightsComponent = {
     },
 
     ajaxFight: function () {
+        const $this = this;
+
         if (!Addon.checkUrl('/listeCombats')) {
             return false;
         }
@@ -232,6 +239,7 @@ const Fights = window.FightsComponent = {
 
         $list.each(function (key, val) {
             Addon.listFighters[key] = val;
+            Addon.listFightersTmp[key] = val.cloneNode(true);
             let $tdCombat = $(val).find('td')[3];
 
             let $idCombat = $($tdCombat).find('a').attr('href').replace('/combattre/', '');
@@ -285,7 +293,7 @@ const Fights = window.FightsComponent = {
 
                             Utility.hideLoader(selectorCombat, resultFight);
                             Addon.reloadInfoPlayer();
-                            delete Addon.listFighters[key];
+                            delete Addon.listFightersTmp[key];
                         }
                     })
 
