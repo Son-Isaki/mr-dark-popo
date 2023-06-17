@@ -78,7 +78,7 @@ const Addon = window.Addon = {
     },
 
     addAllPointsOnStatsBtn: function () {
-        let availableUrl = 'https://www.jeuheros.fr/perso/addpoints/';
+        let availableUrl = 'https://'+document.domain+'/perso/addpoints/';
 
         if (Addon.currentUrl !== availableUrl) {
             return false;
@@ -142,7 +142,7 @@ const Addon = window.Addon = {
     },
 
     addDisplayAllCharactersBtn: function () {
-        if (!Addon.checkUrl('https://www.jeuheros.fr/perso/listePersonnage/')) {
+        if (!Addon.checkUrl('/perso/listePersonnage/')) {
             return false;
         }
 
@@ -176,7 +176,7 @@ const Addon = window.Addon = {
     },
 
     addValidLinkHistoryMode: function () {
-        if(!Addon.checkUrl('https://www.jeuheros.fr/carte')) {
+        if(!Addon.checkUrl('/carte')) {
             return false;
         }
 
@@ -200,19 +200,19 @@ const Addon = window.Addon = {
                     url: fullUrl,
                     crossDomain: true,
                 }).done(function (response) {
-                    window.location.href = 'https://www.jeuheros.fr/carte';
+                    window.location.href = 'https://'+document.domain+'/carte';
                 });
             });
         }
     },
 
     addHistoryOnMap: function () {
-        if(!Addon.checkUrl('https://www.jeuheros.fr/carte')) {
+        if(!Addon.checkUrl('/carte')) {
             return false;
         }
 
         $.ajax({
-            url: 'https://www.jeuheros.fr/histoireInfo',
+            url: 'https://'+document.domain+'/histoireInfo',
             type: 'GET',
             crossDomain: true,
         }).done(function (response) {
@@ -236,7 +236,7 @@ const Addon = window.Addon = {
     },
 
     reverseInfoPlayerOnFight: function () {
-        if (!this.checkUrl('https://www.jeuheros.fr/listeCombats')) {
+        if (!this.checkUrl('https://'+document.domain+'/listeCombats')) {
             return false;
         }
 
@@ -245,9 +245,9 @@ const Addon = window.Addon = {
     },
 
     addBonusCharacterPointsOnInfoPlayer: function () {
-        if (Addon.currentUrl !== 'https://www.jeuheros.fr/perso/infoPersonnage') {
+        if (Addon.currentUrl !== 'https://'+document.domain+'/perso/infoPersonnage') {
             $.ajax({
-                url: 'https://www.jeuheros.fr/perso/infoPersonnage',
+                url: 'https://'+document.domain+'/perso/infoPersonnage',
                 type: 'GET',
                 crossDomain: true,
             }).done(function (response) {
@@ -281,7 +281,7 @@ const Addon = window.Addon = {
     },
 
     stuckInfoPlayer: function () {
-        if (!this.checkUrl('https://www.jeuheros.fr/listeCombats')) {
+        if (!this.checkUrl('https://'+document.domain+'/listeCombats')) {
             return false;
         }
 
@@ -346,10 +346,10 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://www.jeuheros.fr/carte/move/68',
+                url: 'https://'+document.domain+'/carte/move/68',
                 crossDomain: true,
             }).done(function () {
-                window.location.href = 'https://www.jeuheros.fr/listeCombats';
+                window.location.href = 'https://'+document.domain+'/listeCombats';
             });
         });
 
@@ -363,10 +363,10 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://www.jeuheros.fr/carte/move/69',
+                url: 'https://'+document.domain+'/carte/move/69',
                 crossDomain: true,
             }).done(function () {
-                window.location.href = 'https://www.jeuheros.fr/entrainementAttaque/go';
+                window.location.href = 'https://'+document.domain+'/entrainementAttaque/go';
             });
         });
 
@@ -380,10 +380,10 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://www.jeuheros.fr/carte/move/22',
+                url: 'https://'+document.domain+'/carte/move/22',
                 crossDomain: true,
             }).done(function () {
-                window.location.href = 'https://www.jeuheros.fr/entrainementMagie/go';
+                window.location.href = 'https://'+document.domain+'/entrainementMagie/go';
             });
         });
 
@@ -397,10 +397,10 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://www.jeuheros.fr/carte/move/59',
+                url: 'https://'+document.domain+'/carte/move/59',
                 crossDomain: true,
             }).done(function () {
-                window.location.href = 'https://www.jeuheros.fr/entrainementDefense/go';
+                window.location.href = 'https://'+document.domain+'/entrainementDefense/go';
             });
         });
 
@@ -424,7 +424,7 @@ const Addon = window.Addon = {
         button.textContent = 'Fight Tour';
         button.className = 'btn btn-danger mb-1';
         button.addEventListener('click', () => {
-            window.location.href = 'https://www.jeuheros.fr/tour/combat';
+            window.location.href = 'https://'+document.domain+'/tour/combat';
         });
 
         $('.zone1 .couleurBlack').after(button);
@@ -435,7 +435,7 @@ const Addon = window.Addon = {
         button.textContent = 'Safe Zone Terre';
         button.className = 'btn btn-success mb-1';
         button.addEventListener('click', () => {
-            window.location.href = 'https://www.jeuheros.fr/carte/move/59';
+            window.location.href = 'https://'+document.domain+'/carte/move/59';
         });
 
         $('.zone1 .couleurBlack').after(button);
@@ -448,10 +448,10 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://www.jeuheros.fr/carte/move/44',
+                url: 'https://'+document.domain+'/carte/move/44',
                 crossDomain: true,
             }).done(function () {
-                window.location.href = 'https://www.jeuheros.fr/magasinCapsules';
+                window.location.href = 'https://'+document.domain+'/magasinCapsules';
             });
         });
 
@@ -477,7 +477,7 @@ const Addon = window.Addon = {
         $($tabMenu).find('a[href="/perso/listePersonnage/"]').remove();
 
         $($tabMenu).on('click', function () {
-            window.location.href = 'https://www.jeuheros.fr/perso/listePersonnage/';
+            window.location.href = 'https://'+document.domain+'/perso/listePersonnage/';
         })
     },
 
@@ -492,7 +492,7 @@ const Addon = window.Addon = {
         button.addEventListener('click', () => {
             $.ajax({
                 type: 'GET',
-                url: 'https://www.jeuheros.fr/soins',
+                url: 'https://'+document.domain+'/soins',
                 crossDomain: true,
             }).done(function (response) {
                 $(response).find('#soins_choixSoins').val('20000');
@@ -503,11 +503,11 @@ const Addon = window.Addon = {
 
                 $.ajax({
                     type: 'POST',
-                    url: 'https://www.jeuheros.fr/soins',
+                    url: 'https://'+document.domain+'/soins',
                     data: form.serialize().replace('5000', '20000'),
                     crossDomain: true,
                     success: function (data) {
-                        window.location.href = 'https://www.jeuheros.fr/listeCombats';
+                        window.location.href = 'https://'+document.domain+'/listeCombats';
                     }
                 })
             });
@@ -523,8 +523,9 @@ const Addon = window.Addon = {
         $this.injectStyle('#wrapper { margin-top: 80px; }');
     },
 
-    checkUrl: function (url) {
-        return Addon.currentUrl === url;
+    checkUrl: function (match) {
+        this.log('checkurl', Addon.currentUrl.indexOf(match));
+        return Addon.currentUrl.indexOf(match) !== -1;
     },
 
     getGamer: function () {

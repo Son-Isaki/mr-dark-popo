@@ -14,11 +14,11 @@ const Utility = window.Utility = {
         'mini-60e02de3799cc-1.png': 'Muten Roshi',
     },
     safeZoneByPlanet: {
-        'terre': 'https://www.jeuheros.fr/carte/move/59',
-        'konoh': 'https://www.jeuheros.fr/carte/move/148',
-        'bleas': 'https://www.jeuheros.fr/carte/move/717',
-        'minipo': 'https://www.jeuheros.fr/carte/move/391',
-        'konohaearth': 'https://www.jeuheros.fr/carte/move/328',
+        'terre': 'https://'+document.domain+'/carte/move/59',
+        'konoh': 'https://'+document.domain+'/carte/move/148',
+        'bleas': 'https://'+document.domain+'/carte/move/717',
+        'minipo': 'https://'+document.domain+'/carte/move/391',
+        'konohaearth': 'https://'+document.domain+'/carte/move/328',
     },
 
     slugify: function (str) {

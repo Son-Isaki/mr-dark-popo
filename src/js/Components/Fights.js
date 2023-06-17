@@ -26,7 +26,7 @@ const Fights = window.FightsComponent = {
     addAutoFightFormToView: async function () {
         const $this = this;
 
-        if (!Addon.checkUrl('https://www.jeuheros.fr/listeCombats')) {
+        if (!Addon.checkUrl('/listeCombats')) {
             return false;
         }
 
@@ -211,7 +211,7 @@ const Fights = window.FightsComponent = {
     },
 
     ajaxFight: function () {
-        if (!Addon.checkUrl('https://www.jeuheros.fr/listeCombats')) {
+        if (!Addon.checkUrl('/listeCombats')) {
             return false;
         }
 
@@ -222,7 +222,7 @@ const Fights = window.FightsComponent = {
             let $tdCombat = $(val).find('td')[3];
 
             let $idCombat = $($tdCombat).find('a').attr('href').replace('/combattre/', '');
-            let urlCombat = 'https://www.jeuheros.fr/combattre/' + $idCombat;
+            let urlCombat = 'https://'+document.domain+'/combattre/' + $idCombat;
 
             let $newHtml = $('<span class="newfight canFight btn btn-secondary" data-id="' + $idCombat + '">Combattre</span>');
             $($tdCombat).html($newHtml);
