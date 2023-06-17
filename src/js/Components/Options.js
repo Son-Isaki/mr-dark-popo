@@ -1,4 +1,4 @@
-const Options = window.options = {
+const Options = window.Options = {
 
     options: [
         'addon_display_timer_refresh_life',

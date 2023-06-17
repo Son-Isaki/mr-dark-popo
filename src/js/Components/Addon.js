@@ -524,7 +524,6 @@ const Addon = window.Addon = {
     },
 
     checkUrl: function (match) {
-        this.log('checkurl', Addon.currentUrl.indexOf(match));
         return Addon.currentUrl.indexOf(match) !== -1;
     },
 
