@@ -33,6 +33,7 @@ const Addon = window.Addon = {
         $this.displayTimerRefreshLife();
         $this.reloadInfoPlayer();
         $this.updateNavbarTop();
+        $this.makeNavbarFixed();
 
         $this.log("Initialized");
     },
@@ -501,6 +502,13 @@ const Addon = window.Addon = {
         });
 
         $('.zone1 .couleurBlack').after(button);
+    },
+
+    makeNavbarFixed: function () {
+        const $this = this;
+
+        $('nav.navbar').addClass('fixed-top');
+        $this.injectStyle('#wrapper { margin-top: 80px; }');
     },
 
     checkUrl: function (url) {
