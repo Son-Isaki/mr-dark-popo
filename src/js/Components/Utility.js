@@ -97,6 +97,8 @@ const Utility = window.Utility = {
 
     refreshInfoUser: function (html) {
         $('.zone1sub').html(html);
+
+        Addon.updateCharacterInfos();
     },
 
     showLoader: function (selector) {
