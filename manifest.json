@@ -25,6 +25,7 @@
 				"https://www.jeuheros.fr/css/*"
 			],
 			"include_globs": [
+				"https://jeuheros.fr/*",
 				"https://www.jeuheros.fr/*"
 			],
 			"js": [
@@ -35,6 +36,7 @@
 				"dist/js/app.min.js"
 			],
 			"matches": [
+				"https://jeuheros.fr/*",
 				"https://www.jeuheros.fr/*"
 			]
 		}
