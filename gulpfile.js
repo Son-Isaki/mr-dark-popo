@@ -20,7 +20,7 @@ gulp.task('pug', function () {
         .pipe(plumber({
             errorHandler: notify.onError(function (err) {
                 return {
-                    title: 'Html',
+                    title: 'pug',
                     message: err.message
                 }
             })
@@ -35,7 +35,7 @@ gulp.task('scss', function () {
         .pipe(plumber({
             errorHandler: notify.onError(function (err) {
                 return {
-                    title: 'Style_scss',
+                    title: 'scss',
                     message: err.message
                 }
             })
@@ -51,6 +51,14 @@ gulp.task('scss', function () {
 
 gulp.task('js', function () {
     return gulp.src('./src/js/**/*.js')
+        .pipe(plumber({
+            errorHandler: notify.onError(function (err) {
+                return {
+                    title: 'js',
+                    message: err.message
+                }
+            })
+        }))
         .pipe(sourcemaps.init())
         .pipe(concat('app.js'))
         .pipe(rename({suffix: '.min'}))
@@ -61,19 +69,37 @@ gulp.task('js', function () {
 
 gulp.task('libs', function () {
     return gulp.src('./src/libs/**/*.*')
+        .pipe(plumber({
+            errorHandler: notify.onError(function (err) {
+                return {
+                    title: 'libs',
+                    message: err.message
+                }
+            })
+        }))
         .pipe(gulp.dest('./dist/libs'))
 })
 
 gulp.task('imgs', function () {
     return gulp.src('./src/img/**/*.*')
+        .pipe(plumber({
+            errorHandler: notify.onError(function (err) {
+                return {
+                    title: 'imgs',
+                    message: err.message
+                }
+            })
+        }))
         .pipe(gulp.dest('./dist/img'))
 })
 
-gulp.task('build', gulp.series('imgs', 'libs', 'pug', 'js', 'scss'))
-gulp.task('watch', gulp.series('build', function () {
+gulp.task('watch', function () {
     gulp.watch('./src/pug/**/*.pug', gulp.series('pug'))
     gulp.watch('./src/scss/**/*.scss', gulp.series('scss'))
     gulp.watch('./src/js/**/*.js', gulp.series('js'))
     gulp.watch('./src/libs/**/*', gulp.series('libs'))
     gulp.watch('./src/imgs/**/*', gulp.series('imgs'))
-}))
+})
+
+gulp.task('build', gulp.series('imgs', 'libs', 'pug', 'js', 'scss'))
+gulp.task('dev', gulp.series(['build', 'watch']))
