@@ -433,7 +433,7 @@ const Addon = window.Addon = {
     addBtnGoToSafeZone: function () {
         const button = document.createElement('button');
         button.textContent = 'Safe Zone Terre';
-        button.className = 'btn btn-success mb-1';
+        button.className = 'btn btn-success mb-1 safeZone';
         button.addEventListener('click', () => {
             window.location.href = 'https://'+document.domain+'/carte/move/59';
         });

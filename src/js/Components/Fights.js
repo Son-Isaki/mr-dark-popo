@@ -105,6 +105,7 @@ const Fights = window.FightsComponent = {
             $this.moveToSafezoneAfter = Cookies.get(`${Addon.characterInfos.slug}-safezone`) === 'true';
             if (typeof $this.moveToSafezoneAfter === 'undefined')
                 $this.moveToSafezoneAfter = false;
+
             $(`<td><input type="checkbox" name="goToSafeZone" id="goToSafeZone" class="ml-1" ${$this.moveToSafezoneAfter ? "checked=\"checked\"" : ""} /></td>`)
                 .appendTo($secondRow)
                 .find('input')
@@ -132,7 +133,7 @@ const Fights = window.FightsComponent = {
             $('<td><button type="button" class="btn btn-dark">Stopper</button></td>')
                 .appendTo($secondRow)
                 .on('click', function () {
-                    $this.terminateFightLoop(false);
+                    $this.terminateFightLoop($this.moveToSafezoneAfter);
                 })
         });
     },
@@ -175,7 +176,7 @@ const Fights = window.FightsComponent = {
             } else if (!isLifeSafe) {
 
                 // plus assez de vie, fin des combats
-                $this.terminateFightLoop(true);
+                $this.terminateFightLoop($this.moveToSafezoneAfter);
 
             } else {
 
@@ -192,7 +193,7 @@ const Fights = window.FightsComponent = {
         }
 
         if ($this.fightIndex >= Object.keys(Addon.listFighters).length) {
-            $this.terminateFightLoop(true);
+            $this.terminateFightLoop($this.moveToSafezoneAfter);
         }
     },
 
