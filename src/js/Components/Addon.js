@@ -483,7 +483,7 @@ const Addon = window.Addon = {
     },
 
     splitFastChangeMenu: function () {
-        Addon.injectStyle('nav li.dropdown .dropdown-menu .dropdown-menu { columns: 3; }');
+        Addon.injectStyle('nav li.dropdown .dropdown-menu .dropdown-menu { columns: 4; }');
     },
 
     addBtnInstantHeal70: function () {
