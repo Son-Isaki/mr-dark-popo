@@ -47,6 +47,7 @@ const Addon = window.Addon = {
         $this.reloadInfoPlayer();
         $this.updateNavbarTop();
         $this.makeNavbarFixed();
+        $this.stuckInfoPlayerOnScroll();
 
         Utility.includeStyle('dist/css/app.min.css')
 
@@ -108,6 +109,24 @@ const Addon = window.Addon = {
         data.experienceMax = raw[1];
 
         $this.characterInfos = data;
+    },
+
+    stuckInfoPlayerOnScroll: function() {
+        if (LocalStorage.get(Options.OPTIONS.fixInfoPlayerOnScroll, 'false') === 'false') {
+            return false;
+        }
+
+        const $this = this;
+
+        $(window).scroll( () => {
+            let $scrollTop = $(window).scrollTop() - 50;
+
+            let $blockToMove = $('.zone1');
+            $blockToMove.css({
+                position: 'relative',
+                top: $scrollTop+'px'
+            });
+        });
     },
 
     addAllPointsOnStatsBtn: function () {
