@@ -73,11 +73,12 @@ const Addon = window.Addon = {
             data.slug = Utility.slugify(data.name);
             data.level = parseInt($content.find('.zone2 .infoPersoAvatar h3 + p').text().replace("Niveau ", ""));
 
-            raw = $('.infoPersoAvatar').find('table:first').find('tr:first-child td:last-child').text().split('/');
+            let $table = $content.find('.zoneTextePersoInfoAvatar table:first');
+            raw = $table.find('tr:first-child td:last-child').text().split('/');
             data.lifeMin = raw[0];
             data.lifeMax = raw[1];
 
-            raw = $('.infoPersoAvatar').find('table:first').find('tr:last-child td:last-child').text().split('/');
+            raw = $table.find('tr:last-child td:last-child').text().split('/');
             data.experienceMin = raw[0];
             data.experienceMax = raw[1];
 
