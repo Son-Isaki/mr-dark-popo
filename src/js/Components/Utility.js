@@ -3,16 +3,13 @@ const Utility = window.Utility = {
         'addon_timer_fight',
     ],
     fields: {},
-    options: [
-        // 'addon_auto_logger',
-        'addon_add_fight_menu',
-    ],
     settings: [],
     loaderOldContent: [],
 
     miniPersos: {
         'mini-60e02de3799cc-1.png': 'Muten Roshi',
     },
+
     urlSafeZoneByPlanet: {
         'terre': 'https://' + document.domain + '/carte/move/59',
         'konohss': 'https://' + document.domain + '/carte/move/148',
@@ -20,12 +17,26 @@ const Utility = window.Utility = {
         'minipo': 'https://' + document.domain + '/carte/move/391',
         'konohaearth': 'https://' + document.domain + '/carte/move/328',
     },
+
     urlFightZoneByPlanet: {
         'terre': 'https://' + document.domain + '/carte/move/68',
         'konohss': 'https://' + document.domain + '/carte/move/139',
         'bleas': 'https://' + document.domain + '/carte/move/716',
         'minipo': 'https://' + document.domain + '/carte/move/374',
         'konohaearth': 'https://' + document.domain + '/carte/move/329',
+    },
+
+    characterLevels: {
+        1: 50,
+        12: 22000,
+        13: 29000,
+        14: 37000,
+        15: 56000,
+        16: 76000,
+        17: 97000,
+        18: 119000,
+        19: 163000,
+        20: 168213,
     },
 
     slugify: function (str) {

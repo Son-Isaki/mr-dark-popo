@@ -10,7 +10,12 @@ const Router = window.Router = {
         {
             name: "Inventaire",
             path: '/inventaire',
-            callback: 'initInventoryListPage',
+            callback: 'initInventoryPage',
+        },
+        {
+            name: "Profil",
+            path: '/profilJoueur',
+            callback: 'initProfilPage',
         },
     ],
 
@@ -58,7 +63,7 @@ const Router = window.Router = {
         });
     },
 
-    initInventoryListPage: function () {
+    initInventoryPage: function () {
         const $this = this;
 
         $('<h2>Inventaire</h2>')
@@ -92,7 +97,7 @@ const Router = window.Router = {
                     $this.filterInventory();
                 });
 
-            let url = new URL('https://'+document.domain+'/inventaire/filter')
+            let url = new URL('https://' + document.domain + '/inventaire/filter')
             url.search = new URLSearchParams({
                 type: typeName,
             }).toString();
@@ -143,6 +148,27 @@ const Router = window.Router = {
 
                 });
         });
+    },
+
+    initProfilPage: function () {
+        const $this = this;
+
+        let data = {};
+        $('.dropdown-menu .dropdown-menu .dropdown-item').each(function () {
+            let icon = $(this).find('img:first-of-type').attr('src');
+            let displayName = $(this).text();
+            let name = Utility.slugify(displayName);
+            data[name] = icon;
+        });
+        $this.log(data);
+
+        let $section = $('<section>').insertAfter($('.flexZoneInfoPerso'));
+        let $label = $('<label>')
+            .text('Mapping des personnages (DEV)')
+            .appendTo($section);
+        let $textarea = $('<textarea cols="90" rows="10">')
+            .val(JSON.stringify(data))
+            .appendTo($section)
     },
 
     log: function (...args) {
