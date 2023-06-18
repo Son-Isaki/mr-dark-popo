@@ -85,11 +85,11 @@ const Addon = window.Addon = {
 
             let $table = $content.find('.zoneTextePersoInfoAvatar table:first');
             raw = $table.find('tr:first-child td:last-child').text().split('/');
-            data.lifeMin = raw[0];
+            data.lifeCurrent = raw[0];
             data.lifeMax = raw[1];
 
             raw = $table.find('tr:last-child td:last-child').text().split('/');
-            data.experienceMin = raw[0];
+            data.experienceCurrent = raw[0];
             data.experienceMax = raw[1];
 
             $this.characterInfos = data;
