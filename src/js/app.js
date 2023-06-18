@@ -5,6 +5,7 @@ $('document').ready(function () {
         return false;
     }
 
+    Database.init();
     Addon.init();
     Theme.init();
     Notify.init();

@@ -24,6 +24,9 @@ const Addon = window.Addon = {
 
         $this.currentUrl = document.URL;
 
+        // database update
+        Database.getUpdateCharacters();
+
         $this.updateCharacterInfos().then((response) => {
             Events.trigger(Events.CharacterLoaded, $this.characterInfos);
         });

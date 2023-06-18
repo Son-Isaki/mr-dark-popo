@@ -6,10 +6,6 @@ const Utility = window.Utility = {
     settings: [],
     loaderOldContent: [],
 
-    miniPersos: {
-        'mini-60e02de3799cc-1.png': 'Muten Roshi',
-    },
-
     urlSafeZoneByPlanet: {
         'terre': 'https://' + document.domain + '/carte/move/59',
         'konohss': 'https://' + document.domain + '/carte/move/148',

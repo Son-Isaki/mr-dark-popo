@@ -12,11 +12,11 @@ const Router = window.Router = {
             path: '/inventaire',
             callback: 'initInventoryPage',
         },
-        {
-            name: "Profil",
-            path: '/profilJoueur',
-            callback: 'initProfilPage',
-        },
+        // {
+        //     name: "Profil",
+        //     path: '/profilJoueur',
+        //     callback: 'initProfilPage',
+        // },
     ],
 
     init: function () {
@@ -148,27 +148,6 @@ const Router = window.Router = {
 
                 });
         });
-    },
-
-    initProfilPage: function () {
-        const $this = this;
-
-        let data = {};
-        $('.dropdown-menu .dropdown-menu .dropdown-item').each(function () {
-            let icon = $(this).find('img:first-of-type').attr('src');
-            let displayName = $(this).text();
-            let name = Utility.slugify(displayName);
-            data[name] = icon;
-        });
-        $this.log(data);
-
-        let $section = $('<section>').insertAfter($('.flexZoneInfoPerso'));
-        let $label = $('<label>')
-            .text('Mapping des personnages (DEV)')
-            .appendTo($section);
-        let $textarea = $('<textarea cols="90" rows="10">')
-            .val(JSON.stringify(data))
-            .appendTo($section)
     },
 
     log: function (...args) {
