@@ -1,0 +1,100 @@
+.character-avatar {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    box-shadow: unset;
+    border: 5px solid $black-border;
+    min-width: 300px;
+    min-height: 400px;
+
+    &.small {
+        min-width: 150px;
+        min-height: 200px;
+        margin-bottom: 20px;
+    }
+
+    img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: auto;
+    }
+
+    .background {
+        width: 300%;
+        filter: blur(5px);
+        z-index: 10;
+    }
+
+    &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(transparent 35%, transparentize(black, .35));
+        z-index: 20;
+    }
+
+    .effect {
+        width: 105%;
+        height: 105%;
+        mix-blend-mode: lighten;
+        z-index: 30;
+    }
+
+    .avatar {
+        width: 105%;
+        filter: drop-shadow(0 0 5px transparentize(black, 0));
+        z-index: 40;
+    }
+
+    .eveil {
+        z-index: 50;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+
+        i {
+            font-size: 1.35rem;
+            filter: drop-shadow(0 0 5px transparentize(black, 0));
+        }
+    }
+}
+
+progress {
+    height: 12px;
+    appearance: none;
+
+    &::-webkit-progress-bar {
+        border-radius: 999px;
+    }
+
+    &::-webkit-progress-value {
+        border-radius: 999px;
+    }
+
+    &.red {
+        &::-webkit-progress-bar {
+            background-color: #8E4333;
+        }
+        &::-webkit-progress-value {
+            background-color: #CC6557;
+        }
+    }
+
+    &.blue {
+        &::-webkit-progress-bar {
+            background-color: #2D8295;
+        }
+        &::-webkit-progress-value {
+            background-color: #57B7CC;
+        }
+    }
+}

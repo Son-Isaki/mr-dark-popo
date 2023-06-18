@@ -1,0 +1,35 @@
+.btn-filter {
+    position: relative;
+    margin: 20px 20px;
+    cursor: pointer;
+    user-select: none;
+
+    input {
+        display: none;
+
+        &:checked + span {
+            color: $orange;
+
+            &::before {
+                background-image: url('../img/theme/orange_checkbox-checked.png');
+            }
+        }
+    }
+
+    span {
+        padding-left: 28px;
+        text-transform: uppercase;
+
+        &::before {
+            content: '';
+            background-image: url('../img/theme/white_checkbox.png');
+            background-size: cover;
+            background-position: center center;
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            left: 0;
+            top: -1px;
+        }
+    }
+}
