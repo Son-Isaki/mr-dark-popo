@@ -26,6 +26,7 @@ const Options = window.Options = {
         removeLinkInfoPerso: 'remove-link-info-perso',
 
         fixNavbarTop: 'fix-navbar-top',
+        customAvatar: 'custom-avatar',
     },
 
     OPTIONS_LABEL: {
@@ -50,6 +51,7 @@ const Options = window.Options = {
         changeCharacterColorUnavailable: 'Changer la couleur des personnages favoris indisponible',
         removeLinkInfoPerso: 'Retirer le lien Info Persos dans le menu Personnages',
         fixNavbarTop: 'Fixer la barre de navigation en haut',
+        customAvatar: 'Pouvoir utiliser des avatar customs',
     },
 
     MORE_OPTIONS: {

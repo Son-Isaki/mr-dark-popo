@@ -14,5 +14,5 @@ $('document').ready(function () {
     Notify.init();
     Fights.init();
     Safezone.init();
-
+    Avatar.init();
 })

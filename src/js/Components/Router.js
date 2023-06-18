@@ -12,6 +12,11 @@ const Router = window.Router = {
             path: '/inventaire',
             callback: InventoryPage,
         },
+        {
+            name: "Personnage",
+            path: '/perso/infoPersonnage',
+            callback: CharacterPage,
+        }
         // {
         //     name: "Profil",
         //     path: '/profilJoueur',

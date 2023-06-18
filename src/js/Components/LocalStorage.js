@@ -23,8 +23,8 @@ const LocalStorage = window.LocalStorage = {
 
         // localStorage
         value = localStorage.getItem(key);
-        $this.log('getItem : ', key, 'value : ', value, typeof value);
-        if (value === 'null') {
+        // $this.log('getItem : ', key, 'value : ', value, typeof value);
+        if (value === null) {
             return defaultValue;
         }
 
