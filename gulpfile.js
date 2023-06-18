@@ -51,7 +51,12 @@ gulp.task('scss', function () {
 // copy work files in to build folder
 
 gulp.task('js', function () {
-    return gulp.src('./src/js/**/*.js')
+    return gulp.src(
+        [
+            './src/js/Pages/*.js',
+            './src/js/Components/*.js',
+            './src/js/app.js'
+        ])
         .pipe(plumber({
             errorHandler: notify.onError(function (err) {
                 return {
