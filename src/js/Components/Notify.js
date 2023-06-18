@@ -4,7 +4,7 @@ const Notify = window.Notify = {
     addSelector: '.btn-add-bonus',
     subSelector: '.btn-remove-bonus',
     disabledClass: 'readonly',
-    duration: 2000,
+    duration: 200000,
 
     init: function () {
         const $this = this;

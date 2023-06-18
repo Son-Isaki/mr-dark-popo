@@ -171,17 +171,17 @@ const Options = window.Options = {
                         let status, statusNotify;
 
                         if (value === "true") {
-                            status = 'activé';
+                            status = 'activée';
                             statusNotify = 'success';
                         } else {
-                            status = 'désactivé';
+                            status = 'désactivée';
                             statusNotify = 'warning';
                         }
 
                         $this.log('try to trigger an event', option);
                         Events.trigger(option);
 
-                        Notify.notify("L'option <span class=\"text-danger\">"+$('#'+option+'-label').val()+"</span> a été "+status, statusNotify);
+                        Notify.notify("L'option <span>" + $('#' + option + '-label').val() + "</span> a été "+status, statusNotify);
 
                         break;
                 }

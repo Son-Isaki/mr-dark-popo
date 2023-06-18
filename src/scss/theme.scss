@@ -359,16 +359,20 @@ table {
         margin-right: 10px;
     }
 
-    span {
-        color: inherit;
+    .alert-message {
+        color: $white
     }
 
-    &.alert-warning {
+    &.alert-warning .alert-message span {
         color: $orange;
     }
 
-    &.alert-success {
+    &.alert-success .alert-message span {
         color: $green;
+    }
+
+    &.close {
+        display: none;
     }
 }
 
