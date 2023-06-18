@@ -11,6 +11,8 @@ const Theme = window.Theme = {
 
         Utility.includeStyle('dist/css/theme.min.css')
         $this.initTopBar();
+        $this.initAvatars();
+        $this.initProgressBars();
 
         $this.log("Initialized");
 
@@ -39,6 +41,60 @@ const Theme = window.Theme = {
         $('.zone2')
             .addClass('col-md-9');
 
+    },
+
+    initAvatars: function () {
+        $('.imgPersoActuel').each(function () {
+            let $avatar = $(this);
+
+            let $container = $('<div class="character-avatar small">')
+                .insertAfter($avatar);
+
+            let $background = $('<img class="background">')
+                .attr('src', $avatar.attr('src'))
+                .appendTo($container);
+
+            let $effect = $('<img class="effect">')
+                .attr('src', Utility.getExtensionFilePath('dist/img/theme/avatar-effect.jpg'))
+                .appendTo($container);
+
+            $avatar
+                .removeClass('imgPersoActuel')
+                .addClass('avatar')
+                .appendTo($container);
+        });
+        $('.absoluDivAvatar').each(function () {
+            let $container = $(this)
+                .removeClass('absoluDivAvatar')
+                .addClass('character-avatar');
+
+            let $avatar = $(this).find('img');
+
+            $avatar
+                .removeClass('infoPersoAvatar borderPersoAvatar')
+                .addClass('avatar');
+
+            let $background = $('<img class="background">')
+                .attr('src', $avatar.attr('src'))
+                .appendTo($container);
+
+            let $effect = $('<img class="effect">')
+                .attr('src', Utility.getExtensionFilePath('dist/img/theme/avatar-effect.jpg'))
+                .appendTo($container);
+
+            $container.find('p')
+                .addClass('eveil')
+
+            $avatar
+                .removeClass('imgPersoActuel')
+                .addClass('avatar')
+                .appendTo($container);
+        });
+    },
+
+    initProgressBars: function () {
+        $('#filePV, .cadrePersoList progress:first').addClass('red');
+        $('#file, .expBarInfoPerso').addClass('blue');
     },
 
     log: function (...args) {
