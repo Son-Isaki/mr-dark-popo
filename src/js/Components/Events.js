@@ -15,6 +15,10 @@ const Events = window.Events = {
         $(document).on(eventName, callback);
     },
 
+    unregister: function (eventName, callback) {
+        $(document).off(eventName, callback);
+    },
+
     log: function (...args) {
         Logger.log(Logger.COLORS.teal, 'Events', ...args);
     },
