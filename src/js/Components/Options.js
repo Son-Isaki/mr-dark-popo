@@ -109,14 +109,14 @@ const Options = window.Options = {
         $.each($this.OPTIONS, (id, option)=> {
             $this.log('loop', id, option);
             let $row = $('<div class="input-group"></div>');
-            let $label = $('<input type="text" class="form-control" id="'+option+'-label" disabled/>');
+            let $label = $('<label class="form-control" id="'+option+'-label" for="'+option+'"></label>');
             let $inputGroup = $('<div class="input-group-text"></div>');
             let $input = $('<input type="checkbox" class="checkbox-addon-options" data-toggle="toggle" id="'+option+'"> ');
             if ($this.MORE_OPTIONS[option]) {
                 $input.attr('data-option', $this.MORE_OPTIONS[option]);
             }
 
-            $label.val($this.OPTIONS_LABEL[id]);
+            $label.html($this.OPTIONS_LABEL[id]);
 
             $row.append($label);
             $row.append($inputGroup);
@@ -181,7 +181,7 @@ const Options = window.Options = {
                         $this.log('try to trigger an event', option);
                         Events.trigger(option);
 
-                        Notify.notify("L'option <span>" + $('#' + option + '-label').val() + "</span> a été "+status, statusNotify);
+                        Notify.notify("L'option <span>" + $('#' + option + '-label').html() + "</span> a été "+status, statusNotify);
 
                         break;
                 }
