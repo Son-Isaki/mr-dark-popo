@@ -50,6 +50,7 @@ const Options = window.Options = {
         $container.html('');
 
         $('.zone2').attr('class', 'zone2 col-md-12')
+        $('.infoPersoProfilPublic').remove();
 
         let $title = $('<h2>Gestion des options de l\'Addon</h2>');
         $container.append($title);
