@@ -287,6 +287,12 @@ const Addon = window.Addon = {
     },
 
     displayTimerRefreshLife: function () {
+
+        if (LocalStorage.get(Options.OPTIONS.showTimerRefreshLife, 'false') === 'false') {
+            return false;
+        }
+
+
         setInterval(function () {
             let currentTime = new Date(); // Récupère l'heure actuelle
             let targetTime = new Date(); // Initialise l'heure cible
