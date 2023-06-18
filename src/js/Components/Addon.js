@@ -24,13 +24,15 @@ const Addon = window.Addon = {
         else $this.log('Debug mode is inactive');
 
         $this.currentUrl = document.URL;
+        Options.initOptions();
 
         // database update
-        Database.getUpdateCharacters();
+        // Database.getUpdateCharacters();
 
         $this.updateCharacterInfos().then((response) => {
             Events.trigger(Events.CharacterLoaded, $this.characterInfos);
         });
+        $this.addLinkToOptions();
         $this.addActionsZoneToView();
         $this.addAllPointsOnStatsBtn();
         $this.addDisplayAllCharactersBtn();
@@ -38,11 +40,10 @@ const Addon = window.Addon = {
         $this.addValidLinkHistoryMode();
         $this.addHistoryOnMap();
         $this.reverseInfoPlayerOnFight();
-        $this.displayTimerRefreshLife();
+        $this.showTimerRefreshLife();
         $this.reloadInfoPlayer();
         $this.updateNavbarTop();
         $this.makeNavbarFixed();
-        $this.addLinkToOptions();
 
         Utility.includeStyle('dist/css/app.min.css')
 
@@ -63,7 +64,7 @@ const Addon = window.Addon = {
             .eq(0)
             .find('a')
             .attr('href');
-        
+
         let $link = $('<li class="nav-item"><a href="'+$profileLink+'/?addOn" class="nav-link">Addon</a></li>');
 
         $menu.prepend($link);
@@ -101,6 +102,10 @@ const Addon = window.Addon = {
     },
 
     addAllPointsOnStatsBtn: function () {
+        if (LocalStorage.get(Options.OPTIONS.btnAddRemoveAllBonusPoints, 'false') === 'false') {
+            return false;
+        }
+
         let availableUrl = 'https://' + document.domain + '/perso/addpoints/';
 
         if (Addon.currentUrl !== availableUrl) {
@@ -165,6 +170,10 @@ const Addon = window.Addon = {
     },
 
     addDisplayAllCharactersBtn: function () {
+        if (LocalStorage.get(Options.OPTIONS.btnDisplayAllChars, 'false') === 'false') {
+            return false;
+        }
+
         if (!Addon.checkUrl('/perso/listePersonnage/')) {
             return false;
         }
@@ -197,6 +206,10 @@ const Addon = window.Addon = {
     },
 
     addValidLinkHistoryMode: function () {
+        if (LocalStorage.get(Options.OPTIONS.validLinkHistoryMode, 'false') === 'false') {
+            return false;
+        }
+
         if (!Addon.checkUrl('/carte')) {
             return false;
         }
@@ -228,6 +241,11 @@ const Addon = window.Addon = {
     },
 
     addHistoryOnMap: function () {
+        if (LocalStorage.get(Options.OPTIONS.showHistoryModeOnMap, 'false') === 'false') {
+            return false;
+        }
+
+
         if (!Addon.checkUrl('/carte')) {
             return false;
         }
@@ -263,6 +281,10 @@ const Addon = window.Addon = {
     },
 
     reverseInfoPlayerOnFight: function () {
+        if (LocalStorage.get(Options.OPTIONS.reverseInfoPlayer, 'false') === 'false') {
+            return false;
+        }
+
         if (!this.checkUrl('https://' + document.domain + '/listeCombats')) {
             return false;
         }
@@ -271,6 +293,10 @@ const Addon = window.Addon = {
     },
 
     addBonusCharacterPointsOnInfoPlayer: function () {
+        if (LocalStorage.get(Options.OPTIONS.showBonusCharacterPoints, 'false') === 'false') {
+            return false;
+        }
+
         if (Addon.currentUrl !== 'https://' + document.domain + '/perso/infoPersonnage') {
             $.ajax({
                 url: 'https://' + document.domain + '/perso/infoPersonnage',
@@ -306,14 +332,15 @@ const Addon = window.Addon = {
         }
     },
 
-    displayTimerRefreshLife: function () {
-
+    showTimerRefreshLife: function () {
         if (LocalStorage.get(Options.OPTIONS.showTimerRefreshLife, 'false') === 'false') {
+            $('#timerRefreshLife').remove();
+            clearInterval(Addon.timerRefreshLifeInterval);
             return false;
         }
 
 
-        setInterval(function () {
+        Addon.timerRefreshLifeInterval = setInterval(function () {
             let currentTime = new Date(); // Récupère l'heure actuelle
             let targetTime = new Date(); // Initialise l'heure cible
             targetTime.setMinutes(41); // Définit les minutes à 41
@@ -364,6 +391,10 @@ const Addon = window.Addon = {
     },
 
     addBtnGoToSafeZone: function () {
+        if (LocalStorage.get(Options.OPTIONS.showSafeZoneInActions, 'false') === 'false') {
+            return false;
+        }
+
         $('<button type="button" class="btn btn-sm btn-success">Safezone Terre</button>')
             .on('click', function () {
                 $.ajax({
@@ -378,6 +409,10 @@ const Addon = window.Addon = {
     },
 
     addBtnGoToShopEarth: function () {
+        if (LocalStorage.get(Options.OPTIONS.showShopInActions, 'false') === 'false') {
+            return false;
+        }
+
         $('<button type="button" class="btn btn-sm btn-warning">Boutique de capsules Terre</button>')
             .on('click', function () {
                 $.ajax({
@@ -392,6 +427,10 @@ const Addon = window.Addon = {
     },
 
     addBtnGoToFightZone: function () {
+        if (LocalStorage.get(Options.OPTIONS.showFightZoneInActions, 'false') === 'false') {
+            return false;
+        }
+
         $('<button type="button" class="btn btn-sm btn-danger">Zone de combat Terre</button>')
             .on('click', function () {
                 $.ajax({
@@ -406,6 +445,10 @@ const Addon = window.Addon = {
     },
 
     addBtnInstantHeal70: function () {
+        if (LocalStorage.get(Options.OPTIONS.showHealInActions, 'false') === 'false') {
+            return false;
+        }
+
         $('<button type="button" class="btn btn-sm btn-success">Heal 70%</button>')
             .on('click', function () {
                 $.ajax({
@@ -434,6 +477,10 @@ const Addon = window.Addon = {
     },
 
     addBtnFightToTower: function () {
+        if (LocalStorage.get(Options.OPTIONS.showFightTourInActions, 'false') === 'false') {
+            return false;
+        }
+
         $('<button type="button" class="btn btn-sm btn-danger">Tour de combat</button>')
             .on('click', function () {
                 window.location.href = 'https://' + document.domain + '/tour/combat';
@@ -442,6 +489,10 @@ const Addon = window.Addon = {
     },
 
     addBtnGoToTrainAtqEarth: function () {
+        if (LocalStorage.get(Options.OPTIONS.showTrainsInActions, 'false') === 'false') {
+            return false;
+        }
+
         $('<button type="button" class="btn btn-sm btn-primary">Train attaque Terre</button>')
             .on('click', function () {
                 $.ajax({
@@ -456,6 +507,10 @@ const Addon = window.Addon = {
     },
 
     addBtnGoToTrainMagEarth: function () {
+        if (LocalStorage.get(Options.OPTIONS.showTrainsInActions, 'false') === 'false') {
+            return false;
+        }
+
         $('<button type="button" class="btn btn-sm btn-primary">Train magie Terre</button>')
             .on('click', function () {
                 $.ajax({
@@ -470,6 +525,10 @@ const Addon = window.Addon = {
     },
 
     addBtnGoToTrainDefEarth: function () {
+        if (LocalStorage.get(Options.OPTIONS.showTrainsInActions, 'false') === 'false') {
+            return false;
+        }
+
         $('<button type="button" class="btn btn-sm btn-primary">Train défense Terre</button>')
             .on('click', function () {
                 $.ajax({
@@ -487,39 +546,46 @@ const Addon = window.Addon = {
         let $tabMenu = $('nav.navbar li.dropdown').eq(0);
         let $dropdownChar = $($tabMenu).find('.dropdown-menu').eq(0);
 
-        $($tabMenu).find('a[href="/perso/infoPersonnage"]').remove();
+        if (LocalStorage.get(Options.OPTIONS.removeLinkInfoPerso, 'false') !== 'false') {
+            $($tabMenu).find('a[href="/perso/infoPersonnage"]').remove();
+        }
 
-        // safezone
-        $('<a class="dropdown-item putAllCharInFightZone text-danger" href="#">Sortir tous les personnages favoris</a>')
-            .prependTo($dropdownChar)
-            .on('click', () => {
-                Addon.listCharactersHtml = $('nav.navbar li.dropdown')
-                    .eq(0)
-                    .find('div.dropdown-menu div.dropdown-menu')
-                    .find('a.dropdown-item')
-                    .clone(true);
-                Notify.notify('Déplacement des personnages favoris en fight zone en cours');
-                Safezone.characterIndex = 0;
-                Safezone.characterInterval = setInterval(() => {
-                    Safezone.putAllCharInFightZone();
-                }, 1500)
-            });
-        $('<a class="dropdown-item putAllCharInSafeZone text-success" href="#">Rentrer tous les personnages favoris</a>')
-            .prependTo($dropdownChar)
-            .on('click', () => {
-                Addon.listCharactersHtml = $('nav.navbar li.dropdown')
-                    .eq(0)
-                    .find('div.dropdown-menu div.dropdown-menu')
-                    .find('a.dropdown-item')
-                    .clone(true);
-                Notify.notify('Déplacement des personnages favoris en safe zone en cours');
-                Safezone.characterIndex = 0;
-                Safezone.characterInterval = setInterval(() => {
-                    Safezone.putAllCharInSafeZone();
-                }, 1500)
-            });
+        if (LocalStorage.get(Options.OPTIONS.showLinkMoveAllChars, 'false') !== 'false') {
+            // safezone
+            $('<a class="dropdown-item putAllCharInFightZone text-danger" href="#">Sortir tous les personnages favoris</a>')
+                .prependTo($dropdownChar)
+                .on('click', () => {
+                    Addon.listCharactersHtml = $('nav.navbar li.dropdown')
+                        .eq(0)
+                        .find('div.dropdown-menu div.dropdown-menu')
+                        .find('a.dropdown-item')
+                        .clone(true);
+                    Notify.notify('Déplacement des personnages favoris en fight zone en cours');
+                    Safezone.characterIndex = 0;
+                    Safezone.characterInterval = setInterval(() => {
+                        Safezone.putAllCharInFightZone();
+                    }, 1500)
+                });
+            $('<a class="dropdown-item putAllCharInSafeZone text-success" href="#">Rentrer tous les personnages favoris</a>')
+                .prependTo($dropdownChar)
+                .on('click', () => {
+                    Addon.listCharactersHtml = $('nav.navbar li.dropdown')
+                        .eq(0)
+                        .find('div.dropdown-menu div.dropdown-menu')
+                        .find('a.dropdown-item')
+                        .clone(true);
+                    Notify.notify('Déplacement des personnages favoris en safe zone en cours');
+                    Safezone.characterIndex = 0;
+                    Safezone.characterInterval = setInterval(() => {
+                        Safezone.putAllCharInSafeZone();
+                    }, 1500)
+                });
+        }
 
-        Addon.changeColorCharacterOnList();
+        if (LocalStorage.get(Options.OPTIONS.changeCharacterColorUnavailable, 'false') !== 'false') {
+            Addon.changeColorCharacterOnList();
+        }
+
     },
 
     changeColorCharacterOnList: function () {
@@ -547,6 +613,10 @@ const Addon = window.Addon = {
     },
 
     makeNavbarFixed: function () {
+        if (LocalStorage.get(Options.OPTIONS.fixNavbarTop, 'false') === 'false') {
+            return false;
+        }
+
         $('nav.navbar').addClass('fixed-top');
     },
 
