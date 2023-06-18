@@ -348,3 +348,24 @@ table {
         height: 20px;
     }
 }
+
+.alert {
+    border-color: $black-border;
+    background-color: $black;
+
+    .alert-message {
+        margin-right: 10px;
+    }
+
+    span {
+        color: inherit;
+    }
+
+    &.alert-warning {
+        color: $orange;
+    }
+
+    &.alert-success {
+        color: $green;
+    }
+}

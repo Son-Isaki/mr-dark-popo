@@ -10,18 +10,46 @@ const Options = window.Options = {
         showFightTourInActions: 'show-fight-tour-actions',
         showFightZoneInActions: 'show-fight-zone-actions',
         showTrainsInActions: 'show-trains-actions',
+        showBonusCharacterPoints: 'show-bonus-character-points',
+
+        reverseInfoPlayer: 'reverse-info-player',
+        showHistoryModeOnMap: 'show-history-mode-on-map',
+        validLinkHistoryMode: 'valid-link-history-on-map',
+        btnDisplayAllChars: 'btn-display-all-char',
+        btnAddRemoveAllBonusPoints: 'btn-add-remove-bonus-points',
+
+        ajaxFight: 'ajax-fight',
+        autoFightForm: 'auto-fight-form',
+
+        showLinkMoveAllChars: 'show-link-move-all-chars',
+        changeCharacterColorUnavailable: 'change-character-color-unavailable',
+        removeLinkInfoPerso: 'remove-link-info-perso',
+
+        fixNavbarTop: 'fix-navbar-top',
     },
 
     OPTIONS_LABEL: {
         showTimerRefreshLife: 'Afficher un timer sur la navigation',
         customThemeEnabled: 'Activer le thème custom',
 
-        showSafeZoneInActions: 'Ajouter un bouton rapide pour aller en safe zone',
-        showShopInActions: 'Ajouter un bouton pour aller à la capsule corp ',
-        showHealInActions: 'Ajouter un bouton pour se heal et retourner au combat',
-        showFightTourInActions: 'Ajouter un bouton pour combattre rapidement la tour de combat',
-        showFightZoneInActions: 'Ajouter un bouton pour aller en zone de combat',
-        showTrainsInActions: 'Ajouter des boutons pour aller directement en entraînement',
+        showSafeZoneInActions: 'Ajouter un bouton d\'action rapide pour aller en safe zone',
+        showShopInActions: 'Ajouter un bouton d\'action rapide pour aller à la capsule corp ',
+        showHealInActions: 'Ajouter un bouton d\'action rapide pour se heal et retourner au combat',
+        showFightTourInActions: 'Ajouter un bouton d\'action rapide pour combattre rapidement la tour de combat',
+        showFightZoneInActions: 'Ajouter un bouton d\'action rapide pour aller en zone de combat',
+        showTrainsInActions: 'Ajouter des boutons d\'action rapide pour aller directement en entraînement',
+        showBonusCharacterPoints: 'Afficher un lien rapide d\'ajout de points bonus en dessous de l\'avatar du personnage',
+        reverseInfoPlayer: 'Inverser la position du block d\'information du joueur/personnage',
+        showHistoryModeOnMap: 'Ajouter un block des modes histoire directement sur la map',
+        validLinkHistoryMode: 'Ajouter un lien pour valider directement l\'étape en cours (nécessite d\'avoir le bon personnage en cours)',
+        btnDisplayAllChars: 'Ajouter un bouton pour masquer/afficher tous les personnages dans la page vos personnages',
+        btnAddRemoveAllBonusPoints: 'Ajouter des boutons tout enlever/mettre ses points de caractéristiques',
+        ajaxFight: 'Modifier le système de combat pour un système de combat plus confort',
+        autoFightForm: 'Ajouter un système de combat "automatique" avec certains critères',
+        showLinkMoveAllChars: 'Ajouter un lien sortir/rentrer tous ses personnages favoris',
+        changeCharacterColorUnavailable: 'Changer la couleur des personnages favoris indisponible',
+        removeLinkInfoPerso: 'Retirer le lien Info Persos dans le menu Personnages',
+        fixNavbarTop: 'Fixer la barre de navigation en haut',
     },
 
     MORE_OPTIONS: {
@@ -31,14 +59,22 @@ const Options = window.Options = {
     optionsChecked: 0,
 
     init: function () {
-        this.displayOptionsPage();
-
         this.log('Initialized');
+        this.displayOptionsPage();
+    },
+
+    initOptions: function () {
+        const $this = this;
+
+        $.each($this.OPTIONS, (key, option) => {
+            let value = LocalStorage.get(option, 'false');
+
+            LocalStorage.set(option, value);
+        });
     },
 
     displayOptionsPage: function () {
-        this.log('displayOptionsPage loaded', Addon.currentUrl, document.URL);
-        if (!Addon.checkUrl('/?addOn')) {
+        if (!Addon.checkUrl('addOn')) {
             return false;
         }
 
@@ -55,7 +91,6 @@ const Options = window.Options = {
         let $title = $('<h2>Gestion des options de l\'Addon</h2>');
         $container.append($title);
 
-        this.log(Utility.urlSafeZoneByPlanet);
         this.showOptions();
         this.setEventField();
         this.setValueForm();
@@ -76,7 +111,7 @@ const Options = window.Options = {
             let $row = $('<div class="input-group mb-3"></div>');
             let $label = $('<input type="text" class="form-control" id="'+option+'-label" disabled/>');
             let $inputGroup = $('<div class="input-group-text"></div>');
-            let $input = $('<input type="checkbox" class="checkbox-addon-options" checked data-toggle="toggle" id="'+option+'"> ');
+            let $input = $('<input type="checkbox" class="checkbox-addon-options" data-toggle="toggle" id="'+option+'"> ');
             if ($this.MORE_OPTIONS[option]) {
                 $input.attr('data-option', $this.MORE_OPTIONS[option]);
             }
@@ -89,7 +124,22 @@ const Options = window.Options = {
             $inputGroup.append($input);
 
             $form.append($row);
+
+            $this.log('register an event', $this.OPTIONS[option]);
+            if ($this[id] !== undefined) {
+                Events.register(option, () => {
+                    $this[id]();
+                })
+            }
         });
+    },
+
+    showTimerRefreshLife: function() {
+        Addon.showTimerRefreshLife();
+    },
+
+    customThemeEnabled: function() {
+        Theme.init();
     },
 
     setEventField: function () {
@@ -128,7 +178,10 @@ const Options = window.Options = {
                             statusNotify = 'warning';
                         }
 
-                        Notify.notify("L'option <span class=\"text-orange\">"+$('#'+option+'-label').val()+"</span> a été "+status, statusNotify);
+                        $this.log('try to trigger an event', option);
+                        Events.trigger(option);
+
+                        Notify.notify("L'option <span class=\"text-danger\">"+$('#'+option+'-label').val()+"</span> a été "+status, statusNotify);
 
                         break;
                 }
@@ -142,6 +195,8 @@ const Options = window.Options = {
         $.each($this.OPTIONS, (key, option) => {
             let $input = $('#'+option);
             let value = LocalStorage.get(option, 'false');
+
+            $this.log('setValueForm', key, option, value, $input);
 
             $input.prop('checked', value === 'true');
         })

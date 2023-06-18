@@ -6,11 +6,11 @@ const Theme = window.Theme = {
     init: function () {
         const $this = this;
 
-        $this.customThemeEnabled = LocalStorage.get(Options.OPTIONS.customThemeEnabled, false);
-
-        if (!$this.customThemeEnabled) {
-            return;
+        if (LocalStorage.get(Options.OPTIONS.customThemeEnabled, 'false') === 'false') {
+            return false;
         }
+
+        $this.customThemeEnabled = true;
 
         Utility.includeStyle('dist/css/theme.min.css')
 

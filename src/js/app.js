@@ -8,11 +8,11 @@ $('document').ready(function () {
     Logger.init();
     Database.init();
     Addon.init();
+    Options.init();
     Router.init();
     Theme.init();
     Notify.init();
     Fights.init();
     Safezone.init();
-    Options.init();
 
 })

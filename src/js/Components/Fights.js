@@ -34,6 +34,10 @@ const Fights = window.FightsComponent = {
     },
 
     addAutoFightFormToView: function () {
+        if (LocalStorage.get(Options.OPTIONS.autoFightForm, 'false') === 'false') {
+            return false;
+        }
+
         const $this = this;
 
         if (!Addon.checkUrl('/listeCombats')) {
@@ -233,6 +237,10 @@ const Fights = window.FightsComponent = {
     },
 
     ajaxFight: function () {
+        if (LocalStorage.get(Options.OPTIONS.ajaxFight, 'false') === 'false') {
+            return false;
+        }
+
         const $this = this;
 
         if (!Addon.checkUrl('/listeCombats')) {
