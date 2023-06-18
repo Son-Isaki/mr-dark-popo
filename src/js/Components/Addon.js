@@ -391,7 +391,7 @@ const Addon = window.Addon = {
             return false;
         }
 
-        $('<button type="button" class="btn btn-sm btn-success">Safezone Terre</button>')
+        $('<button type="button" class="btn btn-sm btn-success safeZone">Safezone Terre</button>')
             .on('click', function () {
                 $.ajax({
                     type: 'GET',

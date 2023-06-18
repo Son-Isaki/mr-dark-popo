@@ -201,6 +201,7 @@ const Fights = window.FightsComponent = {
 
                 // plus assez de vie, fin des combats
                 $this.terminateFightLoop($this.moveToSafezoneAfter);
+                stopLoop = true;
                 // $this.log('No more life...');
 
             } else {
