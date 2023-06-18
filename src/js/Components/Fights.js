@@ -256,7 +256,7 @@ const Fights = window.FightsComponent = {
             let $tdCombat = $(val).find('td')[3];
 
             let $idCombat = $($tdCombat).find('a').attr('href').replace('/combattre/', '');
-            let urlCombat = 'https://'+document.domain+'/combattre/' + $idCombat;
+            let urlCombat = 'https://' + document.domain + '/combattre/' + $idCombat;
 
             let $newHtml = $('<span class="newfight canFight btn btn-secondary" data-id="' + $idCombat + '">Combattre</span>');
             $($tdCombat).html($newHtml);
@@ -275,38 +275,41 @@ const Fights = window.FightsComponent = {
 
                         if (matches !== null) {
                             let historicFight = JSON.parse(matches[1]);
-                            Utility.refreshInfoUser($(response).find('.zone1sub').html());
 
-                            let maxRound = historicFight.length - 1;
+                            Addon.updateCharacterInfos().then(() => {
+                                $('.zone1sub').html($(response).find('.zone1sub').html());
 
-                            let resultFight = historicFight[maxRound]['J1']['Resultat'];
-                            if (historicFight[maxRound]['J2']['Resultat'] === 'Mort') {
-                                resultFight = resultFight + ' : Tu as tué cette merde'
-                            }
+                                let maxRound = historicFight.length - 1;
 
-                            let resultFightClass;
-                            switch (resultFight) {
-                                default:
-                                    resultFightClass = 'btn-primary'
-                                    break;
+                                let resultFight = historicFight[maxRound]['J1']['Resultat'];
+                                if (historicFight[maxRound]['J2']['Resultat'] === 'Mort') {
+                                    resultFight = resultFight + ' : Tu as tué cette merde'
+                                }
 
-                                case "Victoire":
-                                    resultFightClass = 'btn-success'
-                                    break;
+                                let resultFightClass;
+                                switch (resultFight) {
+                                    default:
+                                        resultFightClass = 'btn-primary'
+                                        break;
 
-                                case "Defaite":
-                                    resultFightClass = 'btn-warning'
-                                    break;
+                                    case "Victoire":
+                                        resultFightClass = 'btn-success'
+                                        break;
 
-                                case "Mort":
-                                    resultFightClass = 'btn-danger'
-                                    break;
-                            }
-                            $(selectorCombat).removeClass('btn-secondary btn-dark').addClass(resultFightClass);
+                                    case "Defaite":
+                                        resultFightClass = 'btn-warning'
+                                        break;
 
-                            Utility.hideLoader(selectorCombat, resultFight);
-                            Addon.reloadInfoPlayer();
-                            delete Addon.listFightersTmp[key];
+                                    case "Mort":
+                                        resultFightClass = 'btn-danger'
+                                        break;
+                                }
+                                $(selectorCombat).removeClass('btn-secondary btn-dark').addClass(resultFightClass);
+
+                                Utility.hideLoader(selectorCombat, resultFight);
+                                Addon.reloadInfoPlayer();
+                                delete Addon.listFightersTmp[key];
+                            });
                         }
                     })
 

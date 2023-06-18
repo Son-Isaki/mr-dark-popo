@@ -27,7 +27,10 @@ const Addon = window.Addon = {
         Options.initOptions();
 
         // database update
-        Database.getUpdateCharacters();
+        setTimeout(() => {
+            Database.getUpdateCharacters();
+            Database.getUpdateLevels();
+        }, 1);
 
         $this.updateCharacterInfos().then((response) => {
             Events.trigger(Events.CharacterLoaded, $this.characterInfos);
@@ -65,40 +68,46 @@ const Addon = window.Addon = {
             .find('a')
             .attr('href');
 
-        let $link = $('<li class="nav-item"><a href="'+$profileLink+'/?addOn" class="nav-link">Addon</a></li>');
+        let $link = $('<li class="nav-item"><a href="' + $profileLink + '/?addOn" class="nav-link">Addon</a></li>');
 
         $menu.prepend($link);
     },
 
-    updateCharacterInfos: async function (callback, html) {
+    updateCharacterInfos: async function (callback) {
         const $this = this;
 
         let uri = $('.imgPersoActuelDiv a:first-child').attr('href');
 
         await Utility.getPageContent(uri, (response) => {
-            let raw = null;
-            let data = {};
-            let $content = $(response);
-
-            data.name = $content.find('.zone2 .infoPersoAvatar h3').text();
-            data.slug = Utility.slugify(data.name);
-            data.level = parseInt($content.find('.zone2 .infoPersoAvatar h3 + p').text().replace("Niveau ", ""));
-
-            let $table = $content.find('.zoneTextePersoInfoAvatar table:first');
-            raw = $table.find('tr:first-child td:last-child').text().split('/');
-            data.lifeCurrent = raw[0];
-            data.lifeMax = raw[1];
-
-            raw = $table.find('tr:last-child td:last-child').text().split('/');
-            data.experienceCurrent = raw[0];
-            data.experienceMax = raw[1];
-
-            $this.characterInfos = data;
+            $this.updateCharacterInfosWithContent(response)
 
             if (typeof callback === "function") {
                 callback(response);
             }
         });
+    },
+
+    updateCharacterInfosWithContent: function (response) {
+        const $this = this;
+
+        let raw = null;
+        let data = {};
+        let $content = $(response);
+
+        data.name = $content.find('.zone2 .infoPersoAvatar h3').text();
+        data.slug = Utility.slugify(data.name);
+        data.level = parseInt($content.find('.zone2 .infoPersoAvatar h3 + p').text().replace("Niveau ", ""));
+
+        let $table = $content.find('.zoneTextePersoInfoAvatar table:first');
+        raw = $table.find('tr:first-child td:last-child').text().split('/');
+        data.lifeCurrent = raw[0];
+        data.lifeMax = raw[1];
+
+        raw = $table.find('tr:last-child td:last-child').text().split('/');
+        data.experienceCurrent = raw[0];
+        data.experienceMax = raw[1];
+
+        $this.characterInfos = data;
     },
 
     addAllPointsOnStatsBtn: function () {

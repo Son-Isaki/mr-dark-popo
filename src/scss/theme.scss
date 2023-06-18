@@ -2,6 +2,7 @@
 
 @import 'includes/avatars.scss';
 @import 'includes/button-filter.scss';
+@import 'includes/progressbar.scss';
 
 body {
     background-image: url('../img/theme/background.png');
@@ -149,6 +150,7 @@ body.reverse-info-player .content-wrapper {
         padding: 20px;
         width: calc(100% - 40px);
         align-items: start;
+        height: unset;
 
         &:not(#zoneInvocation, .persoWorldBossFond) {
             max-width: unset !important;
@@ -268,6 +270,10 @@ table {
     height: unset;
     width: calc(33% - 20px);
 
+    & > div:nth-child(2) {
+        width: 100%;
+    }
+
     * {
         color: $white;
     }
@@ -318,6 +324,7 @@ table {
 
         th, td:first-child {
             color: $text-light;
+            font-weight: normal;
         }
 
         td:first-child {

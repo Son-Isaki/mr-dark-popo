@@ -1,0 +1,90 @@
+.progressbar {
+    width: 100%;
+    height: 16px;
+    position: relative;
+    border-radius: 999px;
+    overflow: hidden;
+
+    .background, .value {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+    }
+
+    .background {
+        width: 100%;
+    }
+
+    .value {
+        border-top-right-radius: 999px;
+        border-bottom-right-radius: 999px;
+    }
+
+    .text {
+        color: white;
+        font-size: 12px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-shadow: 0 1px 2px transparentize(black, .3);
+        width: 100%;
+    }
+
+    &.life {
+        .background {
+            background-color: #8E4333;
+        }
+
+        .value {
+            background-color: #CC6557;
+        }
+    }
+
+    &.experience {
+        .background {
+            background-color: #2a7a8c;
+        }
+
+        .value {
+            background-color: #53afc4;
+        }
+    }
+
+
+}
+
+
+progress {
+    height: 12px;
+    appearance: none;
+
+    &::-webkit-progress-bar {
+        border-radius: 999px;
+    }
+
+    &::-webkit-progress-value {
+        border-radius: 999px;
+    }
+
+    &.red {
+        &::-webkit-progress-bar {
+            background-color: #8E4333;
+        }
+
+        &::-webkit-progress-value {
+            background-color: #CC6557;
+        }
+    }
+
+    &.blue {
+        &::-webkit-progress-bar {
+            background-color: #2D8295;
+        }
+
+        &::-webkit-progress-value {
+            background-color: #57B7CC;
+        }
+    }
+}

@@ -10,8 +10,6 @@ const CharacterListPage = window.CharacterListPage = {
         $('.zoneCapsulesEquipe5 > p:last-child')
             .prependTo($('.zoneCapsulesEquipe5'));
 
-        Database.updateLevels();
-
         $this.log("Initialized");
 
     },

@@ -109,11 +109,11 @@ const Utility = window.Utility = {
         })
     },
 
-    refreshInfoUser: function (html) {
-        $('.zone1sub').html(html);
-
-        Addon.updateCharacterInfos();
-    },
+    // refreshInfoUser: function (html) {
+    //     $('.zone1sub').html(html);
+    //
+    //     Addon.updateCharacterInfos();
+    // },
 
     showLoader: function (selector) {
         const $this = this;
@@ -215,12 +215,16 @@ const Utility = window.Utility = {
         return $input;
     },
 
-    createSubmitButton: function(content) {
-        return $('<button class="btn-text btn-primary" type="submit">'+content+'</button>');
+    createSubmitButton: function (content) {
+        return $('<button class="btn-text btn-primary" type="submit">' + content + '</button>');
     },
 
     trim: function (str) {
         return str.replace(/\s{2,}/g, " ").trim();
+    },
+
+    formatNumber: function (value) {
+        return new Intl.NumberFormat('locale').format(value);
     },
 
     log: function (...args) {

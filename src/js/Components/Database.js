@@ -20,7 +20,9 @@ const Database = window.Database = {
         if (Cookies.get($this.cookieName) !== undefined && LocalStorage.get(storageKey, null) !== null) {
 
             $this.characters = JSON.parse(LocalStorage.get(storageKey, null));
-            $this.log('Characters', 'cookies', $this.characters);
+            // $this.log('Characters', 'cookies', $this.characters);
+
+            Events.trigger(Events.CharactersLoaded, $this.characters);
 
             if (typeof callback === 'function') {
                 callback();
@@ -49,12 +51,14 @@ const Database = window.Database = {
             }).done(function (response) {
 
                 $this.characters = response.response;
-                $this.log('Characters', 'requested', $this.characters);
+                // $this.log('Characters', 'requested', $this.characters);
 
                 LocalStorage.set(storageKey, JSON.stringify(response.response));
 
                 let duration = 1 / (60 * 24 / $this.updateFrequency);
                 Cookies.set($this.cookieName, true, {expires: duration});
+
+                Events.trigger(Events.CharactersLoaded, $this.characters);
 
                 if (typeof callback === 'function') {
                     callback();
@@ -63,7 +67,7 @@ const Database = window.Database = {
         }
     },
 
-    updateLevels: function (callback) {
+    getUpdateLevels: function (callback) {
         const $this = this;
 
         let storageKey = 'levels-data';
@@ -71,7 +75,9 @@ const Database = window.Database = {
         if (Cookies.get($this.cookieName) !== undefined && LocalStorage.get(storageKey, null) !== null) {
 
             $this.levels = JSON.parse(LocalStorage.get(storageKey, null));
-            $this.log('Levels', 'cookies', $this.levels);
+            // $this.log('Levels', 'cookies', $this.levels);
+
+            Events.trigger(Events.LevelsLoaded, $this.levels);
 
             if (typeof callback === 'function') {
                 callback();
@@ -96,12 +102,14 @@ const Database = window.Database = {
             }).done(function (response) {
 
                 $this.levels = response.response;
-                $this.log('Levels', 'requested', $this.levels);
+                // $this.log('Levels', 'requested', $this.levels);
 
                 LocalStorage.set(storageKey, JSON.stringify(response.response));
 
                 let duration = 1 / (60 * 24 / $this.updateFrequency);
                 Cookies.set($this.cookieName, true, {expires: duration});
+
+                Events.trigger(Events.LevelsLoaded, $this.levels);
 
                 if (typeof callback === 'function') {
                     callback();
@@ -109,14 +117,6 @@ const Database = window.Database = {
             });
 
         }
-
-        if (typeof callback === 'function') {
-            callback();
-        }
-    },
-
-    getLevels: function (callback) {
-        const $this = this;
 
         if (typeof callback === 'function') {
             callback();
