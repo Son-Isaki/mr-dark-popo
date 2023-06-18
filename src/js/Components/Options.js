@@ -53,8 +53,31 @@ const Options = window.Options = {
     },
 
     MORE_OPTIONS: {
-
+        'show-trains-actions': {
+            label: 'Sélectionner les trains à afficher',
+            type: 'checkbox',
+            data: [
+                {
+                    label: 'Entraînement attaque',
+                    option: 'show-train-attaque-actions'
+                },
+                {
+                    label: 'Entraînement défense',
+                    option: 'show-train-defense-actions'
+                },
+                {
+                    label: 'Entraînement magie',
+                    option: 'show-train-magie-actions'
+                },
+            ]
+        }
     },
+
+    SETTINGS: [
+        'show-train-attaque-actions',
+        'show-train-defense-actions',
+        'show-train-magie-actions',
+    ],
 
     optionsChecked: 0,
 
@@ -92,6 +115,7 @@ const Options = window.Options = {
         $container.append($title);
 
         this.showOptions();
+        this.buildBlockSettings();
         this.setEventField();
         this.setValueForm();
     },
@@ -104,16 +128,13 @@ const Options = window.Options = {
 
         $container.addClass('containerOptionsAddOn').append($form);
 
-        $this.log('options list', $this.OPTIONS);
-
         $.each($this.OPTIONS, (id, option)=> {
-            $this.log('loop', id, option);
             let $row = $('<div class="input-group"></div>');
             let $label = $('<label class="form-control" id="'+option+'-label" for="'+option+'"></label>');
             let $inputGroup = $('<div class="input-group-text"></div>');
             let $input = $('<input type="checkbox" class="checkbox-addon-options" data-toggle="toggle" id="'+option+'"> ');
             if ($this.MORE_OPTIONS[option]) {
-                $input.attr('data-option', $this.MORE_OPTIONS[option]);
+                $input.attr('data-option', option);
             }
 
             $label.html($this.OPTIONS_LABEL[id]);
@@ -125,7 +146,6 @@ const Options = window.Options = {
 
             $form.append($row);
 
-            $this.log('register an event', $this.OPTIONS[option]);
             if ($this[id] !== undefined) {
                 Events.register(option, () => {
                     $this[id]();
@@ -134,12 +154,80 @@ const Options = window.Options = {
         });
     },
 
-    showTimerRefreshLife: function() {
+    buildBlockSettings: function () {
+        const $this = this;
+        let $container = $('.containerOptionsAddOn');
+        let $section = $('<section class="containerSettingsAddOn"></section>');
+        let $title = $('<h2>Saisie des paramètres des options</h2>').appendTo($section);
+
+        let $form = $('<form id="settings-input"></form>');
+
+        $.each($this.MORE_OPTIONS, (key, data) => {
+            let $currentRow = $('<fieldset data-option-id="'+key+'" style="display:none;"></div>');
+            let $label = $('<legend>'+data.label+'</legend>').appendTo($currentRow);
+
+            switch (data.type) {
+                default:
+                    break;
+
+                case "checkbox":
+                    $.each(data.data, (key, item) => {
+                        let $tmpRow = $('<div class="form-check form-check-inline"></div>');
+                        let checkboxLabel = $('<label class="form-check-label" for="'+item.option+'">'+item.label+'</label>');
+                        let checkbox = $('<input class="form-check-input" type="checkbox" name="'+item.option+'" id="'+item.option+'" />');
+
+                        $tmpRow.append(checkbox);
+                        $tmpRow.append(checkboxLabel);
+                        $currentRow.append($tmpRow);
+                    });
+                    break;
+            }
+
+
+            $form.append($currentRow);
+        });
+
+        // Create submit button
+        let $submitButton = Utility.createSubmitButton('Mettre à jour les settings');
+        $form.append($submitButton);
+
+        $section.append($form);
+        $container.after($section);
+
+        $form.submit( (e) => {
+            e.preventDefault();
+            $this.updateSettings();
+        });
+    },
+
+    showTimerRefreshLife: function () {
         Addon.showTimerRefreshLife();
     },
 
-    customThemeEnabled: function() {
+    customThemeEnabled: function () {
         Theme.init();
+    },
+
+    updateSettings: function () {
+        const $this = this;
+
+        $($this.SETTINGS).each((key, option) => {
+            let $input = $('#'+option);
+            let $inputVal = 'false';
+
+            switch ($input.attr('type')) {
+                default:
+                    break;
+
+                case "checkbox":
+                    $inputVal = $input.prop('checked') ? 'true' : 'false';
+                    break;
+            }
+
+            LocalStorage.set(option, $inputVal)
+        });
+
+        Notify.notify('Paramètres des options de l\'addon mis à jour.', 'success');
     },
 
     setEventField: function () {
@@ -157,7 +245,6 @@ const Options = window.Options = {
 
                     case "checkbox":
                         let value = $input.prop('checked') ? 'true' : 'false';
-                        $this.log('checkboxxxx this', this);
                         if (Options.MORE_OPTIONS[option]) {
                             if (value === "true") {
                                 Options.optionsChecked++;
@@ -178,11 +265,10 @@ const Options = window.Options = {
                             statusNotify = 'warning';
                         }
 
-                        $this.log('try to trigger an event', option);
                         Events.trigger(option);
 
                         Notify.notify("L'option <span>" + $('#' + option + '-label').html() + "</span> a été "+status, statusNotify);
-
+                        $this.toggleOptions($input);
                         break;
                 }
             });
@@ -195,11 +281,80 @@ const Options = window.Options = {
         $.each($this.OPTIONS, (key, option) => {
             let $input = $('#'+option);
             let value = LocalStorage.get(option, 'false');
+            let $setting = $this.MORE_OPTIONS[option];
+            let isChecked = value === 'true'
 
-            $this.log('setValueForm', key, option, value, $input);
 
-            $input.prop('checked', value === 'true');
+            $input.prop('checked', isChecked);
+
+            if ($setting) {
+                if (isChecked) {
+                    $this.optionsChecked++;
+                }
+                $this.toggleOptions($input);
+            }
         })
+
+        $.each($this.SETTINGS, (key, option) => {
+            let storageValue = LocalStorage.get(option, 'false');
+            let $input = $('#'+option);
+
+            if ($input)
+                $input.prop('checked', storageValue === 'true');
+        });
+    },
+
+    toggleOptions: function(input) {
+        const $this = this;
+
+        if (!input) {
+            return false;
+        }
+
+        let block = $('.containerSettingsAddOn');
+        let idSettings = $(input).data('option') ?? $(input).attr('id');
+
+        if (Options.optionsChecked > 0) {
+            block.show();
+            $('.option-submit').show();
+
+            let $setting = $this.MORE_OPTIONS[idSettings];
+
+            if ($setting) {
+                let $group = $('fieldset[data-option-id="'+idSettings+'"');
+                let countSameElementDisplayed = $('input[data-option="'+idSettings+'"]:checked').length;
+
+                if ($group.length > 1) {
+                    $.each($group, (key, element) => {
+                        let style = $(element).css('display');
+
+                        if (style === 'none') {
+                            $(element).css('display', 'flex');
+                        } else {
+                            if (countSameElementDisplayed === 0)
+                                $(element).hide();
+                        }
+                    });
+                } else {
+                    if (countSameElementDisplayed >= 1)
+                        $group.show();
+                    else
+                        $group.hide();
+                }
+            }
+
+        } else {
+            $('#settings div.input-group').each(function() {
+                if ($(this).css('display') === 'flex') {
+                    $(this).css('display', 'none');
+                }
+            })
+            $('.option-submit').hide();
+            block.hide();
+        }
+
+        let divElement = $('div[data-option="'+idSettings+'"');
+        divElement.toggle('display');
     },
 
     log: function (...args) {

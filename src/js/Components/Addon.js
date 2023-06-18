@@ -27,7 +27,7 @@ const Addon = window.Addon = {
         Options.initOptions();
 
         // database update
-        // Database.getUpdateCharacters();
+        Database.getUpdateCharacters();
 
         $this.updateCharacterInfos().then((response) => {
             Events.trigger(Events.CharacterLoaded, $this.characterInfos);
@@ -489,6 +489,10 @@ const Addon = window.Addon = {
             return false;
         }
 
+        if (LocalStorage.get('show-train-attaque-actions', 'false') === 'false') {
+            return false;
+        }
+
         $('<button type="button" class="btn btn-sm btn-primary">Train attaque Terre</button>')
             .on('click', function () {
                 $.ajax({
@@ -507,6 +511,10 @@ const Addon = window.Addon = {
             return false;
         }
 
+        if (LocalStorage.get('show-train-magie-actions', 'false') === 'false') {
+            return false;
+        }
+
         $('<button type="button" class="btn btn-sm btn-primary">Train magie Terre</button>')
             .on('click', function () {
                 $.ajax({
@@ -522,6 +530,10 @@ const Addon = window.Addon = {
 
     addBtnGoToTrainDefEarth: function () {
         if (LocalStorage.get(Options.OPTIONS.showTrainsInActions, 'false') === 'false') {
+            return false;
+        }
+
+        if (LocalStorage.get('show-train-defense-actions', 'false') === 'false') {
             return false;
         }
 

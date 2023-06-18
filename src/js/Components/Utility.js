@@ -215,6 +215,10 @@ const Utility = window.Utility = {
         return $input;
     },
 
+    createSubmitButton: function(content) {
+        return $('<button class="btn-text btn-primary" type="submit">'+content+'</button>');
+    },
+
     trim: function (str) {
         return str.replace(/\s{2,}/g, " ").trim();
     },

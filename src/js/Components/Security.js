@@ -29,6 +29,9 @@ const Security = window.Security = {
         52, // BdX_D
         89, // Yoohyeon
         655, // Ragusen
+        669, // Kono
+        637, // Luxuko
+        644, // NOUNOURS
     ],
 
     init: function () {
@@ -46,7 +49,7 @@ const Security = window.Security = {
         if (!$this.isUserLoggedIn) {
             Addon.debug = false;
         } else if (
-            $this.getIdUser() !== 68 &&
+            $this.getIdUser() !== 22 &&
             $this.getIdUser() !== 57
         ) {
             Addon.debug = false;
