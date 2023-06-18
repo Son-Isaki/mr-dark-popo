@@ -382,6 +382,7 @@ const Addon = window.Addon = {
         $this.addBtnGoToTrainAtqEarth();
         $this.addBtnGoToTrainDefEarth();
         $this.addBtnGoToTrainMagEarth();
+        $this.log('Reload info player try to change current character avatar');
 
         Events.trigger(Events.ReloadInfosPersos);
     },
