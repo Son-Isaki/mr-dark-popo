@@ -2,6 +2,7 @@ const Database = window.Database = {
 
     // variables
     domain: 'https://scan.isaki.fr/api/jeuheros',
+    updateFrequency: 5, // minutes
 
     characters: [],
 
@@ -13,6 +14,7 @@ const Database = window.Database = {
         const $this = this;
 
         let cookieName = 'characters';
+
         if (typeof Cookies.get(cookieName) !== 'undefined') {
 
             $this.characters = JSON.parse(Cookies.get(cookieName));
@@ -43,7 +45,7 @@ const Database = window.Database = {
                 $this.characters = response.response;
                 $this.log('Characters', 'requested', $this.characters);
 
-                let duration = 1 / (60 * 24 / 5);
+                let duration = 1 / (60 * 24 / $this.updateFrequency);
                 Cookies.set(cookieName, JSON.stringify($this.characters), {expires: duration});
 
                 if (typeof callback === 'function') {
