@@ -32,6 +32,8 @@ const Security = window.Security = {
         669, // Kono
         637, // Luxuko
         644, // NOUNOURS
+        678, // °MR°Mystogan
+        679, // 404 not found (sg4)
     ],
 
     init: function () {
