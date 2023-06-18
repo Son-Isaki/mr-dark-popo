@@ -1,6 +1,6 @@
 {
     "name": "mrdarkpopo",
-    "version": "1.0.0",
+    "version": "1.4.1",
     "description": "Extension pour jeuheros.fr afin d'améliorer l'expérience de jeu",
     "main": "options.js",
     "scripts": {
