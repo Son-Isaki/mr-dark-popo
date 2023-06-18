@@ -16,7 +16,7 @@ const Theme = window.Theme = {
 
         $this.bind();
 
-        setTimeout(function(){
+        setTimeout(function () {
             $this.initTopBar();
             $this.initAvatars();
         }, 10);
@@ -39,11 +39,15 @@ const Theme = window.Theme = {
         });
     },
 
-    initInfosPerso: function(){
+    initInfosPerso: function () {
         const $this = this;
 
-        let $container = $('<div class="infos-perso-row">')
-            .prependTo($('.zone1sub'));
+        let $container = $('.infos-perso-row');
+
+        if ($container.length === 0) {
+            $container = $('<div class="infos-perso-row">')
+                .prependTo($('.zone1sub'));
+        }
 
         $('.imgPersoActuelDiv')
             .appendTo($container);
@@ -53,8 +57,6 @@ const Theme = window.Theme = {
             .find('br').remove();
 
         let tmp = $('.imgPersoActuelDiv')[0];
-        $this.log(tmp);
-        // tmp.innerHTML = string;
         let lst = [];
         for (let i = 0; i < tmp.childNodes.length; i++) {
             if (tmp.childNodes[i].nodeType === Node.TEXT_NODE) {
@@ -65,18 +67,21 @@ const Theme = window.Theme = {
                 tmp.childNodes[i].remove()
             }
         }
-        $this.log(lst);
 
         let name = lst[0];
         let level = lst[1];
 
-        $('<p>')
-            .text(level)
-            .prependTo($('.zone1sub .couleurBlack'));
+        if (level !== undefined && level !== '') {
+            $('<p>')
+                .text(level)
+                .prependTo($('.zone1sub .couleurBlack'));
+        }
 
-        $('<h3>')
-            .text(name)
-            .prependTo($('.zone1sub .couleurBlack'));
+        if (name !== undefined && name !== '') {
+            $('<h3>')
+                .text(name)
+                .prependTo($('.zone1sub .couleurBlack'));
+        }
     },
 
     initTopBar: function () {
