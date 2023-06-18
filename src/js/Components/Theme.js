@@ -16,8 +16,10 @@ const Theme = window.Theme = {
 
         $this.bind();
 
-        $this.initTopBar();
-        $this.initAvatars();
+        setTimeout(function(){
+            $this.initTopBar();
+            $this.initAvatars();
+        }, 10);
 
         $this.log("Initialized");
 
@@ -33,7 +35,48 @@ const Theme = window.Theme = {
 
         Events.register(Events.LevelsLoaded, function () {
             $this.initProgressBars();
+            // $this.initInfosPerso();
         });
+    },
+
+    initInfosPerso: function(){
+        const $this = this;
+
+        let $container = $('<div class="infos-perso-row">')
+            .prependTo($('.zone1sub'));
+
+        $('.imgPersoActuelDiv')
+            .appendTo($container);
+
+        $('.zone1sub .couleurBlack')
+            .appendTo($container)
+            .find('br').remove();
+
+        let tmp = $('.imgPersoActuelDiv')[0];
+        $this.log(tmp);
+        // tmp.innerHTML = string;
+        let lst = [];
+        for (let i = 0; i < tmp.childNodes.length; i++) {
+            if (tmp.childNodes[i].nodeType === Node.TEXT_NODE) {
+                let text = Utility.trim(tmp.childNodes[i].nodeValue);
+                if (text !== '') {
+                    lst.push(text);
+                }
+                tmp.childNodes[i].remove()
+            }
+        }
+        $this.log(lst);
+
+        let name = lst[0];
+        let level = lst[1];
+
+        $('<p>')
+            .text(level)
+            .prependTo($('.zone1sub .couleurBlack'));
+
+        $('<h3>')
+            .text(name)
+            .prependTo($('.zone1sub .couleurBlack'));
     },
 
     initTopBar: function () {
@@ -122,7 +165,7 @@ const Theme = window.Theme = {
 
         let callback = (e) => {
             let characterInfos = Addon.characterInfos;
-            $this.log('characterInfos', characterInfos)
+            // $this.log('characterInfos', characterInfos)
 
             $('#filePV, .cadrePersoList #filePV').each(function () {
 
@@ -210,6 +253,8 @@ const Theme = window.Theme = {
             // $('.expBarInfoPerso').each(function () {
             //     $this.createProgressBar($(this), 'experience', true, characterInfos.experienceCurrent, characterInfos.experienceMax);
             // });
+
+            $this.initInfosPerso();
         };
 
         Events.register(Events.CharacterLoaded, callback);
