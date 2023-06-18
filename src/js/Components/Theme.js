@@ -1,21 +1,36 @@
 const Theme = window.Theme = {
 
     // variables
+    customThemeEnabled: false,
 
     init: function () {
         const $this = this;
 
-        if (!LocalStorage.get(Options.OPTIONS.customThemeEnabled, false)) {
+        $this.customThemeEnabled = LocalStorage.get(Options.OPTIONS.customThemeEnabled, false);
+
+        if (!$this.customThemeEnabled) {
             return;
         }
 
         Utility.includeStyle('dist/css/theme.min.css')
+
+        $this.bind();
+
         $this.initTopBar();
         $this.initAvatars();
         $this.initProgressBars();
 
         $this.log("Initialized");
 
+    },
+
+    bind: function(){
+        const $this = this;
+
+        Events.register(Events.ReloadInfosPersos, function () {
+            $this.initAvatars();
+            $this.initProgressBars();
+        });
     },
 
     initTopBar: function () {
@@ -44,6 +59,12 @@ const Theme = window.Theme = {
     },
 
     initAvatars: function () {
+        const $this = this;
+
+        if (!$this.customThemeEnabled) {
+            return;
+        }
+
         $('.imgPersoActuel').each(function () {
             let $avatar = $(this);
 
@@ -93,6 +114,12 @@ const Theme = window.Theme = {
     },
 
     initProgressBars: function () {
+        const $this = this;
+
+        if (!$this.customThemeEnabled) {
+            return;
+        }
+
         $('#filePV, .cadrePersoList progress:first').addClass('red');
         $('#file, .expBarInfoPerso').addClass('blue');
     },

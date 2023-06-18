@@ -335,20 +335,21 @@ const Addon = window.Addon = {
     },
 
     reloadInfoPlayer: function () {
-        this.addBonusCharacterPointsOnInfoPlayer();
+        const $this = this;
+
+        $this.addBonusCharacterPointsOnInfoPlayer();
 
         $('#actions-zone').empty();
-        this.addBtnGoToSafeZone();
-        this.addBtnInstantHeal70();
-        this.addBtnGoToShopEarth();
-        this.addBtnGoToFightZone();
-        this.addBtnFightToTower();
-        this.addBtnGoToTrainAtqEarth();
-        this.addBtnGoToTrainDefEarth();
-        this.addBtnGoToTrainMagEarth();
+        $this.addBtnGoToSafeZone();
+        $this.addBtnInstantHeal70();
+        $this.addBtnGoToShopEarth();
+        $this.addBtnGoToFightZone();
+        $this.addBtnFightToTower();
+        $this.addBtnGoToTrainAtqEarth();
+        $this.addBtnGoToTrainDefEarth();
+        $this.addBtnGoToTrainMagEarth();
 
-        Theme.initAvatars();
-        Theme.initProgressBars();
+        Events.trigger(Events.ReloadInfosPersos);
     },
 
     addBtnGoToSafeZone: function () {
@@ -520,7 +521,7 @@ const Addon = window.Addon = {
             let imgs = $(item).find('img');
 
             if (imgs.length <= 3) {
-                $(item).addClass('text-success');
+                // $(item).addClass('text-success');
             } else {
                 let $isOnTrain = imgs
                     .eq(3)

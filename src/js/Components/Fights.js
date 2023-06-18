@@ -28,7 +28,7 @@ const Fights = window.FightsComponent = {
     bind: function () {
         const $this = this;
 
-        $(document).on(Events.CharacterLoaded, function () {
+        Events.register(Events.CharacterLoaded, function () {
             $this.addAutoFightFormToView();
         });
     },
@@ -173,7 +173,7 @@ const Fights = window.FightsComponent = {
 
             // level
             let fightLevel = parseInt($fighter.find('td').eq(1).text());
-            let isLevelSafe = Addon.characterInfos.level >= fightLevel + $this.selectedLevel;
+            let isLevelSafe = Addon.characterInfos.level + $this.selectedLevel <= fightLevel;
 
             if (fightLevel < Addon.characterInfos.level) {
                 $this.terminateFightLoop($this.moveToSafezoneAfter);
@@ -197,11 +197,11 @@ const Fights = window.FightsComponent = {
 
                 // plus assez de vie, fin des combats
                 $this.terminateFightLoop($this.moveToSafezoneAfter);
-                $this.log('No more life...');
+                // $this.log('No more life...');
 
             } else {
 
-                $this.log(`Avoid fighting with ${fightLabel}...`)
+                // $this.log(`Avoid fighting with ${fightLabel}...`)
 
                 // mark fight as dangerous
                 $fighter.find('.newfight')
