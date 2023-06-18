@@ -455,3 +455,28 @@ progress {
         }
     }
 }
+
+
+.containerOptionsAddOn {
+    .form-control {
+        background-color: $black;
+        border-color: $black-border;
+        color: $white;
+    }
+}
+
+.footerPage {
+    background-color: $black;
+    color: $white;
+}
+
+.input-group-text {
+    border-color: $black-border;
+    background-color: $black;
+    border-radius: inherit;
+
+    .checkbox-addon-options {
+        width: 20px;
+        height: 20px;
+    }
+}
