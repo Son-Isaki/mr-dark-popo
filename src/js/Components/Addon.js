@@ -21,6 +21,7 @@ const Addon = window.Addon = {
         const $this = this;
 
         if ($this.debug) $this.log('Debug mode is active');
+        else $this.log('Debug mode is inactive');
 
         $this.currentUrl = document.URL;
 

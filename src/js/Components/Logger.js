@@ -28,6 +28,10 @@ const Logger = window.Logger = {
 
     RESET: "\x1b[0m",
 
+    init: function () {
+
+    },
+
     test: function () {
         const $this = this;
 

@@ -5,13 +5,14 @@ $('document').ready(function () {
         return false;
     }
 
+    Logger.init();
     Database.init();
     Addon.init();
+    Router.init();
     Theme.init();
     Notify.init();
     Fights.init();
     Safezone.init();
     Options.init();
-    Router.init();
 
 })

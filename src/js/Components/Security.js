@@ -34,9 +34,25 @@ const Security = window.Security = {
     init: function () {
         const $this = this;
 
-        $this.canHaveAccess()
-        
+        $this.canHaveAccess();
+        $this.updateDebugMode();
+
         $this.log('Initialized');
+    },
+
+    updateDebugMode: function () {
+        const $this = this;
+
+        if (!$this.isUserLoggedIn) {
+            Addon.debug = false;
+        } else if (
+            $this.getIdUser() !== 68 &&
+            $this.getIdUser() !== 57
+        ) {
+            Addon.debug = false;
+        } else {
+            $this.log('You are an admin !');
+        }
     },
 
     isUserLoggedIn: function () {
@@ -60,9 +76,10 @@ const Security = window.Security = {
     },
 
     getIdUser: function () {
-        return $('a[href^="/profilJoueur/"]')
+        return parseInt($('a[href^="/profilJoueur/"]')
             .attr('href')
-            .replace('/profilJoueur/', '');
+            .replace('/profilJoueur/', '')
+        );
     },
 
     log: function (...args) {
