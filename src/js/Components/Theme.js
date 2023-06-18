@@ -18,18 +18,20 @@ const Theme = window.Theme = {
 
         $this.initTopBar();
         $this.initAvatars();
-        $this.initProgressBars();
-
 
         $this.log("Initialized");
 
     },
 
-    bind: function(){
+    bind: function () {
         const $this = this;
 
         Events.register(Events.ReloadInfosPersos, function () {
             $this.initAvatars();
+            $this.initProgressBars();
+        });
+
+        Events.register(Events.LevelsLoaded, function () {
             $this.initProgressBars();
         });
     },
@@ -57,6 +59,8 @@ const Theme = window.Theme = {
         $('.zone2')
             .addClass('col-md-9');
 
+        $('#navbarColor02 > ul > li > .dropdown-menu > a.dropdown-toggle')
+            .remove();
     },
 
     initAvatars: function () {
@@ -113,8 +117,122 @@ const Theme = window.Theme = {
     initProgressBars: function () {
         const $this = this;
 
-        $('#filePV, .cadrePersoList progress:first').addClass('red');
-        $('#file, .expBarInfoPerso').addClass('blue');
+        // $('#filePV, .cadrePersoList progress:first').addClass('red');
+        // $('#file, .expBarInfoPerso').addClass('blue');
+
+        let callback = (e) => {
+            let characterInfos = Addon.characterInfos;
+            $this.log('characterInfos', characterInfos)
+
+            $('#filePV, .cadrePersoList #filePV').each(function () {
+
+                let lifeCurrent = characterInfos.lifeCurrent;
+                let lifeMax = characterInfos.lifeMax;
+                let $parent = null;
+
+                // liste de persos
+                $parent = $(this).parents('.cadrePersoList');
+                ;
+                if ($parent.length > 0) {
+                    let segs = $parent.find('.centerTexte').eq(1).find('td:last-child').text().split('/');
+                    lifeCurrent = parseInt(segs[0]);
+                    lifeMax = parseInt(segs[1]);
+                    $parent.find('.centerTexte').eq(1).remove();
+                }
+
+                // infos perso
+                $this.createProgressBar($(this), 'life', true, lifeCurrent, lifeMax);
+
+                $(this).remove();
+                $('[for="filePV"]').remove();
+            });
+            $('#file, .cadrePersoList #file').each(function () {
+
+                let experienceCurrent = characterInfos.experienceCurrent;
+                let experienceMax = characterInfos.experienceMax;
+                let $parent = null;
+
+                // infos perso
+                $parent = $(this).parents('.zone1sub');
+                if ($parent.length > 0) {
+                    let segs = Utility.trim($parent.find('.imgPersoActuelDiv').text()).split(' ');
+                    let level = parseInt(segs[segs.length - 1]);
+
+                    let levelObj = Database.levels[level];
+                    let levelObjSub = Database.levels[level - 1];
+                    if (typeof levelObjSub === 'undefined') {
+                        levelObjSub = {
+                            level: 0,
+                            experience: 0,
+                        }
+                    }
+
+                    experienceCurrent = parseInt($(this).attr('value')) - levelObjSub.experience;
+                    experienceMax = levelObj.experience - levelObjSub.experience;
+
+                    // $this.log('level', $parent.find('h5').text(), level, levelObj);
+                    // $this.log('edited', $parent.find('h5').text(), experienceCurrent, experienceMax);
+                }
+
+                // liste de persos
+                $parent = $(this).parents('.cadrePersoList');
+                if ($parent.length > 0) {
+                    let segs = Utility.trim($parent.find('.centerTexte').eq(0).find('td:last-child').text()).split(' ');
+                    let level = parseInt(segs[segs.length - 1]);
+
+                    let levelObj = Database.levels[level];
+                    let levelObjSub = Database.levels[level - 1];
+                    if (typeof levelObjSub === 'undefined') {
+                        levelObjSub = {
+                            level: 0,
+                            experience: 0,
+                        }
+                    }
+
+                    experienceCurrent = parseInt($(this).attr('value')) - levelObjSub.experience;
+                    experienceMax = levelObj.experience - levelObjSub.experience;
+
+                    $this.log('level', $parent.find('h5').text(), level, levelObj);
+                    $this.log('edited', $parent.find('h5').text(), experienceCurrent, experienceMax);
+
+                    $parent.find('.centerTexte').eq(1).remove();
+                }
+
+                $this.createProgressBar($(this), 'experience', true, experienceCurrent, experienceMax);
+
+                $(this).remove();
+                $('[for="file"]').remove();
+            });
+
+            // $('.cadrePersoList progress:first').each(function () {
+            //     $this.createProgressBar($(this), 'life', true, characterInfos.lifeCurrent, characterInfos.lifeMax);
+            // });
+            // $('.expBarInfoPerso').each(function () {
+            //     $this.createProgressBar($(this), 'experience', true, characterInfos.experienceCurrent, characterInfos.experienceMax);
+            // });
+        };
+
+        Events.register(Events.CharacterLoaded, callback);
+        Events.register(Events.ReloadInfosPersos, callback);
+    },
+
+    createProgressBar: function ($parent, type, full, valueCurrent, valueMax) {
+        let $container = $('<div class="progressbar">')
+            .addClass(type)
+            .insertAfter($parent);
+
+        let $background = $('<div class="background">')
+            .appendTo($container);
+
+        let percent = (valueCurrent / valueMax * 100);
+
+        let $value = $('<div class="value">')
+            .css('width', `${percent}%`)
+            .appendTo($container);
+
+        let $text = $('<div class="text">')
+            .text(`${Utility.formatNumber(valueCurrent)} / ${Utility.formatNumber(valueMax)}`)
+            .appendTo($container);
     },
 
     log: function (...args) {
