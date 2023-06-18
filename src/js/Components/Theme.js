@@ -61,10 +61,6 @@ const Theme = window.Theme = {
     initAvatars: function () {
         const $this = this;
 
-        if (!$this.customThemeEnabled) {
-            return;
-        }
-
         $('.imgPersoActuel').each(function () {
             let $avatar = $(this);
 
@@ -84,7 +80,7 @@ const Theme = window.Theme = {
                 .addClass('avatar')
                 .appendTo($container);
         });
-        $('.absoluDivAvatar').each(function () {
+        $('.absoluDivAvatar, .flexProfilJoueurPourBan').each(function () {
             let $container = $(this)
                 .removeClass('absoluDivAvatar')
                 .addClass('character-avatar');
@@ -115,10 +111,6 @@ const Theme = window.Theme = {
 
     initProgressBars: function () {
         const $this = this;
-
-        if (!$this.customThemeEnabled) {
-            return;
-        }
 
         $('#filePV, .cadrePersoList progress:first').addClass('red');
         $('#file, .expBarInfoPerso').addClass('blue');

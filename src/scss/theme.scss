@@ -148,6 +148,7 @@ span, label, th, td, h1, h2, h3, p {
         margin: 20px;
         padding: 20px;
         width: calc(100% - 40px);
+        align-items: start;
 
         &:not(#zoneInvocation, .persoWorldBossFond) {
             max-width: unset !important;
