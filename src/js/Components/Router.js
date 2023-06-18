@@ -92,7 +92,7 @@ const Router = window.Router = {
                     $this.filterInventory();
                 });
 
-            let url = new URL('https://www.jeuheros.fr/inventaire/filter')
+            let url = new URL('https://'+document.domain+'/inventaire/filter')
             url.search = new URLSearchParams({
                 type: typeName,
             }).toString();
