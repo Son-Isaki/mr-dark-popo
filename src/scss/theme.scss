@@ -343,12 +343,12 @@ table {
     border-radius: 2px;
     box-shadow: unset;
     border: 5px solid $black-border;
-    width: 300px;
-    height: 400px;
+    min-width: 300px;
+    min-height: 400px;
 
     &.small {
-        width: 150px;
-        height: 200px;
+        min-width: 150px;
+        min-height: 200px;
         margin-bottom: 20px;
     }
 
@@ -433,6 +433,25 @@ progress {
         }
         &::-webkit-progress-value {
             background-color: #57B7CC;
+        }
+    }
+}
+
+.zoneTextePersoInfoAvatar {
+    width: 100%;
+    padding: 20px 10%;
+
+    table:last-of-type {
+        table-layout: fixed;
+
+        tr:first-child th:first-child {
+            color: transparent;
+        }
+        th, td:first-child {
+            color: $text-light;
+        }
+        td:first-child {
+            text-align: left;
         }
     }
 }

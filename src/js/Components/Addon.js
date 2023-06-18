@@ -65,12 +65,21 @@ const Addon = window.Addon = {
         let uri = $('.imgPersoActuelDiv a:first-child').attr('href');
 
         await Utility.getPageContent(uri, (response) => {
+            let raw = null;
             let data = {};
             let $content = $(response);
 
             data.name = $content.find('.zone2 .infoPersoAvatar h3').text();
             data.slug = Utility.slugify(data.name);
             data.level = parseInt($content.find('.zone2 .infoPersoAvatar h3 + p').text().replace("Niveau ", ""));
+
+            raw = $('.infoPersoAvatar').find('table:first').find('tr:first-child td:last-child').text().split('/');
+            data.lifeMin = raw[0];
+            data.lifeMax = raw[1];
+
+            raw = $('.infoPersoAvatar').find('table:first').find('tr:last-child td:last-child').text().split('/');
+            data.experienceMin = raw[0];
+            data.experienceMax = raw[1];
 
             $this.characterInfos = data;
 
