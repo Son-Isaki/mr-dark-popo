@@ -315,9 +315,11 @@ table {
         tr:first-child th:first-child {
             color: transparent;
         }
+
         th, td:first-child {
             color: $text-light;
         }
+
         td:first-child {
             text-align: left;
         }
@@ -367,5 +369,25 @@ table {
 
     &.alert-success {
         color: $green;
+    }
+}
+
+#options-available {
+    .input-group {
+        height: 50px;
+        margin-top: -1px;
+
+        input, .input-group-text {
+            height: 100%;
+            border-radius: 0;
+        }
+
+        &:hover {
+            input, .input-group-text {
+                transition: $transition-stack;
+
+                background-color: $black-light;
+            }
+        }
     }
 }

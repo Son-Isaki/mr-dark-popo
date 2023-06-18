@@ -108,7 +108,7 @@ const Options = window.Options = {
 
         $.each($this.OPTIONS, (id, option)=> {
             $this.log('loop', id, option);
-            let $row = $('<div class="input-group mb-3"></div>');
+            let $row = $('<div class="input-group"></div>');
             let $label = $('<input type="text" class="form-control" id="'+option+'-label" disabled/>');
             let $inputGroup = $('<div class="input-group-text"></div>');
             let $input = $('<input type="checkbox" class="checkbox-addon-options" data-toggle="toggle" id="'+option+'"> ');
