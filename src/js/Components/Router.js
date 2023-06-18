@@ -43,6 +43,8 @@ const Router = window.Router = {
 
         $('.zoneCapsulesEquipe5 > p:last-child')
             .prependTo($('.zoneCapsulesEquipe5'));
+
+        Database.updateLevels();
     },
 
     filterInventory: function () {
