@@ -346,6 +346,9 @@ const Addon = window.Addon = {
         this.addBtnGoToTrainAtqEarth();
         this.addBtnGoToTrainDefEarth();
         this.addBtnGoToTrainMagEarth();
+
+        Theme.initAvatars();
+        Theme.initProgressBars();
     },
 
     addBtnGoToSafeZone: function () {
