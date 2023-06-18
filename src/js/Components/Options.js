@@ -26,6 +26,7 @@ const Options = window.Options = {
         removeLinkInfoPerso: 'remove-link-info-perso',
 
         fixNavbarTop: 'fix-navbar-top',
+        fixInfoPlayerOnScroll: 'fix-info-player-on-scroll',
         customAvatar: 'custom-avatar',
     },
 
@@ -52,6 +53,7 @@ const Options = window.Options = {
         removeLinkInfoPerso: 'Retirer le lien Info Persos dans le menu Personnages',
         fixNavbarTop: 'Fixer la barre de navigation en haut',
         customAvatar: 'Pouvoir utiliser des avatar customs',
+        fixInfoPlayerOnScroll: 'Fixer les infos du joueur/personnage lors du scroll',
     },
 
     MORE_OPTIONS: {
