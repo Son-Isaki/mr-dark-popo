@@ -381,13 +381,18 @@ table {
         height: 50px;
         margin-top: -1px;
 
-        input, .input-group-text {
+        label, input {
+            cursor: pointer;
+            line-height: 35px;
+        }
+
+        .input-group-text, .form-control {
             height: 100%;
             border-radius: 0;
         }
 
         &:hover {
-            input, .input-group-text {
+            .input-group-text, .form-control {
                 transition: $transition-stack;
 
                 background-color: $black-light;
