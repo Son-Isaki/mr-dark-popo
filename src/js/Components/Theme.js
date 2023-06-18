@@ -20,6 +20,7 @@ const Theme = window.Theme = {
         $this.initAvatars();
         $this.initProgressBars();
 
+
         $this.log("Initialized");
 
     },

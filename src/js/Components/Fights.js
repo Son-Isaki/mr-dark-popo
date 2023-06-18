@@ -173,7 +173,7 @@ const Fights = window.FightsComponent = {
 
             // level
             let fightLevel = parseInt($fighter.find('td').eq(1).text());
-            let isLevelSafe = Addon.characterInfos.level + $this.selectedLevel <= fightLevel;
+            let isLevelSafe = fightLevel - Addon.characterInfos.level <= $this.selectedLevel;
 
             if (fightLevel < Addon.characterInfos.level) {
                 $this.terminateFightLoop($this.moveToSafezoneAfter);

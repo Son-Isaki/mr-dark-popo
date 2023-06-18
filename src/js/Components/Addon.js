@@ -54,7 +54,13 @@ const Addon = window.Addon = {
     addLinkToOptions: function () {
         let $menu = $('#navbarColor02 ul').not('.mr-auto');
 
-        let $link = $('<li class="nav-item"><a href="/?addOn" class="nav-link">Addon</a></li>');
+        let $profileLink = $menu
+            .find('li.nav-item')
+            .eq(0)
+            .find('a')
+            .attr('href');
+        
+        let $link = $('<li class="nav-item"><a href="'+$profileLink+'/?addOn" class="nav-link">Addon</a></li>');
 
         $menu.prepend($link);
     },
