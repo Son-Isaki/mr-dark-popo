@@ -211,6 +211,37 @@ table {
     }
 }
 
+h3 {
+    font-size: 1.25rem;
+}
+
+.infos-perso-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    .imgPersoActuelDiv {
+        width: unset;
+        padding: unset;
+        margin: unset;
+        height: 160px;
+    }
+
+    .couleurBlack {
+        width: 100%;
+        padding-left: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+
+        p {
+            margin-bottom: 8px;
+        }
+    }
+}
+
 .banniereSite {
     width: 230px;
 }
@@ -269,6 +300,7 @@ table {
     margin: 10px;
     height: unset;
     width: calc(33% - 20px);
+    align-items: center;
 
     & > div:nth-child(2) {
         width: 100%;
