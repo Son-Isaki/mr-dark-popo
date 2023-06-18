@@ -11,6 +11,10 @@ const Avatar = window.Avatar = {
         Events.register(Events.CharacterLoaded, function () {
             $this.changeCurrentCharacterAvatar();
         });
+
+        Events.register(Events.ReloadInfosPersos, function () {
+            $this.changeCurrentCharacterAvatar();
+        });
     },
 
     changeCurrentCharacterAvatar: function () {
@@ -21,11 +25,21 @@ const Avatar = window.Avatar = {
         }
 
         let avatar = LocalStorage.get(Addon.characterInfos.slug+'-custom-avatar', 'false');
-
-        $this.log('try to get avatar', Addon.characterInfos.slug+'-custom-avatar', avatar)
         if (avatar !== 'false') {
-            $('img.avatar').attr('src', avatar);
-            $('img.background').attr('src', avatar);
+            let slug = Addon.characterInfos.slug;
+            let name = Addon.characterInfos.name;
+            let shortSlug = slug.slice(0,5);
+            let shortName = name.slice(0,5);
+
+            $('.zone1 img.avatar[src*="'+shortName+'"]').attr('src', avatar);
+            $('.zone1 img.avatar[src*="'+shortSlug+'"]').attr('src', avatar);
+            $('.zone1 img.background[src*="'+shortName+'"]').attr('src', avatar);
+            $('.zone1 img.background[src*="'+shortSlug+'"]').attr('src', avatar);
+
+            $('.infoPerso img.avatar[src*="'+shortSlug+'"]').attr('src', avatar);
+            $('.infoPerso img.avatar[src*="'+shortName+'"]').attr('src', avatar);
+            $('.infoPerso img.background[src*="'+shortSlug+'"]').attr('src', avatar);
+            $('.infoPerso img.background[src*="'+shortName+'"]').attr('src', avatar);
         }
     },
 
