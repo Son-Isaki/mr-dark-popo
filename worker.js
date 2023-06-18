@@ -1,11 +1,4 @@
-var Version = "1.0.0";
-
-chrome.storage.local.get("version", function(result) {
-    if (result.ver != Version) {
-        init();
-    }
+chrome.management.getSelf().then((extension) => {
+    console.log('extension', extension);
+    chrome.storage.local.set({'version': extension.version});
 });
-
-function init() {
-    chrome.storage.local.set({"version": Version});
-}

@@ -1,5 +1,6 @@
 const Notify = window.Notify = {
 
+    // variables
     addSelector: '.btn-add-bonus',
     subSelector: '.btn-remove-bonus',
     disabledClass: 'readonly',

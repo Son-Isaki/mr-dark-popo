@@ -191,6 +191,23 @@ const Utility = window.Utility = {
         $(selector).html(newContent);
     },
 
+    createFilter: function (label, dataType, checked, $parent) {
+        let $label = $('<label class="btn-filter">')
+            .appendTo($parent)
+
+        let $input = $('<input type="checkbox">')
+            .attr('data-type', dataType)
+            .addClass(dataType)
+            .prop('checked', checked)
+            .appendTo($label)
+
+        $('<span>')
+            .text(label)
+            .appendTo($label)
+
+        return $input;
+    },
+
     trim: function (str) {
         return str.replace(/\s{2,}/g, " ").trim();
     },

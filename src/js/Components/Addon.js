@@ -39,7 +39,6 @@ const Addon = window.Addon = {
         $this.updateNavbarTop();
         $this.makeNavbarFixed();
         $this.addLinkToOptions();
-        $this.initCharacterListPage();
 
         Utility.includeStyle('dist/css/app.min.css')
 
@@ -50,19 +49,6 @@ const Addon = window.Addon = {
     addActionsZoneToView: function () {
         $('<div id="actions-zone">')
             .appendTo($('.zone1'));
-    },
-
-    initCharacterListPage: function () {
-        if (!Addon.checkUrl('/perso/listePersonnage/')) {
-            return false;
-        }
-
-        $('button[data-type="all"]').trigger('click');
-
-        $('.cadrePersoList2').removeClass('cadrePersoList2');
-
-        $('.zoneCapsulesEquipe5 > p:last-child')
-            .prependTo($('.zoneCapsulesEquipe5'));
     },
 
     addLinkToOptions: function () {
@@ -535,7 +521,8 @@ const Addon = window.Addon = {
     },
 
     checkUrl: function (match) {
-        return Addon.currentUrl.indexOf(match) !== -1;
+        let fixedMatch = match.split('/').filter(x => x !== '').join('/');
+        return Addon.currentUrl.indexOf(fixedMatch) !== -1;
     },
 
     getGamer: function () {

@@ -135,6 +135,7 @@ span, label, th, td, h1, h2, h3, p {
     background-color: $black-light;
     margin-top: unset;
     margin-left: unset;
+    padding-top: 20px;
 
     section, .section, .fondBlancOnly, #zoneObjets, #zoneBoss2, .zoneCapsulesEquipe, .fondCapsulesEquip, .zoneCapsulesEquipe2, .fondCapsulesList, .fondCompetences, .infoPerso, #zoneCapsulesEnVente {
         background-color: $black !important;
@@ -270,4 +271,68 @@ table {
 
 .persoWorldBossFond {
     justify-content: center;
+}
+
+#zoneObjets {
+    $count: 4;
+    $margin: 10px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    .item {
+        width: calc(100% / #{$count} - #{$margin * 2});
+        margin: $margin;
+        display: flex;
+        align-items: center;
+
+        span {
+            display: block;
+            text-align: left;
+        }
+
+        .type {
+            color: $text-light;
+        }
+    }
+}
+
+.btn-filter {
+    position: relative;
+    margin: 20px 20px;
+    cursor: pointer;
+    user-select: none;
+
+    input {
+        display: none;
+
+        &:checked + span {
+            color: $orange;
+
+            &::before {
+                background-image: url('../img/theme/orange_checkbox-checked.png');
+            }
+        }
+    }
+
+    span {
+        padding-left: 28px;
+        text-transform: uppercase;
+
+        &::before {
+            content: '';
+            background-image: url('../img/theme/white_checkbox.png');
+            background-size: cover;
+            background-position: center center;
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            left: 0;
+            top: -1px;
+        }
+    }
+}
+
+.is-hidden {
+    display: none !important;
 }

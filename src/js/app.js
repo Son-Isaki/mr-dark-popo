@@ -6,10 +6,11 @@ $('document').ready(function () {
     }
 
     Addon.init();
+    Theme.init();
     Notify.init();
     Fights.init();
     Safezone.init();
     Options.init();
-    Theme.init();
+    Router.init();
 
 })
