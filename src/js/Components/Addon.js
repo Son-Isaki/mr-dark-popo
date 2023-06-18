@@ -285,10 +285,6 @@ const Addon = window.Addon = {
             return false;
         }
 
-        if (!this.checkUrl('https://' + document.domain + '/listeCombats')) {
-            return false;
-        }
-
         $('body').addClass('reverse-info-player')
     },
 
