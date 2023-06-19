@@ -71,6 +71,7 @@ const Theme = window.Theme = {
 
             let name = lst[0];
             let level = lst[1];
+            let clan = $('.zone1sub .couleurRouge').html();
 
             if (level !== undefined && level !== '') {
                 $('<p>')
@@ -82,6 +83,16 @@ const Theme = window.Theme = {
                 $('<h3>')
                     .text(name)
                     .prependTo($('.zone1sub .couleurBlack'));
+            }
+
+            if (clan !== undefined && clan !== '') {
+                let $tagClan = $('.zone1sub .couleurRouge');
+                let move = $tagClan.clone(true);
+                let html = $tagClan.html();
+                move.html(html+' ');
+
+                $('.zone1sub .couleurRouge').remove();
+                $('.infos-perso-row .couleurBlack h3').prepend(move);
             }
         }
     },
