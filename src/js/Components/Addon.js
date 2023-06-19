@@ -119,7 +119,7 @@ const Addon = window.Addon = {
         const $this = this;
 
         $(window).scroll( () => {
-            let $scrollTop = $(window).scrollTop() - 50;
+            let $scrollTop = $(window).scrollTop();
 
             let $blockToMove = $('.zone1');
             $blockToMove.css({
