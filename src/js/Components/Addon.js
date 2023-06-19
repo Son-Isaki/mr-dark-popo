@@ -111,20 +111,20 @@ const Addon = window.Addon = {
         $this.characterInfos = data;
     },
 
-    stuckInfoPlayerOnScroll: function() {
+    stuckInfoPlayerOnScroll: function () {
         if (LocalStorage.get(Options.OPTIONS.fixInfoPlayerOnScroll, 'false') === 'false') {
             return false;
         }
 
         const $this = this;
 
-        $(window).scroll( () => {
+        $(window).scroll(() => {
             let $scrollTop = $(window).scrollTop();
 
             let $blockToMove = $('.zone1');
             $blockToMove.css({
                 position: 'relative',
-                top: $scrollTop+'px'
+                top: $scrollTop + 'px'
             });
         });
     },
@@ -327,32 +327,15 @@ const Addon = window.Addon = {
                 type: 'GET',
                 crossDomain: true,
             }).done(function (response) {
-                let link = $(response).find("a[href='/perso/addpoints/']");
-                $(link).css({
-                    'marginBottom': '10px',
-                    'display': 'block',
-                });
-
-                if (link.length > 0) {
-                    if ($('.imgPersoActuelDiv').find("a[href='/perso/addpoints/']").length > 0) {
-                        return false;
-                    }
-                    $('.imgPersoActuelDiv').after(link);
-                }
+                $(response).find("a[href='/perso/addpoints/']")
+                    .addClass('link-bonus-points')
+                    .insertAfter($('.infos-perso-row'));
             });
         } else {
-            let link = $('.zoneFlexAutresStats').find("a[href='/perso/addpoints/']").clone(true);
-            $(link).css({
-                'marginBottom': '10px',
-                'display': 'block',
-            });
-
-            if (link.length > 0) {
-                if ($('.imgPersoActuelDiv').find("a[href='/perso/addpoints/']").length > 0) {
-                    return false;
-                }
-                $('.imgPersoActuelDiv').after(link);
-            }
+            $('.zoneFlexAutresStats').find("a[href='/perso/addpoints/']")
+                .clone(true)
+                .addClass('link-bonus-points')
+                .insertAfter($('.imgPersoActuelDiv'));
         }
     },
 
