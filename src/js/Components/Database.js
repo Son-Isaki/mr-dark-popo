@@ -90,7 +90,9 @@ const Database = window.Database = {
                 let $card = $(this);
                 let level = parseInt($card.find('table:first-of-type td').text().split(' ')[1]);
                 let experience = parseInt($card.find('table:last-of-type td:last-child').text().split('/')[1]);
-                data[level] = experience;
+                if (experience >= 50) {
+                    data[level] = experience;
+                }
             });
 
             $.ajax({
