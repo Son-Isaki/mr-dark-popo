@@ -1,4 +1,6 @@
 const Avatar = window.Avatar = {
+    STORAGE: 'custom-avatar-data',
+
     init: function() {
         const $this = this;
 
@@ -24,11 +26,27 @@ const Avatar = window.Avatar = {
             return false;
         }
 
-        let avatar = LocalStorage.get(Addon.characterInfos.slug+'-custom-avatar', 'false');
-        let thumbnail = LocalStorage.get(Addon.characterInfos.slug+'-custom-avatar-thumb', false);
-        if (avatar !== 'false' && thumbnail !== 'false') {
+        let allAvatar = LocalStorage.get($this.STORAGE, 'false');
+
+        if (allAvatar === 'false') {
+            return false;
+        }
+
+        allAvatar = JSON.parse(allAvatar);
+
+        if (allAvatar[Addon.characterInfos.slug] === undefined) {
+            return false;
+        }
+
+        let avatar = allAvatar[Addon.characterInfos.slug].avatar;
+        let thumbnail = allAvatar[Addon.characterInfos.slug].thumbnail;
+
+        if (avatar !== null && thumbnail !== null) {
             let slug = Addon.characterInfos.slug;
             let name = Addon.characterInfos.name;
+
+            let avatarFullPath = Utility.getExtensionFilePath(avatar);
+            let thumbFullPath = Utility.getExtensionFilePath(thumbnail);
 
             let avatarChanged = false;
             let limitChar = 5;
@@ -59,22 +77,22 @@ const Avatar = window.Avatar = {
                     $imgInfoPersoAvatarShortName.length > 0 ||
                     $imgInfoPersoAvatarShortSlug.length > 0
                 ) {
-                    $imgZone1AvatarName.attr('src', thumbnail);
-                    $imgZone1AvatarShortName.attr('src', thumbnail);
-                    $imgZone1AvatarSlug.attr('src', thumbnail);
-                    $imgZone1AvatarShortSlug.attr('src', thumbnail);
-                    $imgZone1BackgroundName.attr('src', thumbnail);
-                    $imgZone1BackgroundShortName.attr('src', thumbnail);
-                    $imgZone1BackgroundSlug.attr('src', thumbnail);
-                    $imgZone1BackgroundShortSlug.attr('src', thumbnail);
-                    $imgInfoPersoAvatarName.attr('src', avatar);
-                    $imgInfoPersoAvatarShortName.attr('src', avatar);
-                    $imgInfoPersoAvatarSlug.attr('src', avatar);
-                    $imgInfoPersoAvatarShortSlug.attr('src', avatar);
-                    $imgInfoPersoBackgroundName.attr('src', avatar);
-                    $imgInfoPersoBackgroundShortName.attr('src', avatar);
-                    $imgInfoPersoBackgroundSlug.attr('src', avatar);
-                    $imgInfoPersoBackgroundShortSlug.attr('src', avatar);
+                    $imgZone1AvatarName.attr('src', thumbFullPath);
+                    $imgZone1AvatarShortName.attr('src', thumbFullPath);
+                    $imgZone1AvatarSlug.attr('src', thumbFullPath);
+                    $imgZone1AvatarShortSlug.attr('src', thumbFullPath);
+                    $imgZone1BackgroundName.attr('src', thumbFullPath);
+                    $imgZone1BackgroundShortName.attr('src', thumbFullPath);
+                    $imgZone1BackgroundSlug.attr('src', thumbFullPath);
+                    $imgZone1BackgroundShortSlug.attr('src', thumbFullPath);
+                    $imgInfoPersoAvatarName.attr('src', avatarFullPath);
+                    $imgInfoPersoAvatarShortName.attr('src', avatarFullPath);
+                    $imgInfoPersoAvatarSlug.attr('src', avatarFullPath);
+                    $imgInfoPersoAvatarShortSlug.attr('src', avatarFullPath);
+                    $imgInfoPersoBackgroundName.attr('src', avatarFullPath);
+                    $imgInfoPersoBackgroundShortName.attr('src', avatarFullPath);
+                    $imgInfoPersoBackgroundSlug.attr('src', avatarFullPath);
+                    $imgInfoPersoBackgroundShortSlug.attr('src', avatarFullPath);
 
                     avatarChanged = true;
                 }
