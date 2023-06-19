@@ -67,10 +67,6 @@ const Utility = window.Utility = {
         return matches;
     },
 
-    getCurrentLifeCharacter: function () {
-        return $('#filePV').attr('value');
-    },
-
     getListFighter: function () {
         let $fighters = $('.fondBlancOnly table tr.couleurAlt');
     },
