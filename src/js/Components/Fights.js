@@ -167,8 +167,7 @@ const Fights = window.FightsComponent = {
             let fightLabel = Utility.trim($fighter.find('td').eq(0).text());
 
             // life
-            let currentLifeCharacter = parseInt(Utility.getCurrentLifeCharacter());
-            let isLifeSafe = currentLifeCharacter > $this.selectedLife;
+            let isLifeSafe = Addon.characterInfos.lifeCurrent > $this.selectedLife;
 
             // ratio
             let fightStats = $fighter.find('td').eq(2).text().split('/');
@@ -238,11 +237,11 @@ const Fights = window.FightsComponent = {
     },
 
     ajaxFight: function () {
+        const $this = this;
+
         if (LocalStorage.get(Options.OPTIONS.ajaxFight, 'false') === 'false') {
             return false;
         }
-
-        const $this = this;
 
         if (!Addon.checkUrl('/listeCombats')) {
             return false;
@@ -260,6 +259,7 @@ const Fights = window.FightsComponent = {
 
             let $newHtml = $('<span class="newfight canFight btn btn-secondary" data-id="' + $idCombat + '">Combattre</span>');
             $($tdCombat).html($newHtml);
+
             $newHtml.on('click', function (e) {
                 let selectorCombat = ".newfight[data-id='" + $idCombat + "']";
                 if ($(e.target).hasClass('canFight')) {
