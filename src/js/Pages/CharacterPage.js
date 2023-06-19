@@ -45,25 +45,39 @@ const CharacterPage = window.Character = {
                 return false;
             }
 
-            let base64Prefix = 'data:image/png;base64,';
+            let basePath = 'dist/img/custom_avatar_webp/';
 
             let $containerAvatar = $('.zoneFlexAvatarSwitch');
 
             $.each(response.response, (key, avatar) => {
 
+                let $path = basePath+avatar.path;
+                let $thumbPath = basePath+avatar.mini;
+                let customId = 'custom-avatar-'+avatar.id;
+
                 switch (avatar.type) {
                     default:
+                        $('<a class="icon_add" href="#"><img class="tailleImgAvatarChange listeChoixAvatarDecalage" id="'+customId+'" src="'+Utility.getExtensionFilePath($path)+'" alt="ImageAvatar"></a>')
+                            .on('click', () => {
+                                $this.addCustomAvatarOnStorage($path, $thumbPath);
+                            }).appendTo($containerAvatar);
+                        break;
+
+                    case "replace":
+                        let original = avatar.original;
+
+                        if (original) {
+                            let $originalImage = $('img[src="'+original+'"]');
+
+                            $originalImage.attr('src', Utility.getExtensionFilePath($path))
+                                .parent()
+                                .attr('href', '#')
+                                .on('click', () => {
+                                    $this.addCustomAvatarOnStorage($path, $thumbPath);
+                                });
+                        }
                         break;
                 }
-
-                let $fullPath = base64Prefix+avatar.path;
-                let $fullPathThumb = base64Prefix+avatar.mini;
-                $('<a class="icon_add" href="#"><img class="tailleImgAvatarChange listeChoixAvatarDecalage" src="'+$fullPath+'" alt="ImageAvatar"></a>')
-                    .on('click', () => {
-                        LocalStorage.set(Addon.characterInfos.slug+'-custom-avatar', $fullPath);
-                        LocalStorage.set(Addon.characterInfos.slug+'-custom-avatar-thumb', $fullPathThumb);
-                        location.reload();
-                    }).appendTo($containerAvatar);
             });
         });
 
@@ -80,6 +94,31 @@ const CharacterPage = window.Character = {
                 .appendTo('.zoneBoutonDrop p');
         }
 
+    },
+
+    addCustomAvatarOnStorage: function($path, $thumbPath) {
+        const $this = this;
+
+        let allAvatarStored = LocalStorage.get(Avatar.STORAGE, 'false');
+
+        if (allAvatarStored === 'false') {
+            allAvatarStored = {};
+            allAvatarStored[Addon.characterInfos.slug] = {
+                avatar: $path,
+                thumbnail: $thumbPath,
+            };
+        }
+
+        if (typeof allAvatarStored !== "object") {
+            allAvatarStored = JSON.parse(allAvatarStored);
+            allAvatarStored[Addon.characterInfos.slug] = {
+                avatar: $path,
+                thumbnail: $thumbPath,
+            };
+        }
+
+        LocalStorage.set(Avatar.STORAGE, JSON.stringify(allAvatarStored));
+        location.reload();
     },
 
     log: function (...args) {

@@ -28,6 +28,8 @@ const Options = window.Options = {
         fixNavbarTop: 'fix-navbar-top',
         fixInfoPlayerOnScroll: 'fix-info-player-on-scroll',
         customAvatar: 'custom-avatar',
+        sendAlertLowLife: 'send-alert-character-low-life',
+        systemGestionCharacter: 'system-gestion-character',
     },
 
     OPTIONS_LABEL: {
@@ -54,6 +56,8 @@ const Options = window.Options = {
         fixNavbarTop: 'Fixer la barre de navigation en haut',
         customAvatar: 'Pouvoir utiliser des avatar customs',
         fixInfoPlayerOnScroll: 'Fixer les infos du joueur/personnage lors du scroll',
+        sendAlertLowLife: 'Recevoir des alertes quand un personnage n\'a presque plus de vie',
+        systemGestionCharacter: 'Ajouter un système pour "gérer" ses personnages (kaioh/verte/stuff)',
     },
 
     MORE_OPTIONS: {
