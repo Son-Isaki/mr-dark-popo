@@ -12,6 +12,7 @@ const Utility = window.Utility = {
         'bleas': 'https://' + document.domain + '/carte/move/717',
         'minipo': 'https://' + document.domain + '/carte/move/391',
         'konohaearth': 'https://' + document.domain + '/carte/move/328',
+        'namek': 'https://' + document.domain + '/carte/move/627',
     },
 
     urlFightZoneByPlanet: {
@@ -20,6 +21,7 @@ const Utility = window.Utility = {
         'bleas': 'https://' + document.domain + '/carte/move/716',
         'minipo': 'https://' + document.domain + '/carte/move/374',
         'konohaearth': 'https://' + document.domain + '/carte/move/329',
+        'namek': 'https://' + document.domain + '/carte/move/626',
     },
 
     characterLevels: {
