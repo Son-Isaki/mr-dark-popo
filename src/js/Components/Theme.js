@@ -54,7 +54,7 @@ const Theme = window.Theme = {
                     </a>
                 </div>
                 <div class="infos-perso-infos">
-                    <h3 class="name"></h3>
+                    <h3><span class="clan"></span><span class="name"></span></h3>
                     <p>Niveau <span class="level"></span></p>
                     
                     <div class="progressbar life">
@@ -66,7 +66,8 @@ const Theme = window.Theme = {
                         <div class="background"></div>
                         <div class="value"></div>
                         <div class="text"><span class="current"></span>&nbsp;/&nbsp;<span class="max"></span></div>
-                    </div> 
+                    </div>
+                    <a href="/perso/infoPersonnage" class="link-action">Plus d'informations</a>
                 </p>
             </div>
         </div>
@@ -144,6 +145,11 @@ const Theme = window.Theme = {
             energyExt: 0,
         };
 
+        data.clanName = $content.find('.couleurRouge').text();
+        data.clanSlug = Utility.slugify(data.clanName);
+
+        data.avatar = $content.find('.imgPersoActuel').attr('src');
+
         let progressData = $this.getProgressData(content);
         data.lifeCurrent = progressData.lifeCurrent;
         data.lifeMax = progressData.lifeMax;
@@ -181,8 +187,6 @@ const Theme = window.Theme = {
             }
         }
 
-        data.avatar = $content.find('.imgPersoActuel').attr('src');
-
         return data;
     },
 
@@ -208,6 +212,7 @@ const Theme = window.Theme = {
 
         let $infosPerso = $('.infos-perso-container');
 
+        $infosPerso.find('.clan').text(data.clanName);
         $infosPerso.find('.name').text(data.name);
         $infosPerso.find('.level').text(data.level);
 

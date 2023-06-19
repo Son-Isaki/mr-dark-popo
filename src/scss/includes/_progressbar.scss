@@ -24,14 +24,17 @@
     }
 
     .text {
-        color: white;
-        font-size: 12px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        text-shadow: 0 1px 2px transparentize(black, .3);
         width: 100%;
+
+        span {
+            color: white;
+            font-size: 12px;
+            text-shadow: 0 1px 2px transparentize(black, .3);
+        }
     }
 
     &.life {

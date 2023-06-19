@@ -212,9 +212,14 @@ table {
                 align-items: center;
                 margin-bottom: 20px;
 
+                .clan {
+                    color: $orange;
+                    margin-right: .3rem;
+                }
+
                 .infos-perso-avatar {
                     width: 120px;
-                    height: 160px;
+                    height: 190px;
                 }
 
                 .infos-perso-infos {
@@ -259,6 +264,16 @@ table {
 
 h3 {
     font-size: 1.25rem;
+}
+
+.link-action {
+    color: $orange;
+    transition: $transition-stack;
+
+    &:hover {
+        color: darken($orange, 15%);
+        text-decoration: none;
+    }
 }
 
 .link-bonus-points {
