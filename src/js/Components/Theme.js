@@ -56,31 +56,33 @@ const Theme = window.Theme = {
             .appendTo($container)
             .find('br').remove();
 
-        let tmp = $('.imgPersoActuelDiv')[0];
-        let lst = [];
-        for (let i = 0; i < tmp.childNodes.length; i++) {
-            if (tmp.childNodes[i].nodeType === Node.TEXT_NODE) {
-                let text = Utility.trim(tmp.childNodes[i].nodeValue);
-                if (text !== '') {
-                    lst.push(text);
+        if ($('.imgPersoActuelDiv').length) {
+            let tmp = $('.imgPersoActuelDiv')[0];
+            let lst = [];
+            for (let i = 0; i < tmp.childNodes.length; i++) {
+                if (tmp.childNodes[i].nodeType === Node.TEXT_NODE) {
+                    let text = Utility.trim(tmp.childNodes[i].nodeValue);
+                    if (text !== '') {
+                        lst.push(text);
+                    }
+                    tmp.childNodes[i].remove()
                 }
-                tmp.childNodes[i].remove()
             }
-        }
 
-        let name = lst[0];
-        let level = lst[1];
+            let name = lst[0];
+            let level = lst[1];
 
-        if (level !== undefined && level !== '') {
-            $('<p>')
-                .text(level)
-                .prependTo($('.zone1sub .couleurBlack'));
-        }
+            if (level !== undefined && level !== '') {
+                $('<p>')
+                    .text(level)
+                    .prependTo($('.zone1sub .couleurBlack'));
+            }
 
-        if (name !== undefined && name !== '') {
-            $('<h3>')
-                .text(name)
-                .prependTo($('.zone1sub .couleurBlack'));
+            if (name !== undefined && name !== '') {
+                $('<h3>')
+                    .text(name)
+                    .prependTo($('.zone1sub .couleurBlack'));
+            }
         }
     },
 
