@@ -41,8 +41,6 @@ const CharacterPage = window.Character = {
             dataType: 'json',
             crossDomain: true,
         }).done((response) => {
-            $this.log('return ajax', response.response);
-
             if (response.response.length === 0) {
                 return false;
             }
@@ -52,15 +50,35 @@ const CharacterPage = window.Character = {
             let $containerAvatar = $('.zoneFlexAvatarSwitch');
 
             $.each(response.response, (key, avatar) => {
-                $this.log('foreach avatar', key, avatar);
+
+                switch (avatar.type) {
+                    default:
+                        break;
+                }
+
                 let $fullPath = base64Prefix+avatar.path;
+                let $fullPathThumb = base64Prefix+avatar.mini;
                 $('<a class="icon_add" href="#"><img class="tailleImgAvatarChange listeChoixAvatarDecalage" src="'+$fullPath+'" alt="ImageAvatar"></a>')
                     .on('click', () => {
                         LocalStorage.set(Addon.characterInfos.slug+'-custom-avatar', $fullPath);
+                        LocalStorage.set(Addon.characterInfos.slug+'-custom-avatar-thumb', $fullPathThumb);
                         location.reload();
                     }).appendTo($containerAvatar);
             });
         });
+
+        let currentAvatar = LocalStorage.get(Addon.characterInfos.slug+'-custom-avatar', 'false');
+
+        if (currentAvatar !== 'false') {
+            $('<button class="btn btn-danger" type="button">Retirer l\'avatar custom</button>')
+                .on('click', (e) => {
+                    e.preventDefault();
+                    LocalStorage.set(Addon.characterInfos.slug+'-custom-avatar', 'false');
+                    LocalStorage.set(Addon.characterInfos.slug+'-custom-avatar-thumb', 'false');
+                    location.reload();
+                })
+                .appendTo('.zoneBoutonDrop p');
+        }
 
     },
 
