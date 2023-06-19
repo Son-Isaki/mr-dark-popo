@@ -189,6 +189,7 @@ table {
     margin-bottom: 20px;
 }
 
+
 .zone1before {
     background-color: $black;
 
@@ -202,15 +203,55 @@ table {
         border-radius: 0;
         padding: 15px;
 
-        .zone1sub {
-            background: transparent;
-            border-radius: unset;
-            box-shadow: unset;
-            margin: unset;
+        .infos-perso-container {
             padding: 20px;
 
-            .labelBarPerso, .imgPersoActuelDiv {
-                color: $white;
+            .infos-perso-row {
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: center;
+                margin-bottom: 20px;
+
+                .infos-perso-avatar {
+                    width: 120px;
+                    height: 160px;
+                }
+
+                .infos-perso-infos {
+                    width: 100%;
+                    padding-left: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0;
+
+                    p {
+                        margin-bottom: 8px;
+                    }
+                }
+            }
+
+            .infos-perso-numbers {
+                width: 100%;
+
+                td:first-child {
+                    width: 32px;
+                    text-align: center;
+                    padding-right: 15px;
+                }
+
+                td:nth-child(2) {
+                    text-align: left;
+                }
+
+                td:last-child {
+                    text-align: right;
+                }
+
+                img {
+                    display: inline;
+                }
             }
         }
     }
@@ -229,34 +270,6 @@ h3 {
     &:hover {
         color: darken($orange, 15%);
         text-decoration: none;
-    }
-}
-
-.infos-perso-row {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    margin-bottom: 20px;
-
-    .imgPersoActuelDiv {
-        width: unset;
-        padding: unset;
-        margin: unset;
-        height: 160px;
-    }
-
-    .couleurBlack {
-        width: 100%;
-        padding-left: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-
-        p {
-            margin-bottom: 8px;
-        }
     }
 }
 
