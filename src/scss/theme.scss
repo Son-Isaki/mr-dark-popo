@@ -216,10 +216,23 @@ h3 {
     font-size: 1.25rem;
 }
 
+.link-bonus-points {
+    color: $orange;
+    margin-bottom: 20px;
+    transition: $transition-stack;
+    display: inline-block;
+
+    &:hover {
+        color: darken($orange, 15%);
+        text-decoration: none;
+    }
+}
+
 .infos-perso-row {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
+    margin-bottom: 20px;
 
     .imgPersoActuelDiv {
         width: unset;
