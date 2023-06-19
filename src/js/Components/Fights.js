@@ -74,7 +74,6 @@ const Fights = window.FightsComponent = {
             .appendTo($secondRow)
             .on('change', function () {
                 $this.selectedLife = parseInt($(this).find('input').val());
-                // $this.log('Vie max modifiée', $this.selectedLife)
                 LocalStorage.set(`${Addon.characterInfos.slug}-life`, $this.selectedLife)
             })
 
@@ -90,7 +89,6 @@ const Fights = window.FightsComponent = {
             .appendTo($secondRow)
             .on('change', function () {
                 $this.selectedRatio = parseFloat($(this).find('input').val());
-                // $this.log('Ratio max modifié', $this.selectedRatio)
                 LocalStorage.set(`${Addon.characterInfos.slug}-ratio`, $this.selectedRatio)
             })
 
@@ -106,7 +104,6 @@ const Fights = window.FightsComponent = {
             .appendTo($secondRow)
             .on('change', function () {
                 $this.selectedLevel = parseFloat($(this).find('input').val());
-                // $this.log('Niveau max modifié', $this.selectedLevel)
                 LocalStorage.set(`${Addon.characterInfos.slug}-level`, $this.selectedLevel)
             })
 
@@ -124,7 +121,6 @@ const Fights = window.FightsComponent = {
             .find('input')
             .on('change', function () {
                 $this.moveToSafezoneAfter = $('#goToSafeZone').prop('checked');
-                // $this.log('Safezone modifié', $this.moveToSafezoneAfter)
                 LocalStorage.set(`${Addon.characterInfos.slug}-safezone`, $this.moveToSafezoneAfter)
             });
 
@@ -180,13 +176,10 @@ const Fights = window.FightsComponent = {
 
             if (fightLevel < Addon.characterInfos.level) {
                 $this.terminateFightLoop($this.moveToSafezoneAfter);
-                $this.log('fightlevel under character level');
                 return false;
             }
 
             if (isLifeSafe && isRatioSafe && isLevelSafe) {
-
-                $this.log(`Start fight with ${fightLabel} !`)
 
                 // send fight
                 $fighter.find('.newfight')
@@ -201,11 +194,8 @@ const Fights = window.FightsComponent = {
                 // plus assez de vie, fin des combats
                 $this.terminateFightLoop($this.moveToSafezoneAfter);
                 stopLoop = true;
-                // $this.log('No more life...');
 
             } else {
-
-                // $this.log(`Avoid fighting with ${fightLabel}...`)
 
                 // mark fight as dangerous
                 $fighter.find('.newfight')
@@ -249,9 +239,9 @@ const Fights = window.FightsComponent = {
 
         let $list = $('.zone2 table tr.couleurAlt');
 
-        $list.each(function (key, val) {
-            Addon.listFighters[key] = val;
-            Addon.listFightersTmp[key] = val.cloneNode(true);
+        $list.each(function (fightIndex, val) {
+            Addon.listFighters[fightIndex] = val;
+            Addon.listFightersTmp[fightIndex] = val.cloneNode(true);
             let $tdCombat = $(val).find('td')[3];
 
             let $idCombat = $($tdCombat).find('a').attr('href').replace('/combattre/', '');
@@ -269,48 +259,7 @@ const Fights = window.FightsComponent = {
                         type: 'GET',
                         crossDomain: true,
                     }).done(function (response) {
-                        let regex = /^var tableauDeCombat = (\[(.*)]);$/;
-                        let myRegex = new RegExp(regex, "gm")
-                        let matches = myRegex.exec(response);
-
-                        if (matches !== null) {
-                            let historicFight = JSON.parse(matches[1]);
-
-                            Addon.updateCharacterInfos().then(() => {
-                                $('.zone1sub').html($(response).find('.zone1sub').html());
-
-                                let maxRound = historicFight.length - 1;
-
-                                let resultFight = historicFight[maxRound]['J1']['Resultat'];
-                                if (historicFight[maxRound]['J2']['Resultat'] === 'Mort') {
-                                    resultFight = resultFight + ' : Tu as tué cette merde'
-                                }
-
-                                let resultFightClass;
-                                switch (resultFight) {
-                                    default:
-                                        resultFightClass = 'btn-primary'
-                                        break;
-
-                                    case "Victoire":
-                                        resultFightClass = 'btn-success'
-                                        break;
-
-                                    case "Defaite":
-                                        resultFightClass = 'btn-warning'
-                                        break;
-
-                                    case "Mort":
-                                        resultFightClass = 'btn-danger'
-                                        break;
-                                }
-                                $(selectorCombat).removeClass('btn-secondary btn-dark').addClass(resultFightClass);
-
-                                Utility.hideLoader(selectorCombat, resultFight);
-                                Addon.reloadInfoPlayer();
-                                delete Addon.listFightersTmp[key];
-                            });
-                        }
+                        $this.handleFightResult(selectorCombat, fightIndex, response);
                     })
 
                     $(e.target).removeClass('canFight');
@@ -318,6 +267,64 @@ const Fights = window.FightsComponent = {
             });
 
         });
+    },
+
+    /**
+     * Traitement du résultat du combat
+     */
+    handleFightResult: function (selectorCombat, fightIndex, response) {
+        const $this = this;
+
+        let regex = /^var tableauDeCombat = (\[(.*)]);$/;
+        let myRegex = new RegExp(regex, "gm")
+        let matches = myRegex.exec(response);
+
+        if (matches !== null) {
+            let historicFight = JSON.parse(matches[1]);
+
+
+            if (LocalStorage.get(Options.OPTIONS.customThemeEnabled, 'false') === 'false') {
+
+                // custom theme disabled
+                $('.zone1sub').html($(response).find('.zone1sub').html());
+
+            } else {
+
+                // custom theme enabled
+                Theme.updateInfosPerso($(response).find('.zone1').html());
+
+            }
+
+            Addon.addBonusCharacterPointsOnInfoPlayer();
+
+            let maxRound = historicFight.length - 1;
+
+            let resultFight = historicFight[maxRound]['J1']['Resultat'];
+            if (historicFight[maxRound]['J2']['Resultat'] === 'Mort') {
+                resultFight = resultFight + ' : Tu as tué cette merde'
+            }
+
+            let resultFightClass;
+            switch (resultFight) {
+                default:
+                    resultFightClass = 'btn-primary';
+                    break;
+                case "Victoire":
+                    resultFightClass = 'btn-success';
+                    break;
+                case "Defaite":
+                    resultFightClass = 'btn-warning';
+                    break;
+                case "Mort":
+                    resultFightClass = 'btn-danger';
+                    break;
+            }
+            $(selectorCombat).removeClass('btn-secondary btn-dark').addClass(resultFightClass);
+
+            Utility.hideLoader(selectorCombat, resultFight);
+
+            delete Addon.listFightersTmp[fightIndex];
+        }
     },
 
     log: function (...args) {

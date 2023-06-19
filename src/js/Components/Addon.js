@@ -321,17 +321,20 @@ const Addon = window.Addon = {
             return false;
         }
 
+
         if (Addon.currentUrl !== 'https://' + document.domain + '/perso/infoPersonnage') {
             $.ajax({
                 url: 'https://' + document.domain + '/perso/infoPersonnage',
                 type: 'GET',
                 crossDomain: true,
             }).done(function (response) {
+                $('.link-bonus-points').remove();
                 $(response).find("a[href='/perso/addpoints/']")
                     .addClass('link-bonus-points')
                     .insertAfter($('.infos-perso-row'));
             });
         } else {
+            $('.link-bonus-points').remove();
             $('.zoneFlexAutresStats').find("a[href='/perso/addpoints/']")
                 .clone(true)
                 .addClass('link-bonus-points')
