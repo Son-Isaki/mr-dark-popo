@@ -1,0 +1,29 @@
+#game-loader {
+    position: fixed;
+    background-color: $black;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 1;
+    display: block;
+    z-index: 100000;
+
+    img, embed {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+
+        svg {
+            background-color: transparent;
+        }
+    }
+
+    &.is-hidden {
+        display: block !important;
+        opacity: 0;
+        pointer-events: none;
+        transition: $transition-stack;
+    }
+}
