@@ -16,15 +16,15 @@ const Theme = window.Theme = {
 
         $this.bind();
 
-        setTimeout(function () {
-            $this.initTopBar();
-            // $this.initAvatars();
-        }, 30);
+        $this.initTopBar();
 
         $this.log("Initialized");
 
     },
 
+    /**
+     * Bind les événements utiles à ce composant
+     */
     bind: function () {
         const $this = this;
 
@@ -190,6 +190,9 @@ const Theme = window.Theme = {
         return data;
     },
 
+    /**
+     * Initialize le bloc infos perso au chargement de la page
+     */
     initInfosPerso: function () {
         const $this = this;
 
@@ -200,6 +203,9 @@ const Theme = window.Theme = {
         $this.displayInfosPerso(data);
     },
 
+    /**
+     * Met à jour les informations du bloc infos perso
+     */
     updateInfosPerso: function (content) {
         const $this = this;
 
@@ -207,6 +213,9 @@ const Theme = window.Theme = {
         $this.displayInfosPerso(data);
     },
 
+    /**
+     * Inject les informations données dans le bloc infos perso
+     */
     displayInfosPerso: function (data) {
         const $this = this;
 
@@ -234,6 +243,10 @@ const Theme = window.Theme = {
         $infosPerso.find('.energy-ext').text(Utility.formatNumber(data.energyExt));
     },
 
+
+    /**
+     * Initialize le header du site
+     */
     initTopBar: function () {
         $('.banniereSite').attr('src', Utility.getExtensionFilePath('dist/img/theme/logo.png'));
 
@@ -475,11 +488,6 @@ const Theme = window.Theme = {
         });
 
         return data;
-    },
-
-    initInfosPersoNumbers: function () {
-        const $this = this;
-
     },
 
     /**
