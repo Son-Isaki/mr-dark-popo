@@ -1,7 +1,7 @@
 const Avatar = window.Avatar = {
     STORAGE: 'custom-avatar-data',
 
-    init: function() {
+    init: function () {
         const $this = this;
 
         $this.bind();
@@ -11,11 +11,11 @@ const Avatar = window.Avatar = {
         const $this = this;
 
         Events.register(Events.CharacterLoaded, function () {
-            $this.changeCurrentCharacterAvatar();
+            // $this.changeCurrentCharacterAvatar();
         });
 
         Events.register(Events.ReloadInfosPersos, function () {
-            $this.changeCurrentCharacterAvatar();
+            // $this.changeCurrentCharacterAvatar();
         });
     },
 
@@ -34,16 +34,16 @@ const Avatar = window.Avatar = {
 
         allAvatar = JSON.parse(allAvatar);
 
-        if (allAvatar[Addon.characterInfos.slug] === undefined) {
+        if (allAvatar[Addon.currentCharacter.slug] === undefined) {
             return false;
         }
 
-        let avatar = allAvatar[Addon.characterInfos.slug].avatar;
-        let thumbnail = allAvatar[Addon.characterInfos.slug].thumbnail;
+        let avatar = allAvatar[Addon.currentCharacter.slug].avatar;
+        let thumbnail = allAvatar[Addon.currentCharacter.slug].thumbnail;
 
         if (avatar !== null && thumbnail !== null) {
-            let slug = Addon.characterInfos.slug;
-            let name = Addon.characterInfos.name;
+            let slug = Addon.currentCharacter.slug;
+            let name = Addon.currentCharacter.name;
 
             let avatarFullPath = Utility.getExtensionFilePath(avatar);
             let thumbFullPath = Utility.getExtensionFilePath(thumbnail);
@@ -54,23 +54,23 @@ const Avatar = window.Avatar = {
                 let shortSlug = slug.slice(0, limitChar);
                 let shortName = name.slice(0, limitChar);
 
-                let $imgZone1AvatarName = $('.zone1 img.avatar[src*="'+name+'"]');
-                let $imgZone1AvatarShortName = $('.zone1 img.avatar[src*="'+shortName+'"]');
-                let $imgZone1AvatarSlug = $('.zone1 img.avatar[src*="'+slug+'"]');
-                let $imgZone1AvatarShortSlug = $('.zone1 img.avatar[src*="'+shortSlug+'"]');
-                let $imgZone1BackgroundName = $('.zone1 img.background[src*="'+name+'"]');
-                let $imgZone1BackgroundShortName = $('.zone1 img.background[src*="'+shortName+'"]');
-                let $imgZone1BackgroundSlug = $('.zone1 img.background[src*="'+slug+'"]');
-                let $imgZone1BackgroundShortSlug = $('.zone1 img.background[src*="'+shortSlug+'"]');
+                let $imgZone1AvatarName = $('.zone1 img.avatar[src*="' + name + '"]');
+                let $imgZone1AvatarShortName = $('.zone1 img.avatar[src*="' + shortName + '"]');
+                let $imgZone1AvatarSlug = $('.zone1 img.avatar[src*="' + slug + '"]');
+                let $imgZone1AvatarShortSlug = $('.zone1 img.avatar[src*="' + shortSlug + '"]');
+                let $imgZone1BackgroundName = $('.zone1 img.background[src*="' + name + '"]');
+                let $imgZone1BackgroundShortName = $('.zone1 img.background[src*="' + shortName + '"]');
+                let $imgZone1BackgroundSlug = $('.zone1 img.background[src*="' + slug + '"]');
+                let $imgZone1BackgroundShortSlug = $('.zone1 img.background[src*="' + shortSlug + '"]');
 
-                let $imgInfoPersoAvatarName = $('.infoPerso img.avatar[src*="'+name+'"]');
-                let $imgInfoPersoAvatarShortName = $('.infoPerso img.avatar[src*="'+shortName+'"]');
-                let $imgInfoPersoAvatarSlug = $('.infoPerso img.avatar[src*="'+slug+'"]');
-                let $imgInfoPersoAvatarShortSlug = $('.infoPerso img.avatar[src*="'+shortSlug+'"]');
-                let $imgInfoPersoBackgroundName = $('.infoPerso img.background[src*="'+name+'"]');
-                let $imgInfoPersoBackgroundShortName = $('.infoPerso img.background[src*="'+shortName+'"]');
-                let $imgInfoPersoBackgroundSlug = $('.infoPerso img.background[src*="'+slug+'"]');
-                let $imgInfoPersoBackgroundShortSlug = $('.infoPerso img.background[src*="'+shortSlug+'"]');
+                let $imgInfoPersoAvatarName = $('.infoPerso img.avatar[src*="' + name + '"]');
+                let $imgInfoPersoAvatarShortName = $('.infoPerso img.avatar[src*="' + shortName + '"]');
+                let $imgInfoPersoAvatarSlug = $('.infoPerso img.avatar[src*="' + slug + '"]');
+                let $imgInfoPersoAvatarShortSlug = $('.infoPerso img.avatar[src*="' + shortSlug + '"]');
+                let $imgInfoPersoBackgroundName = $('.infoPerso img.background[src*="' + name + '"]');
+                let $imgInfoPersoBackgroundShortName = $('.infoPerso img.background[src*="' + shortName + '"]');
+                let $imgInfoPersoBackgroundSlug = $('.infoPerso img.background[src*="' + slug + '"]');
+                let $imgInfoPersoBackgroundShortSlug = $('.infoPerso img.background[src*="' + shortSlug + '"]');
 
                 if ($imgZone1AvatarShortSlug.length > 0 ||
                     $imgZone1AvatarShortName.length > 0 ||
@@ -99,6 +99,45 @@ const Avatar = window.Avatar = {
                 limitChar--;
             }
         }
+    },
+
+    /**
+     * Modifie l'objet 'Character' afin d'utiliser les avatars customs
+     *
+     * @param character
+     */
+    AddCustomAvatarToCharacter: function (character) {
+        const $this = this;
+
+        if (LocalStorage.get(Options.OPTIONS.customAvatar, 'false') === 'false') {
+            return character;
+        }
+
+        let allAvatar = LocalStorage.get($this.STORAGE, 'false');
+
+        if (allAvatar === 'false') {
+            return character;
+        }
+
+        allAvatar = JSON.parse(allAvatar);
+
+        if (typeof allAvatar[character.slug] === 'undefined') {
+            return character;
+        }
+
+        let avatar = allAvatar[character.slug].avatar;
+        if (avatar !== null) {
+            character.avatar = Utility.getExtensionFilePath(avatar);
+            character.isCustomAvatar = true;
+        }
+
+        let thumbnail = allAvatar[character.slug].thumbnail;
+        if (thumbnail !== null) {
+            character.thumbnail = Utility.getExtensionFilePath(thumbnail);
+            character.isCustomThumbnail = true;
+        }
+
+        return character;
     },
 
     log: function (...args) {

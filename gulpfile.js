@@ -53,6 +53,7 @@ gulp.task('scss', function () {
 gulp.task('js', function () {
     return gulp.src(
         [
+            './src/js/Models/*.js',
             './src/js/Pages/*.js',
             './src/js/Components/*.js',
             './src/js/app.js'

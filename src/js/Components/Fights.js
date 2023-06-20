@@ -67,14 +67,14 @@ const Fights = window.FightsComponent = {
         $('<td><label for="limitLifeInput" title="Stop automatiquement les combats lorsque la vie atteint le montant">Vie max</label></td>')
             .appendTo($firstRow);
 
-        $this.selectedLife = parseInt(LocalStorage.get(`${Addon.characterInfos.slug}-life`));
+        $this.selectedLife = parseInt(LocalStorage.get(`${Addon.currentCharacter.slug}-life`));
         if (typeof $this.selectedLife === 'undefined' || isNaN($this.selectedLife))
             $this.selectedLife = $this.defaultLife;
         $(`<td><input type="number" min="${this.defaultLife}" step="10000" class="form-control" name="limitLifeInput" id="limitLifeInput" value="${$this.selectedLife}"/></td>`)
             .appendTo($secondRow)
             .on('change', function () {
                 $this.selectedLife = parseInt($(this).find('input').val());
-                LocalStorage.set(`${Addon.characterInfos.slug}-life`, $this.selectedLife)
+                LocalStorage.set(`${Addon.currentCharacter.slug}-life`, $this.selectedLife)
             })
 
         // RATIO
@@ -82,14 +82,14 @@ const Fights = window.FightsComponent = {
         $('<td><label for="ratioInput" title="Evite les combats contre des héros dont le ratio est supérieur au montant">Ratio max</label></td>')
             .appendTo($firstRow);
 
-        $this.selectedRatio = parseFloat(LocalStorage.get(`${Addon.characterInfos.slug}-ratio`));
+        $this.selectedRatio = parseFloat(LocalStorage.get(`${Addon.currentCharacter.slug}-ratio`));
         if (typeof $this.selectedRatio === 'undefined' || isNaN($this.selectedRatio))
             $this.selectedRatio = $this.defaultRatio;
         $(`<td><input type="number" min="0" step="0.1" class="form-control" name="ratioInput" id="ratioInput" value="${$this.selectedRatio}"/></td>`)
             .appendTo($secondRow)
             .on('change', function () {
                 $this.selectedRatio = parseFloat($(this).find('input').val());
-                LocalStorage.set(`${Addon.characterInfos.slug}-ratio`, $this.selectedRatio)
+                LocalStorage.set(`${Addon.currentCharacter.slug}-ratio`, $this.selectedRatio)
             })
 
         // LEVEL
@@ -97,14 +97,14 @@ const Fights = window.FightsComponent = {
         $('<td><label for="levelInput" title="Evite les combats contre des héros dont la différence de niveau est supérieur au montant">Niveau max <span style="font-size:.7em;">(différence)</span></label></td>')
             .appendTo($firstRow);
 
-        $this.selectedLevel = parseFloat(LocalStorage.get(`${Addon.characterInfos.slug}-level`));
+        $this.selectedLevel = parseFloat(LocalStorage.get(`${Addon.currentCharacter.slug}-level`));
         if (typeof $this.selectedLevel === 'undefined' || isNaN($this.selectedLevel))
             $this.selectedLevel = $this.defaultLevel;
         $(`<td><input type="number" min="0" step="1" class="form-control" name="levelInput" id="levelInput" value="${$this.selectedLevel}"/></td>`)
             .appendTo($secondRow)
             .on('change', function () {
                 $this.selectedLevel = parseFloat($(this).find('input').val());
-                LocalStorage.set(`${Addon.characterInfos.slug}-level`, $this.selectedLevel)
+                LocalStorage.set(`${Addon.currentCharacter.slug}-level`, $this.selectedLevel)
             })
 
         // BOUTON SAFEZONE
@@ -112,7 +112,7 @@ const Fights = window.FightsComponent = {
         $('<td><label for="goToSafeZone" class="m-0" title="Déplace le héro en safezone après le combat">Safe zone</label></td>')
             .appendTo($firstRow);
 
-        $this.moveToSafezoneAfter = LocalStorage.get(`${Addon.characterInfos.slug}-safezone`) === 'true';
+        $this.moveToSafezoneAfter = LocalStorage.get(`${Addon.currentCharacter.slug}-safezone`) === 'true';
         if (typeof $this.moveToSafezoneAfter === 'undefined')
             $this.moveToSafezoneAfter = false;
 
@@ -121,7 +121,7 @@ const Fights = window.FightsComponent = {
             .find('input')
             .on('change', function () {
                 $this.moveToSafezoneAfter = $('#goToSafeZone').prop('checked');
-                LocalStorage.set(`${Addon.characterInfos.slug}-safezone`, $this.moveToSafezoneAfter)
+                LocalStorage.set(`${Addon.currentCharacter.slug}-safezone`, $this.moveToSafezoneAfter)
             });
 
         // Special Konoshi le flemmard
@@ -163,7 +163,7 @@ const Fights = window.FightsComponent = {
             let fightLabel = Utility.trim($fighter.find('td').eq(0).text());
 
             // life
-            let isLifeSafe = Addon.characterInfos.lifeCurrent > $this.selectedLife;
+            let isLifeSafe = Addon.currentCharacter.lifeCurrent > $this.selectedLife;
 
             // ratio
             let fightStats = $fighter.find('td').eq(2).text().split('/');
@@ -172,9 +172,9 @@ const Fights = window.FightsComponent = {
 
             // level
             let fightLevel = parseInt($fighter.find('td').eq(1).text());
-            let isLevelSafe = fightLevel - Addon.characterInfos.level <= $this.selectedLevel;
+            let isLevelSafe = fightLevel - Addon.currentCharacter.level <= $this.selectedLevel;
 
-            if (fightLevel < Addon.characterInfos.level) {
+            if (fightLevel < Addon.currentCharacter.level) {
                 $this.terminateFightLoop($this.moveToSafezoneAfter);
                 return false;
             }
