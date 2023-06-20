@@ -4,17 +4,16 @@
     border-radius: 2px;
     box-shadow: unset;
     border: 5px solid $black-border;
-    min-width: 300px;
-    max-width: 300px;
-    min-height: 400px;
-    max-height: 400px;
+    min-width: $avatarWidthLg;
+    max-width: $avatarWidthLg;
+    min-height: $avatarHeightLg;
+    max-height: $avatarHeightLg;
 
     &.small {
-        min-width: 120px;
-        max-width: 120px;
-        min-height: 190px;
-        max-height: 190px;
-        //margin-bottom: 20px;
+        min-width: $avatarWidthSm;
+        max-width: $avatarWidthSm;
+        min-height: $avatarHeightSm;
+        max-height: $avatarHeightSm;
     }
 
     img {
