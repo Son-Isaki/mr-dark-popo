@@ -218,13 +218,13 @@ table {
                 }
 
                 .infos-perso-avatar {
-                    width: 120px;
-                    height: 190px;
+                    width: $avatarWidthSm;
+                    height: $avatarHeightSm;
                 }
 
                 .infos-perso-infos {
                     width: 100%;
-                    padding-left: 20px;
+                    padding-left: 15px;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
