@@ -7,7 +7,6 @@ const Addon = window.Addon = {
     refreshCharacterUrl: undefined,
 
     gamerId: undefined,
-    cookiesDuration: 365,
 
     currentCharacter: Character,
 
@@ -25,19 +24,23 @@ const Addon = window.Addon = {
         if ($this.debug) $this.log('Debug mode is active');
         else $this.log('Debug mode is inactive');
 
+        Utility.includeStyle('dist/css/app.min.css')
+
+        // variables
         $this.currentUrl = document.URL;
         $this.refreshCharacterUrl = $('.imgPersoActuelDiv a:first-child').attr('href');
 
-        Options.initOptions();
-
+        // $this.initGameLoader();
         $this.bind();
 
+        // Game options
+        Options.initOptions();
+
         // database update
-        // setTimeout(() => {
         Database.getUpdateCharacters();
         Database.getUpdateLevels();
-        // }, 1);
 
+        // initialization
         $this.addLinkToOptions();
         $this.addActionsZoneToView();
         $this.addAllPointsOnStatsBtn();
@@ -52,8 +55,6 @@ const Addon = window.Addon = {
         $this.makeNavbarFixed();
         $this.stuckInfoPlayerOnScroll();
 
-        Utility.includeStyle('dist/css/app.min.css')
-
         $this.log("Initialized");
     },
 
@@ -62,6 +63,12 @@ const Addon = window.Addon = {
 
         Events.register(Events.LevelsLoaded, () => {
             $this.requestCharacterData();
+        });
+
+        Events.register(Events.CharacterLoaded, () => {
+            setTimeout(() => {
+                $this.hideGameLoader();
+            }, 10);
         });
     },
 
@@ -197,10 +204,10 @@ const Addon = window.Addon = {
 
         let $selector = '.zoneCapsulesEquipe5';
 
-        let $html = $('<p>\n' +
-            '    <button class="btn btn-primary" type="button" data-type="all">\n' +
-            '        Tous\n' +
-            '    </button>\n' +
+        let $html = $('<p>' +
+            '    <button class="btn btn-primary" type="button" data-type="all">' +
+            '        Tous' +
+            '    </button>' +
             '    </p>')
 
 
@@ -637,6 +644,51 @@ const Addon = window.Addon = {
         return Addon.currentUrl.indexOf(fixedMatch) !== -1;
     },
 
+    initGameLoader: function () {
+        const $this = this;
+        
+        $('<style>#game-loader {' +
+            '  position: fixed;' +
+            '  background-color: #1E1E1E;' +
+            '  top: 0;' +
+            '  right: 0;' +
+            '  bottom: 0;' +
+            '  left: 0;' +
+            '  opacity: 1;' +
+            '  display: block;' +
+            '  z-index: 100000;' +
+            '}' +
+            '#game-loader img, #game-loader embed {' +
+            '  position: absolute;' +
+            '  left: 50%;' +
+            '  top: 50%;' +
+            '  -webkit-transform: translate(-50%, -50%);' +
+            '  -ms-transform: translate(-50%, -50%);' +
+            '  transform: translate(-50%, -50%);' +
+            '}' +
+            '#game-loader img svg, #game-loader embed svg {' +
+            '  background-color: transparent;' +
+            '}' +
+            '#game-loader.is-hidden {' +
+            '  display: block !important;' +
+            '  opacity: 0;' +
+            '  pointer-events: none;' +
+            '  -webkit-transition: all 0.25s ease;' +
+            '  transition: all 0.25s ease;' +
+            '}</style>')
+
+        let loaderUrl = Utility.getExtensionFilePath('dist/img/game-loader.svg');
+        $(`<div id="game-loader"><img src="${loaderUrl}" alt="Le jeu est en train de charger..."></div>`)
+            .prependTo($('body'));
+        $this.log('initGameLoader');
+    },
+
+    hideGameLoader: function () {
+        const $this = this;
+        $('#game-loader').addClass('is-hidden');
+        $this.log('hideGameLoader');
+    },
+
     getGamer: function () {
 
         let topbar = $('.topbar .right>ul>li');
@@ -660,7 +712,7 @@ const Addon = window.Addon = {
     },
 
     alert: function (id, e) {
-        alert('Erreur add-on JH #' + id + ':\n' + e);
+        alert('Erreur add-on JH #' + id + ':' + e);
     },
 
     log: function (...args) {

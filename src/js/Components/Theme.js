@@ -14,6 +14,7 @@ const Theme = window.Theme = {
         $this.bind();
 
         $this.initTopBar();
+        $this.initInfosPerso();
 
         $this.log("Initialized");
 
@@ -25,22 +26,17 @@ const Theme = window.Theme = {
     bind: function () {
         const $this = this;
 
-        Events.register(Events.ReloadInfosPersos, function () {
-            // $this.initAvatars();
-            // $this.initProgressBars();
-        });
-
         Events.register(Events.CharacterLoaded, function () {
-            // $this.initProgressBars();
-
-            $this.initInfosPerso();
+            $this.displayInfosPerso(Addon.currentCharacter);
         });
     },
 
     /**
-     * Remplace le HTML du bloc infos perso par une structure custom
+     * Initialize le bloc infos perso au chargement de la page
+     * => Remplace le HTML du bloc infos perso par une structure custom
      */
-    replaceHtmlInfosPerso: function () {
+    initInfosPerso: function () {
+        const $this = this;
         $(`
         <div class="infos-perso-container">
             <div class="infos-perso-row">
@@ -108,16 +104,7 @@ const Theme = window.Theme = {
             </table>
         `).insertAfter('.zone1sub');
         $('.zone1sub').remove();
-    },
 
-    /**
-     * Initialize le bloc infos perso au chargement de la page
-     */
-    initInfosPerso: function () {
-        const $this = this;
-
-        $this.replaceHtmlInfosPerso();
-        $this.displayInfosPerso(Addon.currentCharacter);
     },
 
     /**
