@@ -1,7 +1,6 @@
 const Theme = window.Theme = {
 
     // variables
-    customThemeEnabled: false,
 
     init: function () {
         const $this = this;
@@ -9,8 +8,6 @@ const Theme = window.Theme = {
         if (LocalStorage.get(Options.OPTIONS.customThemeEnabled, 'false') === 'false') {
             return false;
         }
-
-        $this.customThemeEnabled = true;
 
         Utility.includeStyle('dist/css/theme.min.css')
 
@@ -119,7 +116,6 @@ const Theme = window.Theme = {
     initInfosPerso: function () {
         const $this = this;
 
-        // let character = new Character($('.zone1').html());
         $this.replaceHtmlInfosPerso();
         $this.displayInfosPerso(Addon.currentCharacter);
     },
