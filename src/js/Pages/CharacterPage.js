@@ -36,7 +36,7 @@ const CharacterPage = window.Character = {
             type: 'GET',
             url: Database.domain+$this.ENDPOINT.findBy,
             data: {
-                slug: Addon.characterInfos.slug
+                slug: Addon.currentCharacter.slug
             },
             dataType: 'json',
             crossDomain: true,
@@ -81,14 +81,14 @@ const CharacterPage = window.Character = {
             });
         });
 
-        let currentAvatar = LocalStorage.get(Addon.characterInfos.slug+'-custom-avatar', 'false');
+        let currentAvatar = LocalStorage.get(Addon.currentCharacter.slug+'-custom-avatar', 'false');
 
         if (currentAvatar !== 'false') {
             $('<button class="btn btn-danger" type="button">Retirer l\'avatar custom</button>')
                 .on('click', (e) => {
                     e.preventDefault();
-                    LocalStorage.set(Addon.characterInfos.slug+'-custom-avatar', 'false');
-                    LocalStorage.set(Addon.characterInfos.slug+'-custom-avatar-thumb', 'false');
+                    LocalStorage.set(Addon.currentCharacter.slug+'-custom-avatar', 'false');
+                    LocalStorage.set(Addon.currentCharacter.slug+'-custom-avatar-thumb', 'false');
                     location.reload();
                 })
                 .appendTo('.zoneBoutonDrop p');
@@ -103,7 +103,7 @@ const CharacterPage = window.Character = {
 
         if (allAvatarStored === 'false') {
             allAvatarStored = {};
-            allAvatarStored[Addon.characterInfos.slug] = {
+            allAvatarStored[Addon.currentCharacter.slug] = {
                 avatar: $path,
                 thumbnail: $thumbPath,
             };
@@ -111,7 +111,7 @@ const CharacterPage = window.Character = {
 
         if (typeof allAvatarStored !== "object") {
             allAvatarStored = JSON.parse(allAvatarStored);
-            allAvatarStored[Addon.characterInfos.slug] = {
+            allAvatarStored[Addon.currentCharacter.slug] = {
                 avatar: $path,
                 thumbnail: $thumbPath,
             };

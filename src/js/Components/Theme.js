@@ -33,13 +33,16 @@ const Theme = window.Theme = {
             // $this.initProgressBars();
         });
 
-        Events.register(Events.LevelsLoaded, function () {
+        Events.register(Events.CharacterLoaded, function () {
             // $this.initProgressBars();
 
             $this.initInfosPerso();
         });
     },
 
+    /**
+     * Remplace le HTML du bloc infos perso par une structure custom
+     */
     replaceHtmlInfosPerso: function () {
         $(`
         <div class="infos-perso-container">
@@ -111,96 +114,14 @@ const Theme = window.Theme = {
     },
 
     /**
-     * Récupère les infos perso à partir d'une chaine HTML
-     *
-     * @param content
-     * @returns object
-     */
-    getDataInfosPerso: function (content) {
-        const $this = this;
-
-        let $content = $(content);
-
-        let data = {
-            slug: '',
-            name: '',
-            level: 0,
-            avatar: '',
-
-            lifeCurrent: 0,
-            lifeMax: 0,
-
-            experienceCurrent: 0,
-            experienceMax: 0,
-
-            clanName: '',
-            clanSlug: '',
-
-            zenis: 0,
-
-            energyAtk: 0,
-            energyDef: 0,
-            energyMag: 0,
-            energyAcc: 0,
-            energyExt: 0,
-        };
-
-        data.clanName = $content.find('.couleurRouge').text();
-        data.clanSlug = Utility.slugify(data.clanName);
-
-        data.avatar = $content.find('.imgPersoActuel').attr('src');
-
-        let progressData = $this.getProgressData(content);
-        data.lifeCurrent = progressData.lifeCurrent;
-        data.lifeMax = progressData.lifeMax;
-        data.experienceCurrent = progressData.experienceCurrent;
-        data.experienceMax = progressData.experienceMax;
-
-        data.zenis = parseInt($content.find('table.centerTexte tr').eq(0).text());
-        data.energyAtk = parseInt($content.find('table.centerTexte tr').eq(1).text());
-        data.energyDef = parseInt($content.find('table.centerTexte tr').eq(2).text());
-        data.energyMag = parseInt($content.find('table.centerTexte tr').eq(3).text());
-        data.energyAcc = parseInt($content.find('table.centerTexte tr').eq(4).text());
-        data.energyExt = parseInt($content.find('table.centerTexte tr').eq(5).text());
-
-        if ($content.find('.imgPersoActuelDiv').length) {
-            let tmp = $content.find('.imgPersoActuelDiv')[0];
-            let lst = [];
-            for (let i = 0; i < tmp.childNodes.length; i++) {
-                if (tmp.childNodes[i].nodeType === Node.TEXT_NODE) {
-                    let text = Utility.trim(tmp.childNodes[i].nodeValue);
-                    if (text !== '') {
-                        lst.push(text);
-                    }
-                    tmp.childNodes[i].remove()
-                }
-            }
-
-            // name & slug
-            data.name = lst[0];
-            data.slug = Utility.slugify(data.name)
-
-            // level
-            if (lst[1] !== undefined && lst[1] !== '') {
-                let segs = lst[1].split(' ');
-                data.level = parseInt(segs[1]);
-            }
-        }
-
-        return data;
-    },
-
-    /**
      * Initialize le bloc infos perso au chargement de la page
      */
     initInfosPerso: function () {
         const $this = this;
 
-        let data = $this.getDataInfosPerso($('.zone1'));
-
+        // let character = new Character($('.zone1').html());
         $this.replaceHtmlInfosPerso();
-
-        $this.displayInfosPerso(data);
+        $this.displayInfosPerso(Addon.currentCharacter);
     },
 
     /**
@@ -209,8 +130,9 @@ const Theme = window.Theme = {
     updateInfosPerso: function (content) {
         const $this = this;
 
-        let data = Addon.characterInfos = $this.getDataInfosPerso(content);
-        $this.displayInfosPerso(data);
+        let character = new Character(content);
+        Addon.currentCharacter = character = Avatar.AddCustomAvatarToCharacter(character)
+        $this.displayInfosPerso(character);
     },
 
     /**
@@ -329,7 +251,7 @@ const Theme = window.Theme = {
         const $this = this;
 
         let callback = (e) => {
-            let characterInfos = Addon.characterInfos;
+            let characterInfos = Addon.currentCharacter;
 
             $('#filePV, .cadrePersoList #filePV').each(function () {
 
@@ -408,86 +330,6 @@ const Theme = window.Theme = {
 
         Events.register(Events.CharacterLoaded, callback);
         Events.register(Events.ReloadInfosPersos, callback);
-    },
-
-    /**
-     * Parse une chaine HTML afin de retourner les données des barres de vie et d'expérience
-     *
-     * @param content
-     * @returns {{lifeMax: number, lifeCurrent: number, experienceMax: number, experienceCurrent: number}}
-     */
-    getProgressData: function (content) {
-        const $this = this;
-
-        let data = {
-            lifeCurrent: 0,
-            lifeMax: 0,
-            experienceCurrent: 0,
-            experienceMax: 0,
-        };
-
-        $(content).find('#filePV, .cadrePersoList #filePV').each(function () {
-            let $el = $(this);
-            let $parent;
-
-            // infos perso
-            $parent = $el.parents('.zone1sub');
-            if ($parent.length > 0) {
-                data.lifeCurrent = parseInt($el.attr('value'));
-                data.lifeMax = parseInt($el.attr('max'));
-            }
-
-            // liste de persos
-            $parent = $el.parents('.cadrePersoList');
-            if ($parent.length > 0) {
-                data.lifeCurrent = parseInt($el.attr('value'));
-                data.lifeMax = parseInt($el.attr('max'));
-            }
-        });
-        $(content).find('#file, .cadrePersoList #file').each(function () {
-            let $el = $(this);
-            let $parent;
-
-            // infos perso
-            $parent = $el.parents('.zone1sub');
-            if ($parent.length > 0) {
-                let segs = Utility.trim($parent.find('.imgPersoActuelDiv').text()).split(' ');
-                let level = parseInt(segs[segs.length - 1]);
-
-                let levelObj = Database.levels[level];
-                let levelObjSub = Database.levels[level - 1];
-                if (typeof levelObjSub === 'undefined') {
-                    levelObjSub = {
-                        level: 0,
-                        experience: 0,
-                    }
-                }
-
-                data.experienceCurrent = parseInt($el.attr('value')) - levelObjSub.experience;
-                data.experienceMax = levelObj.experience - levelObjSub.experience;
-            }
-
-            // liste de persos
-            $parent = $el.parents('.cadrePersoList');
-            if ($parent.length > 0) {
-                let segs = Utility.trim($parent.find('.centerTexte').eq(0).find('td:last-child').text()).split(' ');
-                let level = parseInt(segs[segs.length - 1]);
-
-                let levelObj = Database.levels[level];
-                let levelObjSub = Database.levels[level - 1];
-                if (typeof levelObjSub === 'undefined') {
-                    levelObjSub = {
-                        level: 0,
-                        experience: 0,
-                    }
-                }
-
-                data.experienceCurrent = parseInt($el.attr('value')) - levelObjSub.experience;
-                data.experienceMax = levelObj.experience - levelObjSub.experience;
-            }
-        });
-
-        return data;
     },
 
     /**

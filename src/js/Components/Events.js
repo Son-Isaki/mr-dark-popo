@@ -2,16 +2,18 @@ const Events = window.Events = {
 
     // variables
     CharacterLoaded: 'addon.character.loaded',
+    ReloadInfosPersos: 'addon.infos-persos.reload',
+
     CharactersLoaded: 'addon.characters.loaded',
     LevelsLoaded: 'addon.levels.loaded',
 
-    ReloadInfosPersos: 'addon.infos-persos.reload',
+    AvatarFrameCreated: 'addon.frame.created',
 
     trigger: function (eventName, ...args) {
         const $this = this;
 
-        $(document).trigger(eventName, ...args);
         $this.log(eventName, ...args);
+        $(document).trigger(eventName, ...args);
     },
 
     register: function (eventName, callback) {

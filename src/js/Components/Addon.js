@@ -4,10 +4,12 @@ const Addon = window.Addon = {
     debug: true,
 
     currentUrl: undefined,
+    refreshCharacterUrl: undefined,
+
     gamerId: undefined,
     cookiesDuration: 365,
 
-    characterInfos: {},
+    currentCharacter: Character,
 
     hasAccess: false,
     config: [],
@@ -24,17 +26,18 @@ const Addon = window.Addon = {
         else $this.log('Debug mode is inactive');
 
         $this.currentUrl = document.URL;
+        $this.refreshCharacterUrl = $('.imgPersoActuelDiv a:first-child').attr('href');
+
         Options.initOptions();
 
-        // database update
-        setTimeout(() => {
-            Database.getUpdateCharacters();
-            Database.getUpdateLevels();
-        }, 1);
+        $this.bind();
 
-        $this.updateCharacterInfos().then((response) => {
-            Events.trigger(Events.CharacterLoaded, $this.characterInfos);
-        });
+        // database update
+        // setTimeout(() => {
+        Database.getUpdateCharacters();
+        Database.getUpdateLevels();
+        // }, 1);
+
         $this.addLinkToOptions();
         $this.addActionsZoneToView();
         $this.addAllPointsOnStatsBtn();
@@ -52,7 +55,14 @@ const Addon = window.Addon = {
         Utility.includeStyle('dist/css/app.min.css')
 
         $this.log("Initialized");
+    },
 
+    bind: function () {
+        const $this = this;
+
+        Events.register(Events.LevelsLoaded, () => {
+            $this.requestCharacterData();
+        });
     },
 
     addActionsZoneToView: function () {
@@ -74,41 +84,20 @@ const Addon = window.Addon = {
         $menu.prepend($link);
     },
 
-    updateCharacterInfos: async function (callback) {
+    /**
+     * Request current character data
+     *
+     * @returns {Promise<Character>}
+     */
+    requestCharacterData: async function () {
         const $this = this;
 
-        let uri = $('.imgPersoActuelDiv a:first-child').attr('href');
-
-        await Utility.getPageContent(uri, (response) => {
-            $this.updateCharacterInfosWithContent(response)
-
-            if (typeof callback === "function") {
-                callback(response);
-            }
+        await Utility.getPageContent($this.refreshCharacterUrl, (response) => {
+            let character = new Character(response);
+            character = Avatar.AddCustomAvatarToCharacter(character)
+            $this.currentCharacter = character;
+            Events.trigger(Events.CharacterLoaded, character);
         });
-    },
-
-    updateCharacterInfosWithContent: function (response) {
-        const $this = this;
-
-        let raw = null;
-        let data = {};
-        let $content = $(response);
-
-        data.name = $content.find('.zone2 .infoPersoAvatar h3').text();
-        data.slug = Utility.slugify(data.name);
-        data.level = parseInt($content.find('.zone2 .infoPersoAvatar h3 + p').text().replace("Niveau ", ""));
-
-        let $table = $content.find('.zoneTextePersoInfoAvatar table:first');
-        raw = $table.find('tr:first-child td:last-child').text().split('/');
-        data.lifeCurrent = raw[0];
-        data.lifeMax = raw[1];
-
-        raw = $table.find('tr:last-child td:last-child').text().split('/');
-        data.experienceCurrent = raw[0];
-        data.experienceMax = raw[1];
-
-        $this.characterInfos = data;
     },
 
     stuckInfoPlayerOnScroll: function () {
