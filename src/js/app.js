@@ -15,4 +15,5 @@ $('document').ready(function () {
     Fights.init();
     Safezone.init();
     Avatar.init();
+    Automate.init();
 })

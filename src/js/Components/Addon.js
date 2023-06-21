@@ -55,6 +55,10 @@ const Addon = window.Addon = {
         $this.makeNavbarFixed();
         $this.stuckInfoPlayerOnScroll();
 
+        $this.addBtnSendAllCharInMagTrain();
+        $this.addBtnSendAllCharInDefTrain();
+        $this.addBtnSendAllCharInAtqTrain();
+
         $this.log("Initialized");
     },
 
@@ -392,7 +396,6 @@ const Addon = window.Addon = {
         $this.addBtnGoToTrainAtqEarth();
         $this.addBtnGoToTrainDefEarth();
         $this.addBtnGoToTrainMagEarth();
-        $this.log('Reload info player try to change current character avatar');
 
         Events.trigger(Events.ReloadInfosPersos);
     },
@@ -559,6 +562,81 @@ const Addon = window.Addon = {
                 });
             })
             .appendTo($('#actions-zone'));
+    },
+
+    addBtnSendAllCharInAtqTrain: function() {
+        let $tabMenu = $('nav.navbar li.dropdown').eq(0);
+        let $dropdownChar = $($tabMenu).find('.dropdown-menu').eq(0);
+
+        if (LocalStorage.get(Options.OPTIONS.showPutAllCharsOnTrainInActions, 'false') === 'false') {
+            return false;
+        }
+
+        if (LocalStorage.get('show-train-all-characters-attaque-actions', 'false') === 'false') {
+            return false;
+        }
+
+        $('<a class="dropdown-item putAllCharInTrainAtq" href="#">Envoyer perso fav. en train ATTAQUE</a>')
+            .on('click', () => {
+                if (Safezone.characterInterval === null) {
+                    Notify.notify('Déplacement des personnages favoris en entraînement attaque en cours');
+                    Safezone.characterIndex = 0;
+                    Safezone.characterInterval = setInterval(() => {
+                        Automate.putAllFavCharacterInTrain('attaque');
+                    }, 3000)
+                }
+            })
+            .prependTo($dropdownChar);
+    },
+
+    addBtnSendAllCharInDefTrain: function() {
+        let $tabMenu = $('nav.navbar li.dropdown').eq(0);
+        let $dropdownChar = $($tabMenu).find('.dropdown-menu').eq(0);
+
+        if (LocalStorage.get(Options.OPTIONS.showPutAllCharsOnTrainInActions, 'false') === 'false') {
+            return false;
+        }
+
+        if (LocalStorage.get('show-train-all-characters-defense-actions', 'false') === 'false') {
+            return false;
+        }
+
+        $('<a class="dropdown-item putAllCharInTrainDef" href="#">Envoyer perso fav. en train DÉFENSE</a>')
+            .on('click', () => {
+                if (Safezone.characterInterval === null) {
+                    Notify.notify('Déplacement des personnages favoris en entraînement défense en cours');
+                    Safezone.characterIndex = 0;
+                    Safezone.characterInterval = setInterval(() => {
+                        Automate.putAllFavCharacterInTrain('defense');
+                    }, 3000)
+                }
+            })
+            .prependTo($dropdownChar);
+    },
+
+    addBtnSendAllCharInMagTrain: function() {
+        let $tabMenu = $('nav.navbar li.dropdown').eq(0);
+        let $dropdownChar = $($tabMenu).find('.dropdown-menu').eq(0);
+
+        if (LocalStorage.get(Options.OPTIONS.showPutAllCharsOnTrainInActions, 'false') === 'false') {
+            return false;
+        }
+
+        if (LocalStorage.get('show-train-all-characters-magie-actions', 'false') === 'false') {
+            return false;
+        }
+
+        $('<a class="dropdown-item putAllCharInTrainMag" href="#">Envoyer perso fav. en train MAGIE</a>')
+            .on('click', () => {
+                if (Safezone.characterInterval === null) {
+                    Notify.notify('Déplacement des personnages favoris en entraînement magie en cours');
+                    Safezone.characterIndex = 0;
+                    Safezone.characterInterval = setInterval(() => {
+                        Automate.putAllFavCharacterInTrain('magie');
+                    }, 3000)
+                }
+            })
+            .prependTo($dropdownChar);
     },
 
     updateNavbarTop: function () {

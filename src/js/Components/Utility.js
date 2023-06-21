@@ -24,6 +24,21 @@ const Utility = window.Utility = {
         'namek': 'https://' + document.domain + '/carte/move/626',
     },
 
+    urlTrain: {
+        'attaque': {
+            map: 'https://www.jeuheros.fr/carte/move/69',
+            action: 'https://www.jeuheros.fr/entrainementAttaque/go',
+        },
+        'defense': {
+            map: 'https://www.jeuheros.fr/carte/move/59',
+            action: 'https://www.jeuheros.fr/entrainementDefense/go',
+        },
+        'magie': {
+            map: 'https://www.jeuheros.fr/carte/move/22',
+            action: 'https://www.jeuheros.fr/entrainementMagie/go',
+        },
+    },
+
     characterLevels: {
         1: 50,
         12: 22000,

@@ -10,6 +10,7 @@ const Options = window.Options = {
         showFightTourInActions: 'show-fight-tour-actions',
         showFightZoneInActions: 'show-fight-zone-actions',
         showTrainsInActions: 'show-trains-actions',
+        showPutAllCharsOnTrainInActions: 'show-train-all-characters-actions',
         showBonusCharacterPoints: 'show-bonus-character-points',
 
         reverseInfoPlayer: 'reverse-info-player',
@@ -28,8 +29,6 @@ const Options = window.Options = {
         fixNavbarTop: 'fix-navbar-top',
         fixInfoPlayerOnScroll: 'fix-info-player-on-scroll',
         customAvatar: 'custom-avatar',
-        sendAlertLowLife: 'send-alert-character-low-life',
-        systemGestionCharacter: 'system-gestion-character',
     },
 
     OPTIONS_LABEL: {
@@ -42,6 +41,7 @@ const Options = window.Options = {
         showFightTourInActions: 'Ajouter un bouton d\'action rapide pour combattre rapidement la tour de combat',
         showFightZoneInActions: 'Ajouter un bouton d\'action rapide pour aller en zone de combat',
         showTrainsInActions: 'Ajouter des boutons d\'action rapide pour aller directement en entraînement',
+        showPutAllCharsOnTrainInActions: 'Ajouter des boutons d\'actions rapide pour envoyer en entraînement tous les personnages',
         showBonusCharacterPoints: 'Afficher un lien rapide d\'ajout de points bonus en dessous de l\'avatar du personnage',
         reverseInfoPlayer: 'Inverser la position du block d\'information du joueur/personnage',
         showHistoryModeOnMap: 'Ajouter un block des modes histoire directement sur la map',
@@ -56,8 +56,6 @@ const Options = window.Options = {
         fixNavbarTop: 'Fixer la barre de navigation en haut',
         customAvatar: 'Pouvoir utiliser des avatar customs',
         fixInfoPlayerOnScroll: 'Fixer les infos du joueur/personnage lors du scroll',
-        sendAlertLowLife: 'Recevoir des alertes quand un personnage n\'a presque plus de vie',
-        systemGestionCharacter: 'Ajouter un système pour "gérer" ses personnages (kaioh/verte/stuff)',
     },
 
     MORE_OPTIONS: {
@@ -78,6 +76,24 @@ const Options = window.Options = {
                     option: 'show-train-magie-actions'
                 },
             ]
+        },
+        'show-train-all-characters-actions': {
+            label: 'Sélectionner les trains à afficher',
+            type: 'checkbox',
+            data: [
+                {
+                    label: 'Envoyer perso fav. en train attaque',
+                    option: 'show-train-all-characters-attaque-actions'
+                },
+                {
+                    label: 'Envoyer perso fav. en train défense',
+                    option: 'show-train-all-characters-defense-actions'
+                },
+                {
+                    label: 'Envoyer perso fav. en train magie',
+                    option: 'show-train-all-characters-magie-actions'
+                },
+            ]
         }
     },
 
@@ -85,6 +101,9 @@ const Options = window.Options = {
         'show-train-attaque-actions',
         'show-train-defense-actions',
         'show-train-magie-actions',
+        'show-train-all-characters-attaque-actions',
+        'show-train-all-characters-defense-actions',
+        'show-train-all-characters-magie-actions',
     ],
 
     optionsChecked: 0,

@@ -52,7 +52,8 @@ const Security = window.Security = {
             Addon.debug = false;
         } else if (
             $this.getIdUser() !== 22 &&
-            $this.getIdUser() !== 57
+            $this.getIdUser() !== 57 &&
+            $this.getIdUser() !== 68
         ) {
             Addon.debug = false;
         } else {
