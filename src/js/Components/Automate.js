@@ -114,14 +114,10 @@ const Automate = window.Automate = {
         return false;
     },
 
-    changePlanet: function (callback, typeTrain) {
+    changePlanet: function (callback, ...args) {
         const $this = this;
 
         let mapLink = 'https://www.jeuheros.fr/carte';
-
-        // if (typeof callback === 'function') {
-        //     callback(typeTrain);
-        // }
 
         Notify.notify('Changement de planète en cours');
 
@@ -138,9 +134,42 @@ const Automate = window.Automate = {
                 data: form.serialize(),
                 crossDomain: true,
             }).done( () => {
-                Notify.notify('Changement de planète terminer');
-                callback(typeTrain);
+                Notify.notify('Changement de planète terminé');
+                if (callback) {
+                    callback(args);
+                }
             });
+        });
+    },
+
+    moveToFightZone: function (...args) {
+        const $this = this;
+
+        let currentPlanetKey = Utility.getCurrentPlanetCurrentCharacter();
+        let fightZoneLink = Utility.urlFightZoneByPlanet[currentPlanetKey];
+
+        $.ajax({
+            type: 'GET',
+            url: fightZoneLink,
+            crossDomain: true,
+        }).done(function () {
+            Notify.notify('Le personnage a été déplacé en fight zone');
+            window.location.href = 'https://' + document.domain + '/listeCombats';
+        });
+    },
+
+    moveToSafeZone: function (...args) {
+        const $this = this;
+
+        let currentPlanetKey = Utility.getCurrentPlanetCurrentCharacter();
+        let fightZoneLink = Utility.urlSafeZoneByPlanet[currentPlanetKey];
+
+        $.ajax({
+            type: 'GET',
+            url: fightZoneLink,
+            crossDomain: true,
+        }).done(function () {
+            Notify.notify('Le personnage a été déplacé en safe zone');
         });
     },
 
@@ -159,7 +188,7 @@ const Automate = window.Automate = {
                 url: dataTrain.action,
                 crossDomain: true,
             }).done( () => {
-                Notify.notify('Le personnage a été envoyé en entraînement');
+                Notify.notify('Le personnage  a été envoyé en entraînement');
             })
         });
     },
