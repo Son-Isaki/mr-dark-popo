@@ -240,6 +240,8 @@ table {
 
             .infos-perso-numbers {
                 width: 100%;
+                border-spacing: 0px 8px;
+                border-collapse: separate;
 
                 td:first-child {
                     width: 32px;

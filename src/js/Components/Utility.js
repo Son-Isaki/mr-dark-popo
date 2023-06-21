@@ -160,6 +160,25 @@ const Utility = window.Utility = {
     },
 
     /**
+     * Loads and returns the content of a given file as HTML
+     *
+     * @param filepath
+     */
+    getExtensionFileAsHtml: async function (filepath) {
+        const $this = this;
+
+        let html = await Utility.getExtensionFileAsText(filepath);
+        let $content = $('<div>').append($(html));
+
+        $content.find('img.fix-src').each(function () {
+            $this.log($(this).attr('src'), Utility.getExtensionFilePath($(this).attr('src')));
+            $(this).attr('src', Utility.getExtensionFilePath($(this).attr('src')));
+        });
+
+        return $content.html();
+    },
+
+    /**
      * Loads and returns the content of a given file as JSON
      *
      * @param filepath

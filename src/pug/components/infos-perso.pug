@@ -5,7 +5,7 @@
             a(href="/perso/infoPersonnage")
                 .character-avatar.small
                     img.background
-                    img.effect
+                    img.fix-src.effect(src="dist/img/theme/avatar-effect.jpg")
                     img.avatar
 
         .infos-perso-infos
@@ -35,41 +35,47 @@
             a.link-action(href="/perso/infoPersonnage")
                 | Plus d'informations
 
-table.infos-perso-numbers
-    tbody
-        tr
-            td
-                img(src="/img/zenis.png")
-            td
-                span Monnaie
-            td#zenisActuelJoueur
-        tr
-            td
-                img(src="/img/OrbeRouge.png")
-            td
-                span Energie d'attaque
-            td#energy-atk
-        tr
-            td
-                img(src="/img/OrbeBleu.png")
-            td
-                span Energie de défense
-            td#energy-def
-        tr
-            td
-                img(src="/img/OrbeVerte.png")
-            td
-                span Energie de magie
-            td#energy-mag
-        tr
-            td
-                img(src="/img/OrbeArgent.png")
-            td
-                span Energie de précision
-            td#energy-acc
-        tr
-            td
-                img(src="/img/OrbeEx.png")
-            td
-                span Energie extrême
-            td#energy-ext
+    table.infos-perso-numbers
+        tbody
+            tr
+                td
+                    img.fix-src(src="dist/img/theme/Zenis.svg")
+                td.text-left
+                    span Monnaie
+                td.text-right
+                    span.zenis#zenisActuelJoueur
+            tr
+                td
+                    img.fix-src(src="dist/img/theme/OrbeAttaque.svg")
+                td.text-left
+                    span Orbe d'attaque
+                td.text-right
+                    span.energy-atk
+            tr
+                td
+                    img.fix-src(src="dist/img/theme/OrbeResistance.svg")
+                td.text-left
+                    span Orbe de défense
+                td.text-right
+                    span.energy-def
+            tr
+                td
+                    img.fix-src(src="dist/img/theme/OrbeMagie.svg")
+                td.text-left
+                    span Orbe de magie
+                td.text-right
+                    span.energy-mag
+            tr
+                td
+                    img.fix-src(src="dist/img/theme/OrbePrecision.svg")
+                td.text-left
+                    span Orbe de précision
+                td.text-right
+                    span.energy-acc
+            tr
+                td
+                    img.fix-src(src="dist/img/theme/OrbeExtreme.svg")
+                td.text-left
+                    span Orbe extrême
+                td.text-right
+                    span.energy-ext
