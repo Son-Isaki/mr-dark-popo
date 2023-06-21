@@ -4,6 +4,7 @@
 @import 'includes/button-filter.scss';
 @import 'includes/progressbar.scss';
 @import 'includes/loader';
+@import 'includes/character-items';
 
 body {
     background-image: url('../img/theme/background.png');
@@ -142,7 +143,7 @@ body.reverse-info-player .content-wrapper {
     margin-left: unset;
     padding-top: 20px;
 
-    section, .section, .fondBlancOnly, #zoneObjets, #zoneBoss2, .zoneCapsulesEquipe, .fondCapsulesEquip, .zoneCapsulesEquipe2, .fondCapsulesList, .fondCompetences, .infoPerso, #zoneCapsulesEnVente, #collapseExample > .card {
+    section:not(.section-transparent), .section, .fondBlancOnly, #zoneObjets, #zoneBoss2, .zoneCapsulesEquipe, .fondCapsulesEquip, .zoneCapsulesEquipe2, .fondCapsulesList, .fondCompetences, .infoPerso, #zoneCapsulesEnVente, #collapseExample > .card {
         background-color: $black !important;
         border-radius: $border-radius !important;
         box-shadow: 0 3px 8px transparentize(black, .7);

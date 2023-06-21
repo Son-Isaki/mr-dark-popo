@@ -6,7 +6,6 @@ $('document').ready(function () {
     }
 
     Logger.init();
-    Database.init();
     Addon.init();
     Options.init();
     Router.init();
@@ -16,4 +15,5 @@ $('document').ready(function () {
     Safezone.init();
     Avatar.init();
     Automate.init();
+    Database.init();
 })

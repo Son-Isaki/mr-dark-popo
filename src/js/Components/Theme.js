@@ -27,7 +27,8 @@ const Theme = window.Theme = {
         const $this = this;
 
         Events.register(Events.CharacterLoaded, function () {
-            $this.displayInfosPerso(Addon.currentCharacter);
+            let $container = $('.infos-perso-container');
+            $this.injectCharacterData($container, Addon.currentCharacter);
         });
     },
 
@@ -39,7 +40,6 @@ const Theme = window.Theme = {
         const $this = this;
 
         let html = await Utility.getExtensionFileAsHtml('dist/html/infos-perso.html');
-        $this.log('html', html);
         $(html).insertAfter('.zone1sub');
 
         $('.zone1sub').remove();
@@ -53,37 +53,44 @@ const Theme = window.Theme = {
 
         let character = new Character(content);
         Addon.currentCharacter = character = Avatar.AddCustomAvatarToCharacter(character)
-        $this.displayInfosPerso(character);
+        let $container = $('.infos-perso-container');
+        $this.injectCharacterData($container, character);
     },
 
     /**
      * Inject les informations données dans le bloc infos perso
      */
-    displayInfosPerso: function (data) {
+    injectCharacterData: function ($container, character) {
         const $this = this;
 
-        let $infosPerso = $('.infos-perso-container');
+        $container.find('.clan').text(character.clanName);
+        $container.find('.name').text(character.name);
+        $container.find('.level').text(character.level);
 
-        $infosPerso.find('.clan').text(data.clanName);
-        $infosPerso.find('.name').text(data.name);
-        $infosPerso.find('.level').text(data.level);
+        $container.find('.character-avatar .avatar, .character-avatar .background').attr('src', character.avatar);
 
-        $infosPerso.find('.character-avatar .avatar, .character-avatar .background').attr('src', data.avatar);
+        $container.find('.life .current').text(Utility.formatNumber(character.lifeCurrent));
+        $container.find('.life .max').text(Utility.formatNumber(character.lifeMax));
+        $container.find('.life .value').css('width', `${character.lifeCurrent / character.lifeMax * 100}%`);
 
-        $infosPerso.find('.life .current').text(Utility.formatNumber(data.lifeCurrent));
-        $infosPerso.find('.life .max').text(Utility.formatNumber(data.lifeMax));
-        $infosPerso.find('.life .value').css('width', `${data.lifeCurrent / data.lifeMax * 100}%`);
+        $container.find('.experience .current').text(Utility.formatNumber(character.experienceCurrent));
+        $container.find('.experience .max').text(Utility.formatNumber(character.experienceMax));
+        $container.find('.experience .value').css('width', `${character.experienceCurrent / character.experienceMax * 100}%`);
 
-        $infosPerso.find('.experience .current').text(Utility.formatNumber(data.experienceCurrent));
-        $infosPerso.find('.experience .max').text(Utility.formatNumber(data.experienceMax));
-        $infosPerso.find('.experience .value').css('width', `${data.experienceCurrent / data.experienceMax * 100}%`);
+        $container.find('.zenis').text(Utility.formatNumber(character.zenis));
+        $container.find('.energy-atk').text(Utility.formatNumber(character.energyAtk));
+        $container.find('.energy-def').text(Utility.formatNumber(character.energyDef));
+        $container.find('.energy-mag').text(Utility.formatNumber(character.energyMag));
+        $container.find('.energy-acc').text(Utility.formatNumber(character.energyAcc));
+        $container.find('.energy-ext').text(Utility.formatNumber(character.energyExt));
 
-        $infosPerso.find('.zenis').text(Utility.formatNumber(data.zenis));
-        $infosPerso.find('.energy-atk').text(Utility.formatNumber(data.energyAtk));
-        $infosPerso.find('.energy-def').text(Utility.formatNumber(data.energyDef));
-        $infosPerso.find('.energy-mag').text(Utility.formatNumber(data.energyMag));
-        $infosPerso.find('.energy-acc').text(Utility.formatNumber(data.energyAcc));
-        $infosPerso.find('.energy-ext').text(Utility.formatNumber(data.energyExt));
+        $container.find('.link-select').attr('href', character.linkSelect);
+
+        if (character.trainDate !== null) {
+            let date = moment(character.trainDate);
+            let str = `En entraînement jusqu'à ${date.format('HH:mm:ss')}`;
+            $container.find('.train-date').text(str);
+        }
     },
 
 

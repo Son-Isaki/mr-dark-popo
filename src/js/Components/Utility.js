@@ -186,7 +186,6 @@ const Utility = window.Utility = {
         let $content = $('<div>').append($(html));
 
         $content.find('img.fix-src').each(function () {
-            $this.log($(this).attr('src'), Utility.getExtensionFilePath($(this).attr('src')));
             $(this).attr('src', Utility.getExtensionFilePath($(this).attr('src')));
         });
 
