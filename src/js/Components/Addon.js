@@ -404,15 +404,9 @@ const Addon = window.Addon = {
             return false;
         }
 
-        $('<button type="button" class="btn btn-sm btn-success safeZone">Safezone Terre</button>')
+        $('<button type="button" class="btn btn-sm btn-success safeZone">Safezone</button>')
             .on('click', function () {
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://' + document.domain + '/carte/move/69',
-                    crossDomain: true,
-                }).done(function () {
-                    window.location.href = 'https://' + document.domain + '/carte/move/59';
-                });
+                Automate.moveToSafeZone();
             })
             .appendTo($('#actions-zone'));
     },
@@ -488,15 +482,9 @@ const Addon = window.Addon = {
             return false;
         }
 
-        $('<button type="button" class="btn btn-sm btn-danger">Zone de combat Terre</button>')
+        $('<button type="button" class="btn btn-sm btn-danger">Zone de combat</button>')
             .on('click', function () {
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://' + document.domain + '/carte/move/68',
-                    crossDomain: true,
-                }).done(function () {
-                    window.location.href = 'https://' + document.domain + '/listeCombats';
-                });
+                Automate.moveToFightZone();
             })
             .appendTo($('#actions-zone'));
     },
@@ -554,15 +542,13 @@ const Addon = window.Addon = {
             return false;
         }
 
-        $('<button type="button" class="btn btn-sm btn-primary">Train attaque Terre</button>')
+        $('<button type="button" class="btn btn-sm btn-primary">Train attaque</button>')
             .on('click', function () {
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://' + document.domain + '/carte/move/69',
-                    crossDomain: true,
-                }).done(function () {
-                    window.location.href = 'https://' + document.domain + '/entrainementAttaque/go';
-                });
+                if (!Utility.checkPlanetForCurrentCharacter('terre')) {
+                    Automate.changePlanet(Automate.putCharInTrain, 'attaque')
+                } else {
+                    Automate.putCharInTrain('attaque');
+                }
             })
             .appendTo($('#actions-zone'));
     },
@@ -576,15 +562,13 @@ const Addon = window.Addon = {
             return false;
         }
 
-        $('<button type="button" class="btn btn-sm btn-primary">Train magie Terre</button>')
+        $('<button type="button" class="btn btn-sm btn-primary">Train magie</button>')
             .on('click', function () {
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://' + document.domain + '/carte/move/22',
-                    crossDomain: true,
-                }).done(function () {
-                    window.location.href = 'https://' + document.domain + '/entrainementMagie/go';
-                });
+                if (!Utility.checkPlanetForCurrentCharacter('terre')) {
+                    Automate.changePlanet(Automate.putCharInTrain, 'magie')
+                } else {
+                    Automate.putCharInTrain('magie');
+                }
             })
             .appendTo($('#actions-zone'));
     },
@@ -598,15 +582,13 @@ const Addon = window.Addon = {
             return false;
         }
 
-        $('<button type="button" class="btn btn-sm btn-primary">Train défense Terre</button>')
+        $('<button type="button" class="btn btn-sm btn-primary">Train défense</button>')
             .on('click', function () {
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://' + document.domain + '/carte/move/59',
-                    crossDomain: true,
-                }).done(function () {
-                    window.location.href = 'https://' + document.domain + '/entrainementDefense/go';
-                });
+                if (!Utility.checkPlanetForCurrentCharacter('terre')) {
+                    Automate.changePlanet(Automate.putCharInTrain, 'defense')
+                } else {
+                    Automate.putCharInTrain('defense');
+                }
             })
             .appendTo($('#actions-zone'));
     },
