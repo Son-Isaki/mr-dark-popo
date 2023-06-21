@@ -38,7 +38,8 @@ const Theme = window.Theme = {
     initInfosPerso: async function () {
         const $this = this;
 
-        let html = await Utility.getExtensionFileAsText('dist/html/infos-perso.html');
+        let html = await Utility.getExtensionFileAsHtml('dist/html/infos-perso.html');
+        $this.log('html', html);
         $(html).insertAfter('.zone1sub');
 
         $('.zone1sub').remove();
@@ -68,7 +69,6 @@ const Theme = window.Theme = {
         $infosPerso.find('.level').text(data.level);
 
         $infosPerso.find('.character-avatar .avatar, .character-avatar .background').attr('src', data.avatar);
-        $infosPerso.find('.character-avatar .effect').attr('src', Utility.getExtensionFilePath('dist/img/theme/avatar-effect.jpg'));
 
         $infosPerso.find('.life .current').text(Utility.formatNumber(data.lifeCurrent));
         $infosPerso.find('.life .max').text(Utility.formatNumber(data.lifeMax));
