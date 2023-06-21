@@ -35,76 +35,13 @@ const Theme = window.Theme = {
      * Initialize le bloc infos perso au chargement de la page
      * => Remplace le HTML du bloc infos perso par une structure custom
      */
-    initInfosPerso: function () {
+    initInfosPerso: async function () {
         const $this = this;
-        $(`
-        <div class="infos-perso-container">
-            <div class="infos-perso-row">
-                <div class="infos-perso-avatar">
-                    <a href="/perso/infoPersonnage">
-                        <div class="character-avatar small">
-                            <img class="background" src="" alt="">
-                            <img class="effect" src="${Utility.getExtensionFilePath('dist/img/theme/avatar-effect.jpg')}" alt="">
-                            <img class="avatar" src="" alt="">
-                        </div>
-                    </a>
-                </div>
-                <div class="infos-perso-infos">
-                    <h3><span class="clan"></span><span class="name"></span></h3>
-                    <p>Niveau <span class="level"></span></p>
-                    
-                    <div class="progressbar life">
-                        <div class="background"></div>
-                        <div class="value"></div>
-                        <div class="text"><span class="current"></span>&nbsp;/&nbsp;<span class="max"></span></div>
-                    </div>
-                    <div class="progressbar experience">
-                        <div class="background"></div>
-                        <div class="value"></div>
-                        <div class="text"><span class="current"></span>&nbsp;/&nbsp;<span class="max"></span></div>
-                    </div>
-                    <a href="/perso/infoPersonnage" class="link-action">Plus d'informations</a>
-                </p>
-            </div>
-        </div>
-        <table class="infos-perso-numbers">
-            <tbody>
-                <tr>
-                    <td><img src="/img/zenis.png" alt=""></td>
-                    <td><span>Monnaie</span></td>
-                    <td class="zenis" id="zenisActuelJoueur"></td>
-                </tr>
-                <tr>
-                    <td><img src="/img/OrbeRouge.png" alt=""></td>
-                    <td><span>Energie d'attaque</span></td>
-                    <td class="energy-atk"></td>
-                </tr>
-                <tr>
-                    <td><img src="/img/OrbeBleu.png" alt=""></td>
-                    <td><span>Energie de défense</span></td>
-                    <td class="energy-def"></td>
-                </tr>
-                <tr>
-                    <td><img src="/img/OrbeVerte.png" alt=""></td>
-                    <td><span>Energie de magie</span></td>
-                    <td class="energy-mag"></td>
-                </tr>
-                <tr>
-                    <td><img src="/img/OrbeArgent.png" alt=""></td>
-                    <td><span>Energie de précision</span></td>
-                    <td class="energy-acc"></td>
-                </tr>
-                <tr>
-                    <td><img src="/img/OrbeEx.png" alt=""></td>
-                    <td><span>Energie extrême</span></td>
-                    <td class="energy-ext"></td>
-                </tr>
 
-                </tbody>
-            </table>
-        `).insertAfter('.zone1sub');
+        let html = await Utility.getExtensionFileAsText('dist/html/infos-perso.html');
+        $(html).insertAfter('.zone1sub');
+
         $('.zone1sub').remove();
-
     },
 
     /**
@@ -131,6 +68,7 @@ const Theme = window.Theme = {
         $infosPerso.find('.level').text(data.level);
 
         $infosPerso.find('.character-avatar .avatar, .character-avatar .background').attr('src', data.avatar);
+        $infosPerso.find('.character-avatar .effect').attr('src', Utility.getExtensionFilePath('dist/img/theme/avatar-effect.jpg'));
 
         $infosPerso.find('.life .current').text(Utility.formatNumber(data.lifeCurrent));
         $infosPerso.find('.life .max').text(Utility.formatNumber(data.lifeMax));
