@@ -81,18 +81,25 @@ const CharacterPage = window.Character = {
             });
         });
 
-        let currentAvatar = LocalStorage.get(Addon.currentCharacter.slug+'-custom-avatar', 'false');
+        let allAvatar = LocalStorage.get(Avatar.STORAGE, 'false');
 
-        if (currentAvatar !== 'false') {
-            $('<button class="btn btn-danger" type="button">Retirer l\'avatar custom</button>')
-                .on('click', (e) => {
-                    e.preventDefault();
-                    LocalStorage.set(Addon.currentCharacter.slug+'-custom-avatar', 'false');
-                    LocalStorage.set(Addon.currentCharacter.slug+'-custom-avatar-thumb', 'false');
-                    location.reload();
-                })
-                .appendTo('.zoneBoutonDrop p');
+        if (allAvatar === 'false') {
+            return false;
         }
+
+        allAvatar = JSON.parse(allAvatar);
+        if (allAvatar[Addon.currentCharacter.slug] === undefined) {
+            return false;
+        }
+
+        $('<button class="btn btn-danger" type="button">Retirer l\'avatar custom</button>')
+            .on('click', (e) => {
+                e.preventDefault();
+                delete allAvatar[Addon.currentCharacter.slug];
+                LocalStorage.set(Avatar.STORAGE, JSON.stringify(allAvatar));
+                location.reload();
+            })
+            .appendTo('.zoneBoutonDrop p');
 
     },
 
