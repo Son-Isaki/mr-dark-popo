@@ -16,7 +16,10 @@ const sass = gulpSass(dartSass)
 
 // compile pug to html
 gulp.task('pug', function () {
-    return gulp.src('./src/pug/pages/**/*.pug', {allowEmpty: true})
+    return gulp.src([
+        './src/pug/pages/**/*.pug',
+        './src/pug/components/**/*.pug',
+    ], {allowEmpty: true})
         .pipe(plumber({
             errorHandler: notify.onError(function (err) {
                 return {

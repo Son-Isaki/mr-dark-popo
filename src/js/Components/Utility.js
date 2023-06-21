@@ -151,6 +151,24 @@ const Utility = window.Utility = {
     },
 
     /**
+     * Loads and returns the content of a given file as TEXT
+     *
+     * @param filepath
+     */
+    getExtensionFileAsText: async function (filepath) {
+        return (await (await Utility.getExtensionFileContent(filepath)).text());
+    },
+
+    /**
+     * Loads and returns the content of a given file as JSON
+     *
+     * @param filepath
+     */
+    getExtensionFileAsJson: async function (filepath) {
+        return (await (await Utility.getExtensionFileContent(filepath)).json());
+    },
+
+    /**
      * Include CSS file into DOM
      *
      * @param filepath
