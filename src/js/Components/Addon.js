@@ -390,7 +390,10 @@ const Addon = window.Addon = {
         $('#actions-zone').empty();
         $this.addBtnGoToSafeZone();
         $this.addBtnInstantHeal70();
+        $this.addBtnUseFioleOnChar();
         $this.addBtnGoToShopEarth();
+        $this.addBtnGoToCapsMarket()
+        $this.addBtnGoToObjMarket()
         $this.addBtnGoToFightZone();
         $this.addBtnFightToTower();
         $this.addBtnGoToTrainAtqEarth();
@@ -431,6 +434,54 @@ const Addon = window.Addon = {
                     crossDomain: true,
                 }).done(function () {
                     window.location.href = 'https://' + document.domain + '/magasinCapsules';
+                });
+            })
+            .appendTo($('#actions-zone'));
+    },
+
+    addBtnUseFioleOnChar: function() {
+        if (LocalStorage.get(Options.OPTIONS.showUseFioleInActions, 'false') === 'false') {
+            return false;
+        }
+
+        $('<button type="button" class="btn btn-sm btn-success">Utiliser une fiole</button>')
+            .on('click', function () {
+                window.location.href = 'https://www.jeuheros.fr/baba/puissance';
+            })
+            .appendTo($('#actions-zone'));
+    },
+
+    addBtnGoToCapsMarket: function () {
+        if (LocalStorage.get(Options.OPTIONS.showGoToCapsMarketActions, 'false') === 'false') {
+            return false;
+        }
+
+        $('<button type="button" class="btn btn-sm btn-warning">Marché aux Capsules</button>')
+            .on('click', function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://www.jeuheros.fr/carte/move/38',
+                    crossDomain: true,
+                }).done( () => {
+                    window.location.href = 'https://www.jeuheros.fr/magasin/venteCapsules';
+                });
+            })
+            .appendTo($('#actions-zone'));
+    },
+
+    addBtnGoToObjMarket: function () {
+        if (LocalStorage.get(Options.OPTIONS.showGoToObjMarketActions, 'false') === 'false') {
+            return false;
+        }
+
+        $('<button type="button" class="btn btn-sm btn-warning">Marché aux Objets</button>')
+            .on('click', function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://www.jeuheros.fr/carte/move/38',
+                    crossDomain: true,
+                }).done( () => {
+                    window.location.href = 'https://www.jeuheros.fr/magasin/venteObjets';
                 });
             })
             .appendTo($('#actions-zone'));
