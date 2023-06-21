@@ -1,0 +1,35 @@
+.character-list-item
+    .infos-perso-row
+
+        .infos-perso-avatar
+            a.link-select(href="#")
+                .character-avatar.small
+                    img.background
+                    img.fix-src.effect(src="dist/img/theme/avatar-effect.jpg")
+                    img.avatar
+                    span.select Sélectionner
+
+        .infos-perso-infos
+            h3
+                span.clan
+                span.name
+            p
+                | Niveau&nbsp;
+                span.level
+
+            .progressbar.life
+                .background
+                .value
+                .text
+                    span.current
+                    | &nbsp;/&nbsp;
+                    span.max
+
+            .progressbar.experience
+                .background
+                .value
+                .text
+                    span.current
+                    | &nbsp;/&nbsp;
+                    span.max
+    span.train-date

@@ -70,4 +70,25 @@
             filter: drop-shadow(0 0 5px transparentize(black, 0));
         }
     }
+
+    .select {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 60;
+        background-color: transparentize($black, .2);
+        color: $orange;
+        transition: $transition-stack;
+    }
+
+    &:hover {
+        .select {
+            background-color: $orange;
+            //color: darken($orange, 15%);
+            color: $black;
+            text-decoration: none;
+
+        }
+    }
 }

@@ -3,6 +3,10 @@ const InventoryPage = window.InventoryPage = {
     init: function () {
         const $this = this;
 
+        if (LocalStorage.get(Options.OPTIONS.customThemeEnabled, 'false') === 'false') {
+            return false;
+        }
+
         $('<h2>Inventaire</h2>')
             .prependTo($('.zone2'));
 

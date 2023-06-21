@@ -18,6 +18,8 @@ class Character {
     clanName = '';
     clanSlug = '';
 
+    trainDate = null;
+
     zenis = 0;
 
     energyAtk = 0;
@@ -25,6 +27,9 @@ class Character {
     energyMag = 0;
     energyAcc = 0;
     energyExt = 0;
+
+    // liens
+    linkSelect = '';
 
     constructor(content) {
         this.getDataFromHtml(content);
@@ -53,25 +58,34 @@ class Character {
 
         let $content = $(content);
 
-        this.clanName = $content.find('.couleurRouge').text().replace('[', '').replace(']', '');
-        this.clanSlug = Utility.slugify(this.clanName);
+        let isPageInfosPerso = $content.find('.zoneTextePersoInfoAvatar').length;
+        let isBlocInfosPerso = $content.find('.imgPersoActuelDiv').length;
+        let isPageListPersos = $content.find('h5 .etoileGris').length;
 
-        this.avatar = $content.find('.imgPersoActuel').attr('src');
+        if (isPageInfosPerso || isBlocInfosPerso) {
+            this.clanName = $content.find('.couleurRouge').text().replace('[', '').replace(']', '');
+            this.clanSlug = Utility.slugify(this.clanName);
+        }
 
-        this.zenis = parseInt($content.find('table.centerTexte tr').eq(0).text());
-        this.energyAtk = parseInt($content.find('table.centerTexte tr').eq(1).text());
-        this.energyDef = parseInt($content.find('table.centerTexte tr').eq(2).text());
-        this.energyMag = parseInt($content.find('table.centerTexte tr').eq(3).text());
-        this.energyAcc = parseInt($content.find('table.centerTexte tr').eq(4).text());
-        this.energyExt = parseInt($content.find('table.centerTexte tr').eq(5).text());
+        this.avatar = $content.find('.imgPersoActuel, .tailleImageListePerso').attr('src');
+        this.linkSelect = $content.find('.imgPersoActuel, .tailleImageListePerso').parents('a').attr('href');
 
-        if ($content.find('.zoneTextePersoInfoAvatar').length) {
+        if (isPageInfosPerso || isBlocInfosPerso) {
+            this.zenis = parseInt($content.find('table.centerTexte tr').eq(0).text());
+            this.energyAtk = parseInt($content.find('table.centerTexte tr').eq(1).text());
+            this.energyDef = parseInt($content.find('table.centerTexte tr').eq(2).text());
+            this.energyMag = parseInt($content.find('table.centerTexte tr').eq(3).text());
+            this.energyAcc = parseInt($content.find('table.centerTexte tr').eq(4).text());
+            this.energyExt = parseInt($content.find('table.centerTexte tr').eq(5).text());
+        }
+
+        if (isPageInfosPerso) {
 
             this.name = Utility.trim($content.find('.zoneTextePersoInfoAvatar h3').text())
             this.slug = Utility.slugify(this.name);
             this.level = parseInt(Utility.trim($content.find('.zoneTextePersoInfoAvatar h3 + p').text()).split(' ')[1]);
 
-        } else if ($content.find('.imgPersoActuelDiv').length) {
+        } else if (isBlocInfosPerso) {
 
             let tmp = $content.find('.imgPersoActuelDiv')[0];
             let lst = [];
@@ -93,6 +107,17 @@ class Character {
             if (lst[1] !== undefined && lst[1] !== '') {
                 this.level = parseInt(lst[1].split(' ')[1]);
             }
+        } else if (isPageListPersos) {
+            this.name = Utility.trim($content.find('h5').text());
+            this.slug = Utility.slugify(this.name);
+
+            this.level = parseInt(Utility.trim($content.find('h5 + table').text()).split(' ')[1]);
+
+            if ($content.find('progress:last-of-type + table').length) {
+                let segs = Utility.trim($content.find('progress:last-of-type + table').text()).split(' ');
+                let year = segs[3].split('/');
+                let str = `${year[2]}-${year[1]}-${year[0]} ${segs[5]}`;
+                this.trainDate = new Date(str);}
         }
     }
 
@@ -104,55 +129,29 @@ class Character {
     getProgressDataFromHtml(content) {
         const $this = this;
 
-        $(content).find('#filePV, .cadrePersoList #filePV').each(function () {
+        // life
+        $(content).find('#filePV').each(function () {
             let $el = $(this);
             let $parent;
 
-            // infos perso
-            $parent = $el.parents('.zone1sub');
-            if ($parent.length > 0) {
-                $this.lifeCurrent = parseInt($el.attr('value'));
-                $this.lifeMax = parseInt($el.attr('max'));
-            }
-
-            // liste de persos
-            $parent = $el.parents('.cadrePersoList');
+            // infos perso // liste de persos
+            $parent = $el.parents('.zone1sub, .cadrePersoList');
             if ($parent.length > 0) {
                 $this.lifeCurrent = parseInt($el.attr('value'));
                 $this.lifeMax = parseInt($el.attr('max'));
             }
         });
-        $(content).find('#file, .cadrePersoList #file').each(function () {
+
+        // experience
+        $(content).find('#file').each(function () {
             let $el = $(this);
             let $parent;
 
             // infos perso
-            $parent = $el.parents('.zone1sub');
+            $parent = $el.parents('.zone1sub, .cadrePersoList');
             if ($parent.length > 0) {
-                let segs = Utility.trim($parent.find('.imgPersoActuelDiv').text()).split(' ');
-                let level = parseInt(segs[segs.length - 1]);
-
-                let levelObj = Database.levels[level];
-                let levelObjSub = Database.levels[level - 1];
-                if (typeof levelObjSub === 'undefined') {
-                    levelObjSub = {
-                        level: 0,
-                        experience: 0,
-                    }
-                }
-
-                $this.experienceCurrent = parseInt($el.attr('value')) - levelObjSub.experience;
-                $this.experienceMax = levelObj.experience - levelObjSub.experience;
-            }
-
-            // liste de persos
-            $parent = $el.parents('.cadrePersoList');
-            if ($parent.length > 0) {
-                let segs = Utility.trim($parent.find('.centerTexte').eq(0).find('td:last-child').text()).split(' ');
-                let level = parseInt(segs[segs.length - 1]);
-
-                let levelObj = Database.levels[level];
-                let levelObjSub = Database.levels[level - 1];
+                let levelObj = Database.levels[$this.level];
+                let levelObjSub = Database.levels[$this.level - 1];
                 if (typeof levelObjSub === 'undefined') {
                     levelObjSub = {
                         level: 0,

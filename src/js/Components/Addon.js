@@ -36,10 +36,6 @@ const Addon = window.Addon = {
         // Game options
         Options.initOptions();
 
-        // database update
-        Database.getUpdateCharacters();
-        Database.getUpdateLevels();
-
         // initialization
         $this.addLinkToOptions();
         $this.addActionsZoneToView();

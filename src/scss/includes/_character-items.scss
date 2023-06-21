@@ -1,0 +1,35 @@
+.character-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 15px 15px;
+
+    .character-list-item {
+        margin: 10px 10px;
+        width: calc(33.333% - 20px);
+        background-color: $black;
+        border-radius: $border-radius;
+        box-shadow: 0 3px 5px transparentize(black, .7);
+        padding: 15px;
+        transition: $transition-stack;
+
+        .infos-perso-row {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            width: 100%;
+        }
+
+        .infos-perso-avatar {
+            margin-right: 15px;
+        }
+
+        .infos-perso-infos {
+            flex-grow: 1;
+        }
+
+        .train-date {
+            display: block;
+            margin-top: 15px;
+        }
+    }
+}

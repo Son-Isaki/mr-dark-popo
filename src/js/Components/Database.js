@@ -10,6 +10,9 @@ const Database = window.Database = {
 
     init: function () {
         const $this = this;
+
+        $this.getUpdateCharacters();
+        $this.getUpdateLevels();
     },
 
     getUpdateCharacters: function (callback) {
