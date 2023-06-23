@@ -122,46 +122,6 @@ const Options = window.Options = {
                 },
             ],
         },
-        'auto-fight': {
-            label: 'Paramétrer le fight automatique',
-            type: 'multiple',
-            item: [
-                {
-                    label: 'Sélectionner une action à réaliser à la fin d\'un personnage',
-                    type: 'radio',
-                    option: 'auto-fight-character-action',
-                    data: [
-                        {
-                            label: 'Aller en safe zone',
-                            value: 'safezone',
-                        },
-                        {
-                            label: 'Aller en entraînement',
-                            value: 'train'
-                        }
-                    ]
-                },
-                {
-                    label: 'Sélectionner le train à faire (si coché)',
-                    type: 'select',
-                    option: 'auto-fight-train-choice',
-                    data: [
-                        {
-                            label: 'Attaque',
-                            value: 'attaque',
-                        },
-                        {
-                            label: 'Défense',
-                            value: 'defense',
-                        },
-                        {
-                            label: 'Magie',
-                            value: 'magie',
-                        },
-                    ]
-                },
-            ]
-        }
     },
 
     SETTINGS: [
@@ -174,9 +134,6 @@ const Options = window.Options = {
         'show-heal-15-actions',
         'show-heal-35-actions',
         'show-heal-70-actions',
-        'auto-fight-character-action',
-        'auto-fight-train-enabled',
-        'auto-fight-train-choice',
     ],
 
     optionsChecked: 0,
