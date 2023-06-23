@@ -31,10 +31,12 @@ const Automate = window.Automate = {
         })
 
         Events.register(Events.AutoFightStartCharFight, () => {
-            Fights.fightIndex = 0;
-            Fights.fightInterval = setInterval( () => {
-                Fights.fightLoop();
-            }, 1000);
+            setTimeout(() => {
+                Fights.fightIndex = 0;
+                Fights.fightInterval = setInterval( () => {
+                    Fights.fightLoop();
+                }, 1000);
+            }, 1500);
         });
 
 
@@ -86,13 +88,13 @@ const Automate = window.Automate = {
             .appendTo($container)
             .on('click', () => {
                 Notify.notify('Auto fight arrêté');
-                LocalStorage.set($this.OPTIONS.autoFightRunning, 'false');
+                $this.endAutoFight();
             });
 
         $('body').append($container);
     },
 
-    incrementCharacterIndex: function(callback = null) {
+    incrementCharacterIndex: function(type = null) {
         const $this = this;
 
         let characterIndex = LocalStorage.get($this.OPTIONS.characterIndex, 'false');
@@ -106,8 +108,10 @@ const Automate = window.Automate = {
 
         LocalStorage.set($this.OPTIONS.characterIndex, characterIndex);
 
-        if (callback !== null) {
-            $this.callback();
+        if (type !== null) {
+            if (type === 'reload') {
+                Events.trigger(Events.AutoFightSwitchChar);
+            }
         }
     },
 
@@ -123,6 +127,7 @@ const Automate = window.Automate = {
         LocalStorage.set($this.OPTIONS.autoFightRunning, 'false');
         LocalStorage.set($this.OPTIONS.characterIndex, 'false');
         LocalStorage.set($this.OPTIONS.characterJustSwitched, 'false');
+        LocalStorage.set($this.OPTIONS.characterReadyToFight, 'false');
     },
 
     changeCharacter: function() {
@@ -152,7 +157,7 @@ const Automate = window.Automate = {
         }
 
         if (!$this.charAvailable(item)) {
-            $this.incrementCharacterIndex($this.changeCharacter);
+            $this.incrementCharacterIndex('reload');
             return false;
         }
 
@@ -177,15 +182,7 @@ const Automate = window.Automate = {
             url: $link,
             crossDomain: true,
         }).done( () => {
-            let characterIndex = LocalStorage.get($this.OPTIONS.characterIndex, 'false');
-
-            if (characterIndex === 'false') {
-                characterIndex = 0;
-            } else {
-                characterIndex++;
-            }
-
-            LocalStorage.set($this.OPTIONS.characterIndex, characterIndex);
+            $this.incrementCharacterIndex();
             LocalStorage.set($this.OPTIONS.characterJustSwitched, 'true');
 
             $this.moveToFightZone(item);
