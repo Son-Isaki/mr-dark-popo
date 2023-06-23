@@ -319,6 +319,33 @@ const Utility = window.Utility = {
         return planet;
     },
 
+    getPlanetCharacterFromList: function (item) {
+        const $this = this;
+
+        let imgs = $(item).find('img');
+
+        let $imgPlanet = imgs
+            .eq(1)
+            .attr('src');
+
+        if ($imgPlanet === undefined) {
+            return false;
+        }
+
+        let planet = null;
+
+        // On récupère le lien/la case de safe zone correspondant à la planète
+        $.each(Utility.urlFightZoneByPlanet, function (key, linkPlanet) {
+            let index = $imgPlanet.indexOf(key);
+
+            if (index !== -1 && planet === null) {
+                planet = key;
+            }
+        });
+
+        return planet;
+    },
+
     createSubmitButton: function (content) {
         return $('<button class="btn-text btn-primary" type="submit">' + content + '</button>');
     },

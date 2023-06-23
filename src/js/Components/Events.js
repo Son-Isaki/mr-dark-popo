@@ -9,6 +9,9 @@ const Events = window.Events = {
 
     AvatarFrameCreated: 'addon.frame.created',
 
+    AutoFightSwitchChar: 'addon.autofight.switch.character',
+    AutoFightStartCharFight: 'addon.autofight.start.character',
+
     trigger: function (eventName, ...args) {
         const $this = this;
 

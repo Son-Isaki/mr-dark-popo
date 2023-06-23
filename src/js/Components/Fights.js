@@ -224,6 +224,16 @@ const Fights = window.FightsComponent = {
         if (moveToSafeZone) {
             $('.safeZone').trigger('click');
         }
+
+        if (LocalStorage.get(Options.OPTIONS.autoFight, 'false') !== 'false') {
+            if (LocalStorage.get('auto-fight-safe-zone', 'false') !== 'false') {
+                Automate.moveToSafeZone(Events.AutoFightSwitchChar);
+            } else {
+                Events.trigger(Events.AutoFightSwitchChar);
+            }
+
+        }
+
     },
 
     ajaxFight: function () {

@@ -32,6 +32,8 @@ const Options = window.Options = {
         fixNavbarTop: 'fix-navbar-top',
         fixInfoPlayerOnScroll: 'fix-info-player-on-scroll',
         customAvatar: 'custom-avatar',
+
+        autoFight: 'auto-fight',
     },
 
     OPTIONS_LABEL: {
@@ -62,6 +64,7 @@ const Options = window.Options = {
         fixNavbarTop: 'Fixer la barre de navigation en haut',
         customAvatar: 'Pouvoir utiliser des avatar customs',
         fixInfoPlayerOnScroll: 'Fixer les infos du joueur/personnage lors du scroll',
+        autoFight: 'Ajouter un système de fight auto des persos favoris (nécessite le "nouveau" système de combat)',
     },
 
     MORE_OPTIONS: {
@@ -100,6 +103,34 @@ const Options = window.Options = {
                     option: 'show-train-all-characters-magie-actions'
                 },
             ]
+        },
+        'show-heal-actions': {
+            label: 'Sélectionner les %heals à afficher',
+            type: 'checkbox',
+            data: [
+                {
+                    label: 'Heal 15%',
+                    option: 'show-heal-15-actions'
+                },
+                {
+                    label: 'Heal 35%',
+                    option: 'show-heal-35-actions'
+                },
+                {
+                    label: 'Heal 75%',
+                    option: 'show-heal-70-actions'
+                },
+            ],
+        },
+        'auto-fight': {
+            label: 'Paramétrer le fight automatique',
+            type: 'checkbox',
+            data: [
+                {
+                    label: 'Aller en safe zone après chaque personnage',
+                    option: 'auto-fight-safe-zone',
+                },
+            ]
         }
     },
 
@@ -110,6 +141,10 @@ const Options = window.Options = {
         'show-train-all-characters-attaque-actions',
         'show-train-all-characters-defense-actions',
         'show-train-all-characters-magie-actions',
+        'show-heal-15-actions',
+        'show-heal-35-actions',
+        'show-heal-70-actions',
+        'auto-fight-safe-zone',
     ],
 
     optionsChecked: 0,
