@@ -206,7 +206,7 @@ table {
         padding: 15px;
 
         .infos-perso-container {
-            padding: 20px;
+            padding: 20px 20px 0 20px;
 
             .infos-perso-row {
                 display: flex;
@@ -488,4 +488,17 @@ h3 {
             }
         }
     }
+}
+
+.btn-heal {
+    display: inline-block!important;
+    width: 20%!important;
+    margin: 0 10px 0 10px!important;
+}
+
+#autoFight {
+    position: absolute;
+    top: 25px;
+    width: 200px;
+    left: 25px;
 }

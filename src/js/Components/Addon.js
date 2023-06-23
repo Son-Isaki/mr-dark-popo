@@ -385,7 +385,7 @@ const Addon = window.Addon = {
 
         $('#actions-zone').empty();
         $this.addBtnGoToSafeZone();
-        $this.addBtnInstantHeal70();
+        $this.addBtnInstantHeal();
         $this.addBtnUseFioleOnChar();
         $this.addBtnGoToShopEarth();
         $this.addBtnGoToCapsMarket()
@@ -404,7 +404,7 @@ const Addon = window.Addon = {
             return false;
         }
 
-        $('<button type="button" class="btn btn-sm btn-success safeZone">Safezone</button>')
+        $('<button type="button" class="btn btn-sm btn-success safeZone">Safe zone</button>')
             .on('click', function () {
                 Automate.moveToSafeZone();
             })
@@ -416,15 +416,13 @@ const Addon = window.Addon = {
             return false;
         }
 
-        $('<button type="button" class="btn btn-sm btn-warning">Boutique de capsules Terre</button>')
+        $('<button type="button" class="btn btn-sm btn-warning">Boutique de capsules</button>')
             .on('click', function () {
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://' + document.domain + '/carte/move/44',
-                    crossDomain: true,
-                }).done(function () {
-                    window.location.href = 'https://' + document.domain + '/magasinCapsules';
-                });
+                if (!Utility.checkPlanetForCurrentCharacter('terre')) {
+                    Automate.changePlanet(Automate.moveToShopEarth)
+                } else {
+                    Automate.moveToShopEarth();
+                }
             })
             .appendTo($('#actions-zone'));
     },
@@ -448,13 +446,11 @@ const Addon = window.Addon = {
 
         $('<button type="button" class="btn btn-sm btn-warning">Marché aux Capsules</button>')
             .on('click', function () {
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://www.jeuheros.fr/carte/move/38',
-                    crossDomain: true,
-                }).done( () => {
-                    window.location.href = 'https://www.jeuheros.fr/magasin/venteCapsules';
-                });
+                if (!Utility.checkPlanetForCurrentCharacter('terre')) {
+                    Automate.changePlanet(Automate.moveToCapsMarket)
+                } else {
+                    Automate.moveToCapsMarket();
+                }
             })
             .appendTo($('#actions-zone'));
     },
@@ -466,13 +462,11 @@ const Addon = window.Addon = {
 
         $('<button type="button" class="btn btn-sm btn-warning">Marché aux Objets</button>')
             .on('click', function () {
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://www.jeuheros.fr/carte/move/38',
-                    crossDomain: true,
-                }).done( () => {
-                    window.location.href = 'https://www.jeuheros.fr/magasin/venteObjets';
-                });
+                if (!Utility.checkPlanetForCurrentCharacter('terre')) {
+                    Automate.changePlanet(Automate.moveToObjMarket)
+                } else {
+                    Automate.moveToObjMarket();
+                }
             })
             .appendTo($('#actions-zone'));
     },
@@ -489,36 +483,35 @@ const Addon = window.Addon = {
             .appendTo($('#actions-zone'));
     },
 
-    addBtnInstantHeal70: function () {
+    addBtnInstantHeal: function () {
         if (LocalStorage.get(Options.OPTIONS.showHealInActions, 'false') === 'false') {
             return false;
         }
 
-        $('<button type="button" class="btn btn-sm btn-success">Heal 70%</button>')
-            .on('click', function () {
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://' + document.domain + '/soins',
-                    crossDomain: true,
-                }).done(function (response) {
-                    $(response).find('#soins_choixSoins').val('20000');
+        if (LocalStorage.get('show-heal-15-actions', 'false') !== 'false') {
+            $('<button type="button" class="btn btn-heal btn-sm btn-success">Heal 15%</button>')
+                .on('click', function () {
+                    Automate.healCharacter();
+                })
+                .appendTo($('#actions-zone'));
+        }
 
-                    let form = $(response).find('form[name="soins"]');
+        if (LocalStorage.get('show-heal-35-actions', 'false') !== 'false') {
+            $('<button type="button" class="btn btn-heal btn-sm btn-success">Heal 35%</button>')
+                .on('click', function () {
+                    Automate.healCharacter('11000');
+                })
+                .appendTo($('#actions-zone'));
+        }
 
-                    Addon.log(form, form.serialize().replace('5000', '20000'));
+        if (LocalStorage.get('show-heal-70-actions', 'false') !== 'false') {
+            $('<button type="button" class="btn btn-heal btn-sm btn-success">Heal 70%</button>')
+                .on('click', function () {
+                    Automate.healCharacter('20000');
+                })
+                .appendTo($('#actions-zone'));
+        }
 
-                    $.ajax({
-                        type: 'POST',
-                        url: 'https://' + document.domain + '/soins',
-                        data: form.serialize().replace('5000', '20000'),
-                        crossDomain: true,
-                        success: function (data) {
-                            window.location.href = 'https://' + document.domain + '/listeCombats';
-                        }
-                    })
-                });
-            })
-            .appendTo($('#actions-zone'));
     },
 
     addBtnFightToTower: function () {
