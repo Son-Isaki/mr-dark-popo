@@ -32,8 +32,6 @@ const Options = window.Options = {
         fixNavbarTop: 'fix-navbar-top',
         fixInfoPlayerOnScroll: 'fix-info-player-on-scroll',
         customAvatar: 'custom-avatar',
-
-        autoFight: 'auto-fight',
     },
 
     OPTIONS_LABEL: {
@@ -64,7 +62,6 @@ const Options = window.Options = {
         fixNavbarTop: 'Fixer la barre de navigation en haut',
         customAvatar: 'Pouvoir utiliser des avatar customs',
         fixInfoPlayerOnScroll: 'Fixer les infos du joueur/personnage lors du scroll',
-        autoFight: 'Ajouter un système de fight auto des persos favoris (nécessite le "nouveau" système de combat)',
     },
 
     MORE_OPTIONS: {

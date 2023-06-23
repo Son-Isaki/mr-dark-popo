@@ -190,7 +190,7 @@ const Automate = window.Automate = {
     changePlanet: function (callback, ...args) {
         const $this = this;
 
-        let mapLink = 'https://www.jeuheros.fr/carte';
+        let mapLink = 'https://' + document.domain + '/carte';
 
         Notify.notify('Changement de planète en cours');
 
@@ -294,10 +294,10 @@ const Automate = window.Automate = {
 
         $.ajax({
             type: 'GET',
-            url: 'https://www.jeuheros.fr/carte/move/38',
+            url: 'https://' + document.domain + '/carte/move/38',
             crossDomain: true,
         }).done( () => {
-            window.location.href = 'https://www.jeuheros.fr/magasin/venteCapsules';
+            window.location.href = 'https://' + document.domain + '/magasin/venteCapsules';
         });
     },
 
@@ -306,10 +306,10 @@ const Automate = window.Automate = {
 
         $.ajax({
             type: 'GET',
-            url: 'https://www.jeuheros.fr/carte/move/38',
+            url: 'https://' + document.domain + '/carte/move/38',
             crossDomain: true,
         }).done( () => {
-            window.location.href = 'https://www.jeuheros.fr/magasin/venteObjets';
+            window.location.href = 'https://' + document.domain + '/magasin/venteObjets';
         });
     },
 
