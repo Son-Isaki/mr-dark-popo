@@ -1,8 +1,8 @@
 const Fights = window.FightsComponent = {
 
     // variables
-    defaultLife: 60000,
-    defaultRatio: 1,
+    defaultLife: 100000,
+    defaultRatio: 2.5,
     defaultLevel: 0,
 
     selectedLife: this.defaultLife,
@@ -15,6 +15,9 @@ const Fights = window.FightsComponent = {
     fightInterval: null,
 
     counterFightList: 0,
+
+    selectorCombat: null,
+    newContent: null,
 
     init: function () {
         const $this = this;
@@ -31,6 +34,18 @@ const Fights = window.FightsComponent = {
         Events.register(Events.CharacterLoaded, function () {
             $this.addAutoFightFormToView();
         });
+
+        Events.register(Events.FightEnded, function() {
+            $this.log('Events fightended triggered');
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://' + document.domain + '/',
+                crossDomain: true,
+            }).done( (response) => {
+                $this.handleFightResult($this.selectorCombat, $this.fightIndex, $this.newContent);
+            });
+        })
     },
 
     addAutoFightFormToView: function () {
@@ -261,16 +276,20 @@ const Fights = window.FightsComponent = {
             $newHtml.on('click', function (e) {
                 let selectorCombat = ".newfight[data-id='" + $idCombat + "']";
                 if ($(e.target).hasClass('canFight')) {
-                    Utility.showLoader(selectorCombat);
-                    $.ajax({
-                        url: urlCombat,
-                        type: 'GET',
-                        crossDomain: true,
-                    }).done(function (response) {
-                        $this.handleFightResult(selectorCombat, fightIndex, response);
-                    })
+                    // Utility.showLoader(selectorCombat);
+                    let fight = window.open(urlCombat, '_blank');
+                    let content = null;
 
-                    $(e.target).removeClass('canFight');
+                    fight.onload = () => {
+                        window.focus();
+                        content = fight.document.body.innerHTML;
+                        $(e.target).removeClass('canFight');
+                        $this.selectorCombat = selectorCombat;
+                        $this.fightIndex = fightIndex;
+                        $this.newContent = content;
+                        Events.trigger(Events.FightEnded, [selectorCombat, fightIndex, content]);
+                        fight.close();
+                    }
                 }
             });
 

@@ -12,6 +12,8 @@ const Events = window.Events = {
     AutoFightSwitchChar: 'addon.autofight.switch.character',
     AutoFightStartCharFight: 'addon.autofight.start.character',
 
+    FightEnded: 'addon.fight.ended',
+
     trigger: function (eventName, ...args) {
         const $this = this;
 
